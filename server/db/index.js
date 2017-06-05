@@ -1,6 +1,6 @@
 const db = require('./_db');
-const User = require('./user');
-const Page = require('./page');
+const User = require('./models/user');
+const Page = require('./models/page');
 
 Page.belongsTo(User, { as: 'author' });
 
