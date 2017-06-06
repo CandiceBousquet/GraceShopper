@@ -8,4 +8,5 @@ const Order = db.define('order', {
     }
 });
 
+// Need to add an on destroy hook to increment items associated with that order
 module.exports = Order;
