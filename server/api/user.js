@@ -3,7 +3,6 @@ const User = require('../db/models/user');
 
 
 
-
 router.get('/', (req,res,next) => {
     User.findAll()
     .then((users) => {
