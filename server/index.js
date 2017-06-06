@@ -31,25 +31,7 @@ app.use(session({
 }));
 
 // passport makes it easier to identify users
-const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
-
-// stores user's id in the session store upon login
-passport.serializeUser((user, done) => {
-  try {
-    done(null, user.id);
-  } catch (err) {
-    done(err);
-  }
-});
-
-// runs when a user has already initiated a session and we want to re-obtain user info from the db
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => done(null, user))
-    .catch(done);
-});
+app.use(require('./app/passport'));
 
 // routing
 app.use(express.static(path.join(__dirname, '../public')));
