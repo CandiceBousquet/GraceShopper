@@ -3,6 +3,7 @@ const router = express.Router();
 const Item = require('../db/models/item');
 const Category = require('../db/models/category');
 const Review = require('../db/models/review');
+const itemNotFound = new Error(404);
 
 router.get('/', (req, res, next) => {
     Item.findAll({
@@ -26,9 +27,7 @@ router.get('/:itemId', (req, res, next) => {
         })
         .then(result => {
             if (!result) {
-                const error = new Error('No item found');
-                error.status = 400;
-                next(error);
+                next(itemNotFound);
             } else {
                 res.json(result);
             }
@@ -45,9 +44,7 @@ router.put('/:itemId', (req, res, next) => {
         })
         .then(result => {
             if (!result[0]) {
-                const error = new Error('No item found');
-                error.status = 400;
-                next(error);
+                next(itemNotFound);
             } else {
                 res.json(result[1][0]);
             }
@@ -61,8 +58,13 @@ router.delete('/:itemId', (req, res, next) => {
             id: req.params.itemId
         }
     })
-    .then(result => res.json(result))
-    .catch(next);
+    .then(result => {
+        if (!result) {
+            next(itemNotFound);
+        } else {
+            res.json(result);
+        }
+    }).catch(next);
 })
 
 router.post('/', (req, res, next) => {
