@@ -49,7 +49,7 @@ router.put('/:itemId', (req, res, next) => {
                 error.status = 400;
                 next(error);
             } else {
-                res.json(result[1]);
+                res.json(result[1][0]);
             }
         })
         .catch(next)
