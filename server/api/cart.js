@@ -51,7 +51,7 @@ router.post('/:itemId', (req, res, next) => {
             return currentOrder.addItem(currentItem);
         })
         .then(updatedOrder => {
-            res.json(updatedOrder);
+            res.json(updatedOrder); // is orderId correct? Why is inventory not decrementing?
         })
         .catch(next)
 })
