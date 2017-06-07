@@ -68,13 +68,14 @@ app.use('/', (err, req, res, next) => {
 	res.send(message).status(status);
 });
 
-db.sync({
-	force: true
-}).then(() => {
+// db.sync({force:true}).then(() => {
+//}).catch(console.error.bind(this));
 	app.listen(1337, () => {
 		console.log('listening on port 1337');
 	});
-}).catch(console.error.bind(this));
+
+
+module.exports = app;
 
 
 
