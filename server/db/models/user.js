@@ -37,7 +37,14 @@ const User = db.define('user', {
         defaultValue: false
     }
 }, {
+    defaultScope: {
+        attributes: { exclude: ['password', 'salt'] }
+    },
     instanceMethods: {
+        // this function will omit password and salt from user instance
+        // sanitize: function () {
+        //     return _.omit(this.toJSON(), ['password', 'salt']);
+        // },
         correctPassword: function(candidatePassword) {
             const encryptedPassword = User.encryptPassword(candidatePassword, this.salt);
             return encryptedPassword === this.password;
@@ -45,13 +52,13 @@ const User = db.define('user', {
     },
     classMethods: {
         generateSalt: function() {
-            crypto.randomBytes('256', function(err, buf) {
-                if (err) throw err;
-                return buf;
-            })
+            return crypto.randomBytes(16).toString('base64');
         },
         encryptPassword: function(plainText, salt) {
-            return crypto.createHmac('sha512', salt).digest('base64'); // is this async?
+            return crypto.createHash('sha256')
+                .update(plainText)
+                .update(salt)
+                .digest('base64');
         }
     },
     hooks: {
@@ -61,9 +68,11 @@ const User = db.define('user', {
 });
 
 function setSaltAndPassword(user) {
-    const salt = User.generateSalt;
-    const encryptedPassword = User.encryptPassword(user.password, salt);
-    user.password = encryptedPassword;
+    if (user.changed('password')) {
+        user.salt = User.generateSalt();
+        console.log(user.salt);
+        user.password = User.encryptPassword(user.password, user.salt);
+    }
 }
 
 module.exports = User;

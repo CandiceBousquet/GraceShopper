@@ -51,7 +51,7 @@ app.use('/', (err, req, res, next) => {
 });
 
 db.sync({
-	force: true
+	force: false
 }).then(() => {
 	app.listen(1337, () => {
 		console.log('listening on port 1337');
