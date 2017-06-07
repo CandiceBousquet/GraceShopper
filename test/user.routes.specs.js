@@ -1,4 +1,4 @@
-const app = require('../server');
+const app = require('../server/app');
 const supertest = require('supertest');
 const expect = require('chai').expect;
 const db = require('../server/db').db;
