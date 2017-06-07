@@ -31,7 +31,7 @@ Category.belongsToMany(User, { through: 'user_preferences' });
 User.belongsToMany(Category, { through: 'user_preferences' });
 
 // Order has many Items ** join table: order_items **
-Order.belongsToMany(Item, { through: 'order_items' });
+Order.belongsToMany(Item, { through: 'order_items' , onDelete:'CASCADE'});
 Item.belongsToMany(Order, { through: 'order_items' });
 
 
