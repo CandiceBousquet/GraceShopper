@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const Order = require('../db/models/order');
-const Inventory = require('../db/models/inventory');
-const notFound = new Error(404);
-const outOfStock = new Error(" Item is out of Stock ");
+const notFound = function() { return new Error('Not found') };
+const outOfStock = function() { return new Error('Item is out of Stock') };
 const Item = require('../db/models/item');
-    ///Will need to work on the express-sessions for when user not logged in
+///Will need to work on the express-sessions for when user not logged in
 
 /*
     1. Create new Cart / Order -- X
@@ -40,53 +39,43 @@ router.post('/item/:itemId', (req, res, next) => {
             currentOrder = order[0];
             return Item.findById(req.params.itemId);
         })
-        // .then(item => {
-        //     currentItem = item;
-        //     return Inventory.findById(item.inventoryId)
-        // })
         .then(item => {
             currentItem = item;
-            item.decrementQuantity(1);
+            item.decrementQuantity(1); //if you add the same item twice to your order, it doesn't actually add to your order but it does decrement quantity
         })
         .then(() => {
             return currentOrder.addItem(currentItem);
         })
         .then(updatedOrder => {
-            res.json(updatedOrder); // is orderId correct? Why is inventory not decrementing?
+            res.json(updatedOrder);
         })
         .catch(next);
 })
 
 /*
-    Removes item from order
+    Removes item from order -- does not check whether item is actually on order;
+    route should only be used by frontend when it's known that order has item
 */
 router.delete('/item/:itemId', (req, res, next) => {
     let currentOrder;
-    Order.findOne({
-            where: {
-                orderId: req.session.orderId
-            }
-        })
+    Order.findById(req.session.orderId)
         .then(order => {
-            if (!order) {
-                next(notFound)
-            } else {
-                currentOrder = order;
-                return Inventory.findOne({
-                    where: {
-                        itemId: req.params.itemId
-                    }
-                })
-            }
+            if (!order) next(notFound);
+            else currentOrder = order;
         })
-        .then(item => {
+        .then(() => {
+            return Item.findById(req.params.itemId)
+        })
+        .then((item) => {
+            if (!item) next(notFound);
             return item.incrementQuantity(1);
         })
-        .then(itemIncremented => {
+        .then(() => {
             return currentOrder.removeItem(req.params.itemId)
         })
-        .then(updatedOrder => {
-            res.json(updatedOrder);
+        .then(result => {
+            if (result) res.sendStatus(204);
+            else res.send('Nothing to delete')
         })
         .catch(next);
 })
@@ -99,7 +88,7 @@ router.put('/order/:orderId', (req, res, next) => {
             submitted: true
         }, {
             where: {
-                orderId: req.params.orderId
+                id: req.params.orderId
             },
             returning: true
         })
@@ -117,12 +106,12 @@ router.put('/order/:orderId', (req, res, next) => {
 })
 
 /*
-    Getting Users most recent order
+    Getting User's cart
 */
 router.get('/user/:userId', (req, res, next) => {
     Order.findOne({
             where: {
-                userId: req.params.id,
+                userId: req.params.userId,
                 submitted: false
             }
         })
@@ -153,8 +142,9 @@ router.delete('/order/:orderId', (req, res, next) => {
                 id: req.params.orderId
             }
         })
-        .then((deletedOrder) => {
-            res.json(deletedOrder);
+        .then(result => {
+            if (result) res.sendStatus(204);
+            else res.send('Nothing to delete')
         })
         .catch(next);
 })
