@@ -1,5 +1,6 @@
-const initialState = {};
+import { combineReducers } from 'redux';
+import item from './item';
+import cart from './cart';
+import user from './login';
 
-export default function dummyReducer (state = initialState, action) {
-	return state;
-}
+export default combineReducers({ item, cart, user });
