@@ -6,9 +6,9 @@ const outOfStock = new Error(" Item is out of Stock ")
 
 ///Will need to work on the express-sessions for when user not logged in
 
-/* 
+/*
     1. Create new Cart / Order -- X
-    2. Update Cart / Order 
+    2. Update Cart / Order
         a. add item to order -- X
         b. submit order
         c. delete from order -- X
@@ -21,7 +21,7 @@ const outOfStock = new Error(" Item is out of Stock ")
     Creates or Finds an Order/Cart
     Will set the current oder to that new or created order
     It will then find the item that is being added to the order in the inventory
-    It will then decrement that item from the inventory 
+    It will then decrement that item from the inventory
     It will then add that item to the order
     And return that updated order
 */
@@ -32,7 +32,7 @@ router.post('/:itemId', (req,res,next) => {
             orderId: req.session.orderId,
             userId:req.session.userId,
             submitted:false
-        }    
+        }
     })
     .then(order => {
         req.session.orderId = order.id
@@ -59,7 +59,7 @@ router.delete('/:itemId', (req,res,next) => {
     Order.findOne({
         where: {
             orderId: req.session.orderId
-        }    
+        }
     })
     .then(order => {
         if(!order){
@@ -69,9 +69,9 @@ router.delete('/:itemId', (req,res,next) => {
             return Inventory.findOne({
                where: {
                 itemId: req.params.itemId
-               } 
+               }
             })
-        }     
+        }
     })
     .then(item => {
         return item.incrementQuantity(1);
@@ -127,7 +127,7 @@ router.get('/:userId', (req,res,next) => {
 })
 
 /*
-    Get User's order history 
+    Get User's order history
 */
 router.get('/:userId/history', (req,res,next) => {
     Order.findAll({
