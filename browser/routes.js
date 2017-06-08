@@ -13,7 +13,7 @@ const Routes = (props) => {
 	return (
 		<Router history={browserHistory}>
 			<Route path='/' component={Main}>
-				// <IndexRoute component={ItemsContainer} />
+				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
 				<Route path='/signup' component={Signup} />
 				<Route path='/items' component={ItemsContainer}>
