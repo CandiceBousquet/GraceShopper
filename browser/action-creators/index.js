@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import item from './item';
 import cart from './cart';
-import login from './login';
+import user from './login';
 
-export default combineReducers({ item, cart, login });
+export default combineReducers({ item, cart, user });
