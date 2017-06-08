@@ -31,6 +31,7 @@ app.use(session({
 }));
 
 // passport makes it easier to identify users
+<<<<<<< HEAD:server/index.js
 const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
@@ -50,9 +51,14 @@ passport.deserializeUser((id, done) => {
         .then(user => done(null, user))
         .catch(done);
 });
+=======
+app.use(require('./app/passport'));
+>>>>>>> master:server/app.js
 
 // routing
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../node_modules')));
+
 app.use('/api', require('./api'));
 
 app.get('*', (req, res, next) => {
@@ -68,6 +74,7 @@ app.use('/', (err, req, res, next) => {
     res.send(message).status(status);
 });
 
+<<<<<<< HEAD:server/index.js
 db.sync({
     // force: true
 }).then(() => {
@@ -75,3 +82,14 @@ db.sync({
         console.log('listening on port 1337');
     });
 }).catch(console.error.bind(this));
+=======
+
+
+
+
+module.exports = app;
+
+
+
+
+>>>>>>> master:server/app.js
