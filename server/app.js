@@ -35,6 +35,8 @@ app.use(require('./app/passport'));
 
 // routing
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../node_modules')));
+
 app.use('/api', require('./api'));
 
 app.get('*', (req, res, next) => {
