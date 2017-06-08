@@ -24,14 +24,36 @@ const dbStore = new SequelizeStore({ db });
 dbStore.sync();
 
 app.use(session({
-	secret: process.env.SESSION_SECRET || 'candice is cool',
-	store: dbStore,
-	resave: false,
-	saveUninitialized: false
+    secret: process.env.SESSION_SECRET || 'candice is cool',
+    store: dbStore,
+    resave: false,
+    saveUninitialized: false
 }));
 
 // passport makes it easier to identify users
+<<<<<<< HEAD:server/index.js
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+// stores user's id in the session store upon login
+passport.serializeUser((user, done) => {
+    try {
+        done(null, user.id);
+    } catch (err) {
+        done(err);
+    }
+});
+
+// runs when a user has already initiated a session and we want to re-obtain user info from the db
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then(user => done(null, user))
+        .catch(done);
+});
+=======
 app.use(require('./app/passport'));
+>>>>>>> master:server/app.js
 
 // routing
 app.use(express.static(path.join(__dirname, '../public')));
@@ -40,18 +62,27 @@ app.use(express.static(path.join(__dirname, '../node_modules')));
 app.use('/api', require('./api'));
 
 app.get('*', (req, res, next) => {
-	res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // error handling
 app.use('/', (err, req, res, next) => {
-	console.error(err);
-	console.error(err.stack);
-	const status = err.status || 500;
-	const message = err.message || "Internal server error";
-	res.send(message).status(status);
+    console.error(err);
+    console.error(err.stack);
+    const status = err.status || 500;
+    const message = err.message || "Internal server error";
+    res.send(message).status(status);
 });
 
+<<<<<<< HEAD:server/index.js
+db.sync({
+    // force: true
+}).then(() => {
+    app.listen(1337, () => {
+        console.log('listening on port 1337');
+    });
+}).catch(console.error.bind(this));
+=======
 
 
 
@@ -61,3 +92,4 @@ module.exports = app;
 
 
 
+>>>>>>> master:server/app.js
