@@ -6,7 +6,7 @@ export default function Reviews(props){
 
     return (
         <div className="reviews">
-            <h3>Reviews of {selectedItem.name} </h3>
+            <h3>Reviews of lunch with {selectedItem.name} </h3>
             <ul>
                 {reviews && reviews.length ? reviews.map(review => (
                     <li key={review.id} >
