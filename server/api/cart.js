@@ -29,25 +29,33 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id: req.session.orderId,
-                userId: req.session.userId,
-                submitted: false
-            }
+                id:req.session.orderId || req.body.orderId,
+                submitted:false
+            } 
         })
         .then(order => {
             req.session.orderId = order[0].id;
             currentOrder = order[0];
+            
+            if(order[1]){
+                return order[0].update({
+                    userId:req.body.userId || req.session.userId
+                })
+            }  
+        })
+        .then(()=>{
             return Item.findById(req.params.itemId);
         })
         .then(item => {
             currentItem = item;
-            item.decrementQuantity(1); //if you add the same item twice to your order, it doesn't actually add to your order but it does decrement quantity
+            //item.decrementQuantity(1); //if you add the same item twice to your order, it doesn't actually add to your order but it does decrement quantity
         })
         .then(() => {
             return currentOrder.addItem(currentItem);
         })
         .then(updatedOrder => {
-            res.json(updatedOrder);
+            //if item exists then this will send back an instance of that association;
+            res.json(currentOrder);
         })
         .catch(next);
 })
@@ -113,7 +121,8 @@ router.get('/user/:userId', (req, res, next) => {
             where: {
                 userId: req.params.userId,
                 submitted: false
-            }
+            },
+            include:[Item]
         })
         .then(cart => {
             res.json(cart);
@@ -129,7 +138,8 @@ router.get('/user/:userId/history', (req, res, next) => {
             where: {
                 userId: req.params.userId,
                 submitted: true
-            }
+            },
+            include:[Item]
         })
         .then(orderHistory => {
             res.json(orderHistory);
