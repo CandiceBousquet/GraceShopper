@@ -3,6 +3,7 @@ const Order = require('../db/models/order');
 const notFound = function() { return new Error('Not found') };
 const outOfStock = function() { return new Error('Item is out of Stock') };
 const Item = require('../db/models/item');
+const Promise = require('bluebird');
 ///Will need to work on the express-sessions for when user not logged in
 
 /*
@@ -29,16 +30,15 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id:req.session.orderId || req.body.orderId,
+                id:req.body.orderId || req.session.orderId,
                 submitted:false
             } 
         })
-        .then(order => {
-            req.session.orderId = order[0].id;
-            currentOrder = order[0];
-            
-            if(order[1]){
-                return order[0].update({
+        .spread((order, ifCreated) => {
+            //req.session.orderId = order.id;
+            currentOrder = order;
+            if(ifCreated){
+                return order.update({
                     userId:req.body.userId || req.session.userId
                 })
             }  
