@@ -31,19 +31,19 @@ const Item = db.define('item', {
     imageUrl: {
         type: Sequelize.STRING // may need hook with full path to image
     }
-},{
+}, {
     instanceMethods: {
-        incrementQuantity: function(num){
+        incrementQuantity: function(num) {
             return this.update({
-                quantity:this.quantity + num
+                quantity: this.quantity + num
             });
         },
-        decrementQuantity: function(num){
-            if(this.quantity - num < 0){
+        decrementQuantity: function(num) {
+            if (this.quantity - num < 0) {
                 throw new Error("Item is Sold Out");
-            }else{
+            } else {
                 return this.update({
-                    quantity:this.quantity - num
+                    quantity: this.quantity - num
                 });
             }
         }
