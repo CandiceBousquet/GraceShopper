@@ -6,10 +6,10 @@ export default function(props){
         <nav className="navbar navbar-default">
           <div className="container-fluid">
             <div className="navbar-header">
-              <a className="navbar-brand">DOA Lunch Shopper</a>
+              <Link to="/" className="navbar-brand">DOA Lunch Shopper</Link>
             </div>
             <ul className="nav navbar-nav">
-              <li><Link to="/">People</Link></li>
+              <li><Link to="/items">People</Link></li>
               <li><Link to="/login">Login</Link></li>
               <li ><Link to="/signup">Signup</Link></li>
             </ul>
