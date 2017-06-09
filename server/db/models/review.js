@@ -7,8 +7,8 @@ const Review = db.define('review', {
     },
 
     rating: {
-        type: Sequelize.ENUM('*', '**', '***', '****', '*****', null),
-        defaultValue: null
+        type: Sequelize.ENUM('*', '**', '***', '****', '*****')
+        // defaultValue: null
     }
 });
 

@@ -1,9 +1,11 @@
 import SingleItem from '../components/SingleItem'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addToCart } from '../action-creators/cart'
 import { addReview } from '../action-creators/item'
 
 const mapStateToProps = (state) => {
+    console.log("SingleItemContainer, state.item.currentItem: ", state.item.currentItem)
     return {
         selectedItem: state.item.currentItem,
         userId: state.user.id

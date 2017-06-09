@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action) {
             });
             break;
         default:
-            return;
+            break;
     }
     return newState;
 }
@@ -64,7 +64,7 @@ export const fetchAllItems = () => dispatch => {
 	.catch(console.error);
 }
 
-export const setSingleItem = (itemId) => dispatch => {
+export const fetchSingleItem = (itemId) => dispatch => {
 	axios.get(`/api/items/${itemId}`)
 	.then(res => {
 		dispatch(setCurrentItem(res.data));
