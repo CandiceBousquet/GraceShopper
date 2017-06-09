@@ -24,7 +24,7 @@ const addReviewToItem = (item) => ({ type: ADD_REVIEW, item})
 
 const initialState = {
     items: [],
-    currentItem: null
+    currentItem: []
 };
 
 export default function reducer(state = initialState, action) {

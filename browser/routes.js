@@ -9,8 +9,10 @@ import Signup from './containers/Signup';
 import CartContainer from './containers/CartContainer';
 import OrderConfirmation from './components/OrderConfirmation';
 import { fetchAllItems, fetchSingleItem } from './action-creators/item';
+import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
-const Routes = ({ fetchInitialData, fetchCurrentItem }) => {
+const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) => {
+
 	return (
 		<Router history={browserHistory}>
 			<Route path='/' component={Main} onEnter={fetchInitialData} >
@@ -21,7 +23,7 @@ const Routes = ({ fetchInitialData, fetchCurrentItem }) => {
 					<Route path=':categoryId' component={ItemsContainer} />
 				</Route>
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
-				<Route path='/:userId/cart' component={CartContainer} />
+				<Route path='/:userId/cart' component={CartContainer} onEnter={fetchCartInformation} />
 				<Route path='/:orderId/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
 			</Route>
@@ -32,7 +34,9 @@ const Routes = ({ fetchInitialData, fetchCurrentItem }) => {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapProps = null;
+const mapToState = state => ({});
+
+
 
 const mapDispatch = dispatch => ({
 	fetchInitialData: () => {
@@ -41,9 +45,13 @@ const mapDispatch = dispatch => ({
 	fetchCurrentItem: (nextState) => {
 		const itemId = nextState.params.itemId;
 		dispatch(fetchSingleItem(itemId));
-	}
+	},
+  fetchCartInformation: nextRouterState => {
+		const userId = nextRouterState.params.userId;
+      dispatch(fetchRecentOrder());
+			dispatch(fetchOrderHistory(userId));
+    }
 });
 
-// export default Routes;
+export default connect(mapToState, mapDispatch)(Routes);
 
-export default connect(mapProps, mapDispatch)(Routes);
