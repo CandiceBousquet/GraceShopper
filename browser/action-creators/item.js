@@ -46,7 +46,7 @@ export default function reducer (state = initialState, action) {
 			});
 			break;
 	    default:
-	      return;
+	      break;
 	  }
 	  return newState;
 }
@@ -54,7 +54,7 @@ export default function reducer (state = initialState, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const fetchAllItems = () => dispatch => {
-	axios.get('/items')
+	axios.get('/api/items')
 	.then(res => {
 		dispatch(setItems(res.data));
 	})
@@ -62,7 +62,7 @@ export const fetchAllItems = () => dispatch => {
 }
 
 export const setSingleItem = (itemId) => dispatch => {
-	axios.get(`/items/${itemId}`)
+	axios.get(`/api/items/${itemId}`)
 	.then(res => {
 		dispatch(setCurrentItem(res.data));
 	})
@@ -70,7 +70,7 @@ export const setSingleItem = (itemId) => dispatch => {
 }
 
 export const createNewItem = (item) => dispatch => {
-	axios.post('/items', {item})
+	axios.post('/api/items', {item})
 	.then(res => {
 		dispatch(createItem(res.data));
 	})
@@ -78,7 +78,7 @@ export const createNewItem = (item) => dispatch => {
 }
 
 export const updateItemInDatabase = (item) => dispatch => {
-	axios.put(`/items/${item.id}`, {item})
+	axios.put(`/api/items/${item.id}`, {item})
 	.then(res => {
 		dispatch(updateItem(res.data));
 	})
@@ -86,7 +86,7 @@ export const updateItemInDatabase = (item) => dispatch => {
 }
 
 export const removeItem = (itemId) => dispatch => {
-	axios.delete(`/items/${itemId}`)
+	axios.delete(`/api/items/${itemId}`)
 	.then(res => {
 		dispatch(deleteItem(res.data));
 	})
