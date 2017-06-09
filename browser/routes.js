@@ -13,7 +13,7 @@ import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
 import { fetchAllItems } from './action-creators/item';
 
-const Routes = ({ fetchInitialData }) => {
+const Routes = ({ fetchInitialData, fetchCartInformation }) => {
 
 	return (
 		<Router history={browserHistory}>
@@ -53,5 +53,5 @@ const mapDispatch = dispatch => ({
 
 // export default Routes;
 
-export default connect(mapProps, mapDispatch)(Routes);
+export default connect(mapToState, mapDispatch)(Routes);
 
