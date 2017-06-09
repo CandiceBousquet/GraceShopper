@@ -35,7 +35,7 @@ router.post('/item/:itemId', (req, res, next) => {
             } 
         })
         .spread((order, ifCreated) => {
-            //req.session.orderId = order.id;
+            req.session.orderId = order.id;
             currentOrder = order;
             if(ifCreated){
                 return order.update({
@@ -86,6 +86,7 @@ router.delete('/item/:itemId', (req, res, next) => {
             else res.send('Nothing to delete')
         })
         .catch(next);
+
 })
 
 /*
@@ -161,5 +162,5 @@ router.delete('/order/:orderId', (req, res, next) => {
 
 
 
-
 module.exports = router;
+
