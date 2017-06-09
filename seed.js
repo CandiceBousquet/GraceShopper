@@ -5,6 +5,7 @@ const Item = models.Item;
 const User = models.User;
 const Inventory = models.Inventory;
 const Category = models.Category;
+const Order = models.Order;
 
 const users = [
     { name: 'Steven Universe', email: 'Steven.Universe@gmail.com', password: 'hello', isAdmin: false },
@@ -50,9 +51,27 @@ const categories = [
     { name: 'alive' }
 ]
 
+const orders = [
+    { submitted: false , userId:1},
+    { submitted: true , userId:1},
+    { submitted: true , userId:1},
+    { submitted: false, userId:2 },
+    { submitted: true, userId:2 },
+    { submitted: true, userId:2 },
+    { submitted: true , userId:3},
+    { submitted: true , userId:3},
+    { submitted: false , userId:3},
+]
+
 function createUsers() {
     return Promise.map(users, function(user) {
         return User.create(user);
+    })
+}
+
+function createOrders() {
+    return Promise.map(orders, function(orders) {
+        return Order.create(orders);
     })
 }
 
@@ -89,6 +108,9 @@ function seed() {
             console.log('...creating items...');
             return createItems()
         })
+        .then(function(){
+            return createOrders()
+        })
         .catch(console.error)
 }
 
@@ -109,63 +131,3 @@ db.sync({ force: true })
         db.close();
         return null;
     });
-
-
-/*
-var db = require('./db');
-var Student = require('./db/models/Student');
-var Campus = require('./db/models/Campuses');
-
-
-var Promise = require('bluebird');
-
-
-const data = {
-  campuses: [
-    {name: 'Mars', imageURL:  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/1200px-OSIRIS_Mars_true_color.jpg', content: 'I like to JS' },
-    {name: 'Saturn', imageURL:  'http://space-facts.com/wp-content/uploads/mars.jpg'},
-    {name: 'Pluto', imageURL:  'https://upload.wikimedia.org/wikipedia/commons/a/a7/Pluto-01_Stern_03_Pluto_Color_TXT.jpg'},
-    {name: 'Europa', imageURL:  'https://www.google.com/search?q=mars&source=lnms&tbm=isch&sa=X&ved=0ahUKEwip84Sh-43UAhXEXBoKHSk3A84Q_AUIDCgD&biw=1216&bih=612&dpr=2#tbm=isch&q=europa+moon&imgrc=x3mwBGBkn_-J5M:'},
-    {name: 'Venu', imageURL:  'https://upload.wikimedia.org/wikipedia/commons/8/85/Venus_globe.jpg'}
-
-  ],
-  students: [
-    {name: 'Steven Universe', email: 'Steven.Universe@gmail.com', campusId: 2}, 
-    {name: 'Garnet', email: 'Garnet@gmail.com', campusId: 2}, 
-    {name: 'Kate Bush', email: 'Kate.Bush@gmail.com', campusId: 1},
-    {name: 'Steve', email: 'peter.griffin.the2nd@gmail.com', campusId: 3}, 
-    {name: 'SNARF', email: 'SNARF.SNARF.the2nd@gmail.com', campusId: 1}, 
-    {name: 'LIONO', email: 'LIONO.LIONO.thundercats@gmail.com', campusId: 3},
-    {name: 'Panthar', email: 'Panthar.Panthar.the2nd@gmail.com', campusId: 4},
-    {name: 'LIONO', email: 'meg.griffin.the2nd@gmail.com', campusId: 4},
-    {name: 'MUFASA', email: 'MUFASA.griffin.the2nd@gmail.com', campusId: 5}
-  ]
-}
-
-
-db.sync({force: true})
-.then(function () {
-  console.log("Dropped old data, now inserting data");
-  const addingCampus = Promise.map(data.campuses, function (campus) {
-    return Campus.create(campus);
-  });
-
-  return  addingCampus;
-
-})
-.then(function () {
-  console.log('Finished inserting data');
-  const addingStudent = Promise.map(data.students, function (student) {
-    return Student.create(student);
-  })
-  return addingStudent;
-
-})
-.catch(function (err) {
-  console.error('There was totally a problem', err, err.stack);
-})
-.finally(function () {
-  db.close(); // creates but does not return a promise
-  return null; // stops bluebird from complaining about un-returned promise
-});
-*/

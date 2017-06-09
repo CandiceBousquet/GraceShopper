@@ -8,12 +8,16 @@ import Login from './containers/Login';
 import Signup from './containers/Signup';
 import CartContainer from './containers/CartContainer';
 import OrderConfirmation from './components/OrderConfirmation';
+
 import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
-const Routes = ({fetchCartInformation}) => {
+import { fetchAllItems } from './action-creators/item';
+
+const Routes = ({ fetchInitialData }) => {
+
 	return (
 		<Router history={browserHistory}>
-			<Route path='/' component={Main}>
+			<Route path='/' component={Main} onEnter={ fetchInitialData } >
 				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
 				<Route path='/signup' component={Signup} />
@@ -34,16 +38,20 @@ const Routes = ({fetchCartInformation}) => {
 
 const mapToState = state => ({});
 
-const mapToProps = dispatch => {
-    return {
-      fetchCartInformation: nextRouterState => {
-				const userId = nextRouterState.params.userId;
-        dispatch(fetchRecentOrder());
-				dispatch(fetchOrderHistory(userId));
-      }
-    };
-};
+
+
+const mapDispatch = dispatch => ({
+	fetchInitialData: () => {
+		dispatch(fetchAllItems());
+	},
+  fetchCartInformation: nextRouterState => {
+		const userId = nextRouterState.params.userId;
+      dispatch(fetchRecentOrder());
+			dispatch(fetchOrderHistory(userId));
+    }
+});
 
 // export default Routes;
 
-export default connect(mapToState, mapToProps)(Routes);
+export default connect(mapProps, mapDispatch)(Routes);
+

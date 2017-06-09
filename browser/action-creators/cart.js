@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 
 /* -----------------    ACTIONS     ------------------ */
@@ -99,3 +100,4 @@ export const fetchOrderHistory = userId => dispatch => {
         .then(res => dispatch(getOrderHistory(res.data)))
         .catch(err => console.error('Fetching order history unsuccessful', err));
 };
+
