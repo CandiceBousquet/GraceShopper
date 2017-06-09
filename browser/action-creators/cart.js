@@ -87,15 +87,15 @@ export const updateSubmitCart = cartId => dispatch => {
         .catch(err => console.error('Submitting cart unsuccessful', err));
 };
 
-export const fetchRecentOrder = cartId => dispatch => {
+export const fetchRecentOrder = () => dispatch => {
     // axios.get(`/api/cart/${cartId}`)
     //     .then(res => dispatch(getOrder(res.data)))
     //     .catch(err => console.error('Fetching recent order unsuccessful', err));
-    dispatch(getOrder())
+    dispatch(getOrder());
 };
 
 export const fetchOrderHistory = userId => dispatch => {
-    axios.get(`/${userId}/history`)
+    axios.get(`/api/cart/${userId}/history`)
         .then(res => dispatch(getOrderHistory(res.data)))
         .catch(err => console.error('Fetching order history unsuccessful', err));
 };
