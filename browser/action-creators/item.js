@@ -57,43 +57,43 @@ export default function reducer(state = initialState, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const fetchAllItems = () => dispatch => {
-    axios.get('/items')
-        .then(res => {
-            dispatch(setItems(res.data));
-        })
-        .catch(console.error);
+	axios.get('/api/items')
+	.then(res => {
+		dispatch(setItems(res.data));
+	})
+	.catch(console.error);
 }
 
 export const setSingleItem = (itemId) => dispatch => {
-    axios.get(`/items/${itemId}`)
-        .then(res => {
-            dispatch(setCurrentItem(res.data));
-        })
-        .catch(console.error);
+	axios.get(`/api/items/${itemId}`)
+	.then(res => {
+		dispatch(setCurrentItem(res.data));
+	})
+	.catch(console.error);
 }
 
 export const createNewItem = (item) => dispatch => {
-    axios.post('/items', { item })
-        .then(res => {
-            dispatch(createItem(res.data));
-        })
-        .catch(console.error);
+	axios.post('/api/items', {item})
+	.then(res => {
+		dispatch(createItem(res.data));
+	})
+	.catch(console.error);
 }
 
 export const updateItemInDatabase = (item) => dispatch => {
-    axios.put(`/items/${item.id}`, { item })
-        .then(res => {
-            dispatch(updateItem(res.data));
-        })
-        .catch(console.error);
+	axios.put(`/api/items/${item.id}`, {item})
+	.then(res => {
+		dispatch(updateItem(res.data));
+	})
+	.catch(console.error);
 }
 
 export const removeItem = (itemId) => dispatch => {
-    axios.delete(`/items/${itemId}`)
-        .then(res => {
-            dispatch(deleteItem(res.data));
-        })
-        .catch(console.error);
+	axios.delete(`/api/items/${itemId}`)
+	.then(res => {
+		dispatch(deleteItem(res.data));
+	})
+	.catch(console.error);
 }
 
 export const addReview = (review, item) => dispatch => {
