@@ -96,7 +96,7 @@ export const fetchRecentOrder = () => dispatch => {
 };
 
 export const fetchOrderHistory = userId => dispatch => {
-    axios.get(`/api/cart/${userId}/history`)
+    axios.get(`/api/cart/user/${userId}/history`)
         .then(res => dispatch(getOrderHistory(res.data)))
         .catch(err => console.error('Fetching order history unsuccessful', err));
 };

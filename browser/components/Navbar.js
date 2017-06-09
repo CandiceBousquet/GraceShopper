@@ -12,6 +12,7 @@ export default function(props){
               <li><Link to="/items">People</Link></li>
               <li><Link to="/login">Login</Link></li>
               <li ><Link to="/signup">Signup</Link></li>
+              <li ><Link to="/cart">Cart</Link></li>
             </ul>
           </div>
         </nav>

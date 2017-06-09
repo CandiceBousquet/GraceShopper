@@ -6,8 +6,8 @@ import { fetchRecentOrder, fetchOrderHistory } from '../action-creators/cart';
 
 const mapState = state => {
     return {
-        // currentCart: state.cart.current,
-        // cartHistory: state.cart.history
+        currentCart: state.cart.current,
+        cartHistory: state.cart.history
     };
 };
 

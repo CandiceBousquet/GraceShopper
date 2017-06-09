@@ -23,7 +23,7 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 					<Route path=':categoryId' component={ItemsContainer} />
 				</Route>
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
-				<Route path='/:userId/cart' component={CartContainer} onEnter={fetchCartInformation} />
+				<Route path='/cart' component={CartContainer} onEnter={fetchCartInformation} />
 				<Route path='/:orderId/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
 			</Route>
@@ -49,7 +49,7 @@ const mapDispatch = dispatch => ({
   fetchCartInformation: nextRouterState => {
 		const userId = nextRouterState.params.userId;
       dispatch(fetchRecentOrder());
-			dispatch(fetchOrderHistory(userId));
+			dispatch(fetchOrderHistory(10));
     }
 });
 
