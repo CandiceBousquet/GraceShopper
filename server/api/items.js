@@ -73,5 +73,17 @@ router.post('/', (req, res, next) => {
     .catch(next);
 })
 
+router.post('/:itemId/review', (res, req, next) => {
+    Review.create({
+        content: req.body.content,
+        rating: req.body.rating,
+        userId: req.body.userId,
+        itemId: req.params.itemId
+    })
+    .then(() => Item.findById(req.params.itemId))
+    .then((item) => res.json(item))
+    .catch(next);
+})
+
 
 module.exports = router;
