@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cart from '../components/Cart';
-import { fetchRecentOrder, fetchOrderHistory } from '../action-creators/cart';
+import { fetchRecentOrder, fetchOrderHistory,removeItem , updateSubmitCart } from '../action-creators/cart';
 
 
 const mapState = state => {
     return {
-        // currentCart: state.cart.current,
-        // cartHistory: state.cart.history
+        currentCart: state.cart.current,
+        cartHistory: state.cart.history
     };
 };
 
-// const mapDispatch = dispatch => {
-//     return {
-//       fetchRecentOrder: cartId => {
-//         dispatch(fetchRecentOrder(cartId));
-//       },
-//       fetchOrderHistory: userId => {
-//         dispatch(fetchOrderHistory(userId));
-//       }
-//     };
-// };
+const mapDispatch = dispatch => {
+    return {
+      removeItem: itemId => {
+          dispatch(removeItem(itemId))
+      },
+    submitOrder: itemId => {
+          dispatch(updateSubmitCart(itemId))
+      }
+    };
+};
 
-export default connect(mapState)(Cart);
+export default connect(mapState,mapDispatch)(Cart);

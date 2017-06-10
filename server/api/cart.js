@@ -30,13 +30,14 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id:req.body.orderId || req.session.orderId,
+                id:req.body.orderId,
                 submitted:false
             } 
         })
         .spread((order, ifCreated) => {
             req.session.orderId = order.id;
             currentOrder = order;
+            console.log(req.body.userId)
             if(ifCreated){
                 return order.update({
                     userId:req.body.userId || req.session.userId

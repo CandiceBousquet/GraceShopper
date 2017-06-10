@@ -20,7 +20,7 @@ const deleteCart = cartId => ({ type: DELETE_CART, cartId });
 
 const submitCart = cartId => ({ type: SUBMIT_CART, cartId });
 
-const getOrder = () => ({ type: GET_RECENT_ORDER });
+const getOrder = order => ({ type: GET_RECENT_ORDER , order });
 
 const getOrderHistory = carts => ({ type: GET_ORDER_HISTORY, carts });
 
@@ -32,8 +32,11 @@ const initialState = {
 };
 
 export default function reducer (state = initialState, action) {
+    
     const newState = Object.assign({}, state);
+    
     switch (action.type) {
+        
         case ADD_ITEM_AND_FIND_OR_CREATE_CART:
             newState.current = action.updatedCart;
             return newState;
@@ -51,6 +54,7 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case GET_RECENT_ORDER:
+            newState.current = action.order;
             return newState;
 
         case GET_ORDER_HISTORY:
@@ -65,7 +69,7 @@ export default function reducer (state = initialState, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const addItem = itemId => dispatch => {
-    axios.post(`/api/cart/${itemId}`)
+    axios.post(`/api/cart/item/${itemId}`, {userId:4})
         .then(res => dispatch(addToFoundOrCreatedCart(res.data)))
         .catch(err => console.error('Adding item unsuccessful', err));
 };
@@ -83,21 +87,32 @@ export const removeCart = cartId => dispatch => {
 };
 
 export const updateSubmitCart = cartId => dispatch => {
-    axios.put(`/api/cart/${cartId}`)
+    axios.put(`/api/cart/order/${cartId}`)
         .then(res => dispatch(submitCart(res.data)))
         .catch(err => console.error('Submitting cart unsuccessful', err));
 };
 
 export const fetchRecentOrder = () => dispatch => {
-    // axios.get(`/api/cart/${cartId}`)
-    //     .then(res => dispatch(getOrder(res.data)))
-    //     .catch(err => console.error('Fetching recent order unsuccessful', err));
-    dispatch(getOrder());
+    axios.get(`/api/cart/user/${4}`)
+    .then(res => res.data)
+    .then(cart =>{
+        if(cart){
+             dispatch(getOrder(cart))
+        }else{
+            dispatch({type:"RESET"});
+        }
+       
+    })
+    //.catch(err => console.error('Fetching recent order unsuccessful', err));
 };
 
 export const fetchOrderHistory = userId => dispatch => {
-    axios.get(`/api/cart/${userId}/history`)
-        .then(res => dispatch(getOrderHistory(res.data)))
-        .catch(err => console.error('Fetching order history unsuccessful', err));
+    axios.get(`api/cart/user/4/history`)
+        .then(res =>res.data)
+        .then(carts =>{
+                
+             dispatch(getOrderHistory(carts))
+        })
+        //.catch(err => console.error('Fetching order history unsuccessful', err));
 };
 

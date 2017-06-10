@@ -1,7 +1,7 @@
 import SingleItem from '../components/SingleItem'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addToCart } from '../action-creators/cart'
+import { addItem } from '../action-creators/cart'
 import { addReview } from '../action-creators/item'
 
 const mapStateToProps = (state) => {
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addToCart(item){
-            dispatch(addToCart(item))
+            dispatch(addItem(item))
         },
         addReview(review, item){
             dispatch(addReview(review, item))
