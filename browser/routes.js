@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import Main from './containers/Main';
 import ItemsContainer from './containers/ItemsContainer';
 import SingleItemContainer from './containers/SingleItemContainer';
@@ -14,7 +14,7 @@ import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) => {
 
 	return (
-		<Router history={browserHistory}>
+		<Router history={hashHistory}>
 			<Route path='/' component={Main} onEnter={fetchInitialData} >
 				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
@@ -22,7 +22,7 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 				<Route path='/items' component={ItemsContainer}>
 					<Route path=':categoryId' component={ItemsContainer} />
 				</Route>
-				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
+				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem} />
 				<Route path='/:userId/cart' component={CartContainer} onEnter={fetchCartInformation} />
 				<Route path='/:orderId/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
@@ -43,6 +43,7 @@ const mapDispatch = dispatch => ({
 		dispatch(fetchAllItems());
 	},
 	fetchCurrentItem: (nextState) => {
+		console.log("heeeelllloo");
 		const itemId = nextState.params.itemId;
 		dispatch(fetchSingleItem(itemId));
 	},
