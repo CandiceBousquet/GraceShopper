@@ -24,7 +24,7 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 				</Route>
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
 				<Route path='/cart' component={CartContainer} onEnter={fetchCartInformation} />
-				<Route path='/:orderId/success' component={OrderConfirmation} />
+				<Route path='/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
 			</Route>
 		</Router>
