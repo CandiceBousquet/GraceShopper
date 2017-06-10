@@ -30,7 +30,7 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id:req.body.orderId,
+                id:req.body.orderId ||req.session.orderId ,
                 submitted:false
             } 
         })

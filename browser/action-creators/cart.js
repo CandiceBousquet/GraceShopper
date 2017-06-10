@@ -103,7 +103,7 @@ export const fetchRecentOrder = () => dispatch => {
         }
        
     })
-    //.catch(err => console.error('Fetching recent order unsuccessful', err));
+    .catch(err => console.error('Fetching recent order unsuccessful', err));
 };
 
 export const fetchOrderHistory = userId => dispatch => {
@@ -113,6 +113,6 @@ export const fetchOrderHistory = userId => dispatch => {
                 
              dispatch(getOrderHistory(carts))
         })
-        //.catch(err => console.error('Fetching order history unsuccessful', err));
+        .catch(err => console.error('Fetching order history unsuccessful', err));
 };
 
