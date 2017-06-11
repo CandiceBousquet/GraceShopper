@@ -55,7 +55,7 @@ const mapDispatch = dispatch => ({
 	},
   	fetchCartInformation: (userId, nextState) => {
     	dispatch(fetchRecentOrder()); // this uses the session.orderId
-    	if(userId) {
+    	if (userId) {
     		dispatch(fetchOrderHistory(userId));
     	}
     }

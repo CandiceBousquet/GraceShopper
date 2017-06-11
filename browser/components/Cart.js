@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { removeItem, removeCart } from '../action-creators/cart';
 
 
-export default function ({ currentCart, cartHistory, removeItem , submitOrder}){
+export default function ({ currentCart, cartHistory, user, removeItem, submitOrder }){
     console.log("========================")
     console.log(currentCart)
+    // console.log(props.history)
     console.log("========================")
     return (
         <div>
@@ -13,7 +14,7 @@ export default function ({ currentCart, cartHistory, removeItem , submitOrder}){
                 <ul>
                     {
                         
-                         currentCart.items ?    
+                        currentCart.items ?    
 
                         currentCart.items.map(item => {
                             
@@ -37,7 +38,7 @@ export default function ({ currentCart, cartHistory, removeItem , submitOrder}){
                 </ul>
                 {
                     currentCart.id ? 
-                    <button onClick={() => submitOrder(currentCart.id || 4)}>Submit Order</button>
+                    <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
                     :
                     null
                 }
