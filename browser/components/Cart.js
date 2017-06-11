@@ -67,7 +67,7 @@ export default function ({ currentCart, cartHistory, removeItem , submitOrder}){
                                         )                   
                                     })
                                 :
-                                null          
+                                <p>Please <Link to={'/login'}>log in</Link></p>          
                             }
                             </div>
                         )

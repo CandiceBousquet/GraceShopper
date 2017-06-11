@@ -30,7 +30,7 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id:req.body.orderId ||req.session.orderId ,
+                id:req.body.orderId ||req.session.orderId,
                 submitted:false
             } 
         })
@@ -115,16 +115,36 @@ router.put('/order/:orderId', (req, res, next) => {
 
 })
 
+// /*
+//     Getting User's cart
+// */
+// router.get('/user/:userId', (req, res, next) => {
+//     Order.findOne({
+//             where: {
+//                 userId: req.params.userId,
+//                 submitted: false
+//             },
+//             include: [
+//                 { model: Item }
+//             ]
+//         })
+//         .then(cart => {
+//             res.json(cart);
+//         })
+//         .catch(next);
+// })
+
 /*
     Getting User's cart
 */
-router.get('/user/:userId', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Order.findOne({
             where: {
-                userId: req.params.userId,
-                submitted: false
+                id: req.session.orderId
             },
-            include:[Item]
+            include: [
+                { model: Item }
+            ]
         })
         .then(cart => {
             res.json(cart);

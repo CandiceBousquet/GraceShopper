@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router';
 import Main from './containers/Main';
 import ItemsContainer from './containers/ItemsContainer';
 import SingleItemContainer from './containers/SingleItemContainer';
@@ -11,11 +11,10 @@ import OrderConfirmation from './components/OrderConfirmation';
 import { fetchAllItems, fetchSingleItem } from './action-creators/item';
 import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
-const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) => {
-
+const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitialData}) => {
 	return (
-		<Router history={browserHistory}>
-			<Route path='/' component={Main} onEnter={fetchInitialData} >
+		<Router history={hashHistory}>
+			<Route path='/' component={Main} onEnter={ function () { fetchInitialData(user.id) }} >
 				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
 				<Route path='/signup' component={Signup} />
@@ -23,7 +22,7 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 					<Route path=':categoryId' component={ItemsContainer} />
 				</Route>
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
-				<Route path='/cart' component={CartContainer} onEnter={fetchCartInformation} />
+				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
 				<Route path='/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
 			</Route>
@@ -34,24 +33,31 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapToState = state => ({});
-
+const mapToState = state => {
+	return {
+		cart: state.cart,
+		user: state.user
+	}
+};
 
 
 const mapDispatch = dispatch => ({
-	fetchInitialData: () => {
+	fetchInitialData: (userId, nextState) => {
 		dispatch(fetchAllItems());
-		dispatch(fetchRecentOrder());
-	  	dispatch(fetchOrderHistory(1));
+		dispatch(fetchRecentOrder()); // this uses the session.orderId
+		if (userId) {
+			dispatch(fetchOrderHistory(userId));
+		}
 	},
-	fetchCurrentItem: (nextState) => {
+	fetchCurrentItem: nextState => {
 		const itemId = nextState.params.itemId;
 		dispatch(fetchSingleItem(itemId));
 	},
-  fetchCartInformation: nextRouterState => {
-		//const userId = nextRouterState.params.userId;
-      dispatch(fetchRecentOrder());
-	  dispatch(fetchOrderHistory(4));
+  	fetchCartInformation: (userId, nextState) => {
+    	dispatch(fetchRecentOrder()); // this uses the session.orderId
+    	if(userId) {
+    		dispatch(fetchOrderHistory(userId));
+    	}
     }
 });
 

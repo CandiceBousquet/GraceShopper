@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cart from '../components/Cart';
-import { fetchRecentOrder, fetchOrderHistory,removeItem , updateSubmitCart } from '../action-creators/cart';
+import { fetchRecentOrder, fetchOrderHistory, removeItem, updateSubmitCart } from '../action-creators/cart';
 
 
 const mapState = state => {
@@ -16,10 +16,10 @@ const mapDispatch = dispatch => {
       removeItem: itemId => {
           dispatch(removeItem(itemId))
       },
-    submitOrder: itemId => {
+      submitOrder: itemId => {
           dispatch(updateSubmitCart(itemId))
       }
     };
 };
 
-export default connect(mapState,mapDispatch)(Cart);
+export default connect(mapState, mapDispatch)(Cart);

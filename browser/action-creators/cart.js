@@ -21,7 +21,7 @@ const deleteCart = cartId => ({ type: DELETE_CART, cartId });
 
 const submitCart = cartId => ({ type: SUBMIT_CART, cartId });
 
-const getOrder = order => ({ type: GET_RECENT_ORDER , order });
+const getOrder = order => ({ type: GET_RECENT_ORDER, order });
 
 const getOrderHistory = carts => ({ type: GET_ORDER_HISTORY, carts });
 
@@ -69,8 +69,8 @@ export default function reducer (state = initialState, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const addItem = itemId => dispatch => {
-    axios.post(`/api/cart/item/${itemId}`, {userId:4})
+export const addItem = (itemId, userId) => dispatch => {
+    axios.post(`/api/cart/item/${itemId}`, {userId})
         .then(res => dispatch(addToFoundOrCreatedCart(res.data)))
         .catch(err => console.error('Adding item unsuccessful', err));
 };
@@ -97,13 +97,13 @@ export const updateSubmitCart = cartId => dispatch => {
 };
 
 export const fetchRecentOrder = () => dispatch => {
-    axios.get(`/api/cart/user/${4}`)
+    axios.get(`/api/cart`)
     .then(res => res.data)
     .then(cart =>{
         if(cart){
              dispatch(getOrder(cart))
         }else{
-            dispatch({type:"RESET"});
+            dispatch({type:"RESET"}); // what does this do?
         }
        
     })
@@ -111,10 +111,9 @@ export const fetchRecentOrder = () => dispatch => {
 };
 
 export const fetchOrderHistory = userId => dispatch => {
-    axios.get(`api/cart/user/4/history`)
+    axios.get(`api/cart/user/${userId}/history`)
         .then(res =>res.data)
-        .then(carts =>{
-                
+        .then(carts =>{          
              dispatch(getOrderHistory(carts))
         })
         .catch(err => console.error('Fetching order history unsuccessful', err));
