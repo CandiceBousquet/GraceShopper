@@ -21,7 +21,7 @@ export default function({item}){
 			<Link to={`/item/${item.id}`}>
 				{item.name}
 			</Link>
-			<p>$ {item.price*100}</p>
+			<p>$ {item.price}</p>
 		</div>
 	)
 }

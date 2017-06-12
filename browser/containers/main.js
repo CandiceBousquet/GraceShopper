@@ -1,14 +1,17 @@
 import Navbar from '../components/Navbar';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { logOut } from '../action-creators/login';
 
-export default class extends Component {
+
+class Main extends Component {
 	constructor(props){
 		super(props)
 	}
 	render () {
 			return (
 				<div className='container'>
-					<Navbar />
+					<Navbar user={this.props.user} logOut ={this.props.logUserOut}/>
 					{
 						this.props.children ? this.props.children : null
 					}
@@ -16,3 +19,19 @@ export default class extends Component {
 		)
 	}
 } 
+
+
+const mapToState = state => {
+	return {
+		cart: state.cart,
+		user: state.user
+	}
+};
+
+
+const mapDispatch = dispatch => ({
+	logUserOut: () =>{
+		dispatch(logOut());
+	}
+});
+export default connect(mapToState, mapDispatch)(Main);

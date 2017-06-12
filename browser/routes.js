@@ -13,7 +13,7 @@ import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
 const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitialData}) => {
 	return (
-		<Router history={hashHistory}>
+		<Router history={browserHistory}>
 			<Route path='/' component={Main} onEnter={ function () { fetchInitialData(user.id) }} >
 				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
@@ -24,7 +24,7 @@ const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitia
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
 				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
 				<Route path='/success' component={OrderConfirmation} />
-				<Route path="*" component={ItemsContainer} />
+				<Route path="/*" component={ItemsContainer} />
 			</Route>
 		</Router>
 	);
