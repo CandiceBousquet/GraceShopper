@@ -82,8 +82,11 @@ export const removeItem = itemId => dispatch => {
 };
 
 export const removeCart = cartId => dispatch => {
-    axios.delete(`/api/cart/${cartId}`)
+    axios.delete(`/api/cart/order/${cartId}`)
         .then(res => dispatch(deleteCart(res.data)))
+        .then(()=>{
+            browserHistory.push('/cart');
+        })
         .catch(err => console.error('Deleting cart unsuccessful', err));
 };
 
@@ -91,7 +94,7 @@ export const updateSubmitCart = (cartId, userId) => dispatch => {
     axios.put(`/api/cart/order/${cartId}/${userId}`)
         .then(res => dispatch(submitCart(res.data)))
         .then(()=>{
-            browserHistory.push('/success')
+            browserHistory.push('/success');
         })
         .catch(err => console.error('Submitting cart unsuccessful', err));
 };

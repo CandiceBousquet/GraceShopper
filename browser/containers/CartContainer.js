@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {browserHistory} from 'react-router';
 import { connect } from 'react-redux';
 import Cart from '../components/Cart';
 import { fetchRecentOrder, fetchOrderHistory, removeCart, removeItem, updateSubmitCart } from '../action-creators/cart';
@@ -6,13 +7,6 @@ import { fetchRecentOrder, fetchOrderHistory, removeCart, removeItem, updateSubm
 class CartContainer extends Component {
     constructor (props) {
         super(props);
-        this.submitOrder = this.submitOrder.bind(this);
-
-    }
-
-    submitOrder (cart, userId) {
-        const history = this.props.history;
-        this.props.submitOrder(cart, userId, history);
     }
 
     componentDidMount(){
@@ -27,7 +21,7 @@ class CartContainer extends Component {
             user={this.props.user}
             removeCart={this.props.removeCart}
             removeItem={this.props.removeItem}
-            submitOrder={this.submitOrder}
+            submitOrder={this.props.submitOrder}
           />);
     }
 
@@ -52,13 +46,13 @@ const mapDispatch = dispatch => {
         fetchOrderHistory: (id) =>{
             dispatch(fetchOrderHistory(id))
         },
-        submitOrder: (cart, userId, history) => {
+        submitOrder: (cart, userId) => {
             if (userId) {
                 alert('Your order has been submitted (Tracking number: ' + cart.id +')');
                 dispatch(updateSubmitCart(cart.id, userId));
             } else {
             // direct user to the login page
-                history.push('/login')
+                browserHistory.push('/login');
             }
         }
     };
