@@ -72,6 +72,9 @@ export default function reducer (state = initialState, action) {
 export const addItem = (itemId, userId) => dispatch => {
     axios.post(`/api/cart/item/${itemId}`, {userId})
         .then(res => dispatch(addToFoundOrCreatedCart(res.data)))
+        .then(()=>{
+            browserHistory.push('/cart')
+        })
         .catch(err => console.error('Adding item unsuccessful', err));
 };
 
