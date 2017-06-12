@@ -78,17 +78,3 @@ export default function ({ currentCart, cartHistory, user, removeCart, removeIte
         </div>
     );
 }
-/*
-    {
-
-                    currentCart ?
-                    currentCart.map(item => (
-                    <li key={item.id}>{item.name}</li>
-                    ))
-                    :
-                    null
-                }
-
-
-
-*/
