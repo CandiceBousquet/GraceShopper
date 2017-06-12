@@ -54,11 +54,8 @@ const mapDispatch = dispatch => {
         },
         submitOrder: (cart, userId, history) => {
             if (userId) {
-                // alert('Your order has been submitted (Tracking number: ' + cart.id +')');
                 history.push('/stripe')
-                // dispatch(updateSubmitCart(cart.id, userId));
             } else {
-            // direct user to the login page
                 history.push('/checkout')
             }
         }
