@@ -76,7 +76,7 @@ export const addItem = (itemId, userId) => dispatch => {
 };
 
 export const removeItem = itemId => dispatch => {
-    axios.delete(`/api/cart/${itemId}`)
+    axios.delete(`/api/cart/item/${itemId}`)
         .then(res => dispatch(deleteFromCart(res.data)))
         .catch(err => console.error('Deleting item unsuccessful', err));
 };
@@ -103,7 +103,7 @@ export const fetchRecentOrder = () => dispatch => {
         if(cart){
              dispatch(getOrder(cart))
         }else{
-            dispatch({type:"RESET"}); // what does this do?
+            dispatch({type:"RESET"});
         }
        
     })
