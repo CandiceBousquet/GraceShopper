@@ -1,2 +1,3 @@
 .DS_Store
-public/bundle.js.mapnode_modules
+public/bundle.js.map
+node_modules
