@@ -4137,12 +4137,12 @@ var removeCart = exports.removeCart = function removeCart(cartId) {
     };
 };
 
-var updateSubmitCart = exports.updateSubmitCart = function updateSubmitCart(cartId) {
+var updateSubmitCart = exports.updateSubmitCart = function updateSubmitCart(cartId, userId) {
     return function (dispatch) {
-        _axios2.default.put('/api/cart/order/' + cartId).then(function (res) {
+        _axios2.default.put('/api/cart/order/' + cartId + '/' + userId).then(function (res) {
             return dispatch(submitCart(res.data));
         }).then(function () {
-            _reactRouter.hashHistory.push('/success');
+            _reactRouter.browserHistory.push('/success');
         }).catch(function (err) {
             return console.error('Submitting cart unsuccessful', err);
         });
@@ -6643,12 +6643,14 @@ module.exports = defaults;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createNewUser = exports.createUserSession = undefined;
+exports.logOut = exports.createNewUser = exports.createUserSession = undefined;
 exports.default = reducer;
 
 var _axios = __webpack_require__(51);
 
 var _axios2 = _interopRequireDefault(_axios);
+
+var _reactRouter = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6656,6 +6658,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var SET_CURRENT_USER = 'SET_CURRENT_USER';
 var CREATE_USER = 'CREATE_USER';
+var LOGOUT = 'LOGOUT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -6664,6 +6667,9 @@ var setUser = function setUser(user) {
 };
 var createUser = function createUser(user) {
   return { type: CREATE_USER, user: user };
+};
+var logOutUser = function logOutUser() {
+  return { type: LOGOUT };
 };
 
 /* ------------       REDUCER     ------------------ */
@@ -6679,6 +6685,8 @@ function reducer() {
       return action.user;
     case CREATE_USER:
       return action.user;
+    case LOGOUT:
+      return Object.assign({});
     default:
       return user;
   }
@@ -6690,6 +6698,8 @@ var createUserSession = exports.createUserSession = function createUserSession(e
   return function (dispatch) {
     _axios2.default.post('/auth/login', { email: email, password: password }).then(function (res) {
       dispatch(setUser(res.data));
+    }).then(function () {
+      _reactRouter.browserHistory.push('/');
     }).catch(console.error);
   };
 };
@@ -6697,6 +6707,16 @@ var createUserSession = exports.createUserSession = function createUserSession(e
 var createNewUser = exports.createNewUser = function createNewUser(name, email, password) {
   return function (dispatch) {
     _axios2.default.post('/auth/signup', { name: name, email: email, password: password }).then(function (res) {
+      dispatch(setUser(res.data));
+    }).then(function () {
+      _reactRouter.browserHistory.push('/');
+    }).catch(console.error);
+  };
+};
+
+var logOut = exports.logOut = function logOut() {
+  return function (dispatch) {
+    _axios2.default.post('/auth/logout').then(function (res) {
       dispatch(setUser(res.data));
     }).catch(console.error);
   };
@@ -15375,7 +15395,7 @@ var Routes = function Routes(_ref) {
 
 	return _react2.default.createElement(
 		_reactRouter.Router,
-		{ history: _reactRouter.hashHistory },
+		{ history: _reactRouter.browserHistory },
 		_react2.default.createElement(
 			_reactRouter.Route,
 			{ path: '/', component: _Main2.default, onEnter: function onEnter() {
@@ -15394,7 +15414,7 @@ var Routes = function Routes(_ref) {
 					fetchCartInformation(user.id);
 				} }),
 			_react2.default.createElement(_reactRouter.Route, { path: '/success', component: _OrderConfirmation2.default }),
-			_react2.default.createElement(_reactRouter.Route, { path: '*', component: _ItemsContainer2.default })
+			_react2.default.createElement(_reactRouter.Route, { path: '/*', component: _ItemsContainer2.default })
 		)
 	);
 };
@@ -15413,9 +15433,6 @@ var mapDispatch = function mapDispatch(dispatch) {
 		fetchInitialData: function fetchInitialData(userId, nextState) {
 			dispatch((0, _item.fetchAllItems)());
 			dispatch((0, _cart.fetchRecentOrder)()); // this uses the session.orderId
-			if (userId) {
-				dispatch((0, _cart.fetchOrderHistory)(userId));
-			}
 		},
 		fetchCurrentItem: function fetchCurrentItem(nextState) {
 			var itemId = nextState.params.itemId;
@@ -16389,117 +16406,124 @@ exports.default = function (_ref) {
     var currentCart = _ref.currentCart,
         cartHistory = _ref.cartHistory,
         user = _ref.user,
+        removeCart = _ref.removeCart,
         removeItem = _ref.removeItem,
         submitOrder = _ref.submitOrder;
 
-    console.log("========================");
-    console.log(currentCart);
-    console.log("========================");
+
     return _react2.default.createElement(
-        'div',
+        "div",
         null,
         _react2.default.createElement(
-            'div',
+            "div",
             null,
             _react2.default.createElement(
-                'h3',
+                "h3",
                 null,
-                'Current Order'
+                "Current Order"
             ),
+            currentCart.items ? _react2.default.createElement(
+                "button",
+                { className: "btn btn-default btn-xs", onClick: function onClick() {
+                        return removeCart(currentCart.id);
+                    } },
+                "Delete Current Order"
+            ) : null,
             _react2.default.createElement(
-                'ul',
+                "ul",
                 null,
                 currentCart.items ? currentCart.items.map(function (item) {
 
                     return _react2.default.createElement(
-                        'div',
+                        "div",
                         { key: item.id },
                         _react2.default.createElement(
-                            'h5',
+                            "h5",
                             null,
-                            'Name: ',
+                            "Name: ",
                             item.name
                         ),
-                        _react2.default.createElement('img', { src: item.imgUrl }),
+                        _react2.default.createElement("img", { src: item.imageUrl, width: "150px", height: "150px" }),
                         _react2.default.createElement(
-                            'p',
+                            "p",
                             null,
-                            'Description: ',
+                            "Description: ",
                             item.description
                         ),
                         _react2.default.createElement(
-                            'button',
-                            { className: 'btn btn-default btn-xs', onClick: function onClick() {
+                            "button",
+                            { className: "btn btn-default btn-xs", onClick: function onClick() {
                                     return removeItem(item.id);
                                 } },
-                            _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
+                            _react2.default.createElement("span", { className: "glyphicon glyphicon-remove" })
                         )
                     );
                 }) : _react2.default.createElement(
-                    'h2',
+                    "h2",
                     null,
-                    'No Items Added'
+                    "No Items Added"
                 )
             ),
             currentCart.id ? _react2.default.createElement(
-                'button',
+                "button",
                 { onClick: function onClick() {
                         return submitOrder(currentCart, user.id);
                     } },
-                'Submit Order'
+                "Submit Order"
             ) : null
         ),
         _react2.default.createElement(
-            'div',
+            "div",
             null,
             _react2.default.createElement(
-                'h3',
+                "h3",
                 null,
-                'Order History'
+                "Order History"
             ),
-            cartHistory ? [].slice.call(cartHistory).map(function (order) {
+            Object.keys(cartHistory).length ? [].slice.call(cartHistory).map(function (order) {
                 return _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
                     _react2.default.createElement(
-                        'h1',
+                        "h1",
                         null,
-                        'Order Number: ',
+                        "Order Number: ",
                         order.id
                     ),
                     order.items ? order.items.map(function (item) {
                         return _react2.default.createElement(
-                            'div',
+                            "div",
                             { key: item.id },
                             _react2.default.createElement(
-                                'h5',
+                                "h5",
                                 null,
-                                'Name: ',
+                                "Name: ",
                                 item.name
                             ),
-                            _react2.default.createElement('img', { src: item.imgUrl }),
+                            _react2.default.createElement("img", { src: item.imgUrl }),
                             _react2.default.createElement(
-                                'p',
+                                "p",
                                 null,
-                                'Description: ',
+                                "Description: ",
                                 item.description
                             ),
                             _react2.default.createElement(
-                                'div',
+                                "div",
                                 null,
-                                'Purchased At: ',
+                                "Purchased At: ",
                                 item.createdAt
                             )
                         );
                     }) : _react2.default.createElement(
-                        'p',
+                        "p",
                         null,
-                        'Please ',
+                        "Please ",
                         _react2.default.createElement(
                             Link,
                             { to: '/login' },
-                            'log in'
-                        )
+                            "log in"
+                        ),
+                        " to view order history."
                     )
                 );
             }) : null
@@ -16510,8 +16534,6 @@ exports.default = function (_ref) {
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _cart = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16555,7 +16577,7 @@ exports.default = function (_ref) {
 			'p',
 			null,
 			'$ ',
-			item.price * 100
+			item.price
 		)
 	);
 };
@@ -16668,67 +16690,109 @@ exports.default = LeaveAReview;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 exports.default = function (props) {
-  return _react2.default.createElement(
-    'nav',
-    { className: 'navbar navbar-default' },
-    _react2.default.createElement(
-      'div',
-      { className: 'container-fluid' },
-      _react2.default.createElement(
-        'div',
-        { className: 'navbar-header' },
+
+    return _react2.default.createElement(
+        'nav',
+        { className: 'navbar navbar-default' },
         _react2.default.createElement(
-          _reactRouter.Link,
-          { to: '/', className: 'navbar-brand' },
-          'DOA Lunch Shopper'
+            'div',
+            { className: 'container-fluid' },
+            props.user.name ? _react2.default.createElement(
+                'ul',
+                { className: 'nav navbar-nav' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'navbar-header' },
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/', className: 'navbar-brand' },
+                        'DOA Lunch Shopper'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/items' },
+                        'People'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/cart' },
+                        'Cart'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: function onClick() {
+                                props.logOut();
+                            } },
+                        'Logout'
+                    )
+                )
+            ) : _react2.default.createElement(
+                'ul',
+                { className: 'nav navbar-nav' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'navbar-header' },
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/', className: 'navbar-brand' },
+                        'DOA Lunch Shopper'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/items' },
+                        'People'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/login' },
+                        'Login'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/signup' },
+                        'Signup'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/cart' },
+                        'Cart'
+                    )
+                )
+            )
         )
-      ),
-      _react2.default.createElement(
-        'ul',
-        { className: 'nav navbar-nav' },
-        _react2.default.createElement(
-          'li',
-          null,
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/items' },
-            'People'
-          )
-        ),
-        _react2.default.createElement(
-          'li',
-          null,
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/login' },
-            'Login'
-          )
-        ),
-        _react2.default.createElement(
-          'li',
-          null,
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/signup' },
-            'Signup'
-          )
-        ),
-        _react2.default.createElement(
-          'li',
-          null,
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/cart' },
-            'Cart'
-          )
-        )
-      )
-    )
-  );
+    );
 };
 
 var _react = __webpack_require__(3);
@@ -16934,6 +16998,7 @@ var CartContainer = function (_Component) {
         var _this = _possibleConstructorReturn(this, (CartContainer.__proto__ || Object.getPrototypeOf(CartContainer)).call(this, props));
 
         _this.submitOrder = _this.submitOrder.bind(_this);
+
         return _this;
     }
 
@@ -16944,11 +17009,19 @@ var CartContainer = function (_Component) {
             this.props.submitOrder(cart, userId, history);
         }
     }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.user.id) {
+                this.props.fetchOrderHistory(this.props.user.id);
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(_Cart2.default, { currentCart: this.props.currentCart,
                 cartHistory: this.props.cartHistory,
                 user: this.props.user,
+                removeCart: this.props.removeCart,
                 removeItem: this.props.removeItem,
                 submitOrder: this.submitOrder
             });
@@ -16968,13 +17041,19 @@ var mapState = function mapState(state) {
 
 var mapDispatch = function mapDispatch(dispatch) {
     return {
+        removeCart: function removeCart(cartId) {
+            dispatch((0, _cart.removeCart)(cartId));
+        },
         removeItem: function removeItem(itemId) {
             dispatch((0, _cart.removeItem)(itemId));
+        },
+        fetchOrderHistory: function fetchOrderHistory(id) {
+            dispatch((0, _cart.fetchOrderHistory)(id));
         },
         submitOrder: function submitOrder(cart, userId, history) {
             if (userId) {
                 alert('Your order has been submitted (Tracking number: ' + cart.id + ')');
-                dispatch((0, _cart.updateSubmitCart)(cart));
+                dispatch((0, _cart.updateSubmitCart)(cart.id, userId));
             } else {
                 // direct user to the login page
                 history.push('/login');
@@ -17244,6 +17323,10 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(20);
+
+var _login = __webpack_require__(53);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17252,31 +17335,45 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _class = function (_Component) {
-	_inherits(_class, _Component);
+var Main = function (_Component) {
+	_inherits(Main, _Component);
 
-	function _class(props) {
-		_classCallCheck(this, _class);
+	function Main(props) {
+		_classCallCheck(this, Main);
 
-		return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+		return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	}
 
-	_createClass(_class, [{
+	_createClass(Main, [{
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container' },
-				_react2.default.createElement(_Navbar2.default, null),
+				_react2.default.createElement(_Navbar2.default, { user: this.props.user, logOut: this.props.logUserOut }),
 				this.props.children ? this.props.children : null
 			);
 		}
 	}]);
 
-	return _class;
+	return Main;
 }(_react.Component);
 
-exports.default = _class;
+var mapToState = function mapToState(state) {
+	return {
+		cart: state.cart,
+		user: state.user
+	};
+};
+
+var mapDispatch = function mapDispatch(dispatch) {
+	return {
+		logUserOut: function logUserOut() {
+			dispatch((0, _login.logOut)());
+		}
+	};
+};
+exports.default = (0, _reactRedux.connect)(mapToState, mapDispatch)(Main);
 
 /***/ }),
 /* 172 */
