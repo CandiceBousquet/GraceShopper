@@ -118,25 +118,6 @@ router.put('/order/:orderId', (req, res, next) => {
 
 })
 
-// /*
-//     Getting User's cart
-// */
-// router.get('/user/:userId', (req, res, next) => {
-//     Order.findOne({
-//             where: {
-//                 userId: req.params.userId,
-//                 submitted: false
-//             },
-//             include: [
-//                 { model: Item }
-//             ]
-//         })
-//         .then(cart => {
-//             res.json(cart);
-//         })
-//         .catch(next);
-// })
-
 /*
     Getting User's cart
 */
