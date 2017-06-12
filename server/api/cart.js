@@ -32,7 +32,7 @@ router.post('/item/:itemId', (req, res, next) => {
             where: {
                 id:req.body.orderId ||req.session.orderId,
                 submitted:false
-            } 
+            }
         })
         .spread((order, ifCreated) => {
             req.session.orderId = order.id;
@@ -41,7 +41,7 @@ router.post('/item/:itemId', (req, res, next) => {
                 return order.update({
                     userId:req.body.userId || req.session.userId
                 })
-            }  
+            }
         })
         .then(()=>{
             return Item.findById(req.params.itemId);
@@ -96,9 +96,10 @@ router.delete('/item/:itemId', (req, res, next) => {
 /*
     Submits order
 */
-router.put('/order/:orderId', (req, res, next) => {
+router.put('/order/:orderId/:userId', (req, res, next) => {
     Order.update({
-            submitted: true
+            submitted: true,
+            userId: req.params.userId || null
         }, {
             where: {
                 id: req.params.orderId

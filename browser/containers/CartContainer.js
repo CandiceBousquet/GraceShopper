@@ -36,12 +36,12 @@ const mapState = state => {
 const mapDispatch = dispatch => {
     return {
       removeItem: itemId => {
-          dispatch(removeItem(itemId))
+          dispatch(removeItem(itemId));
       },
       submitOrder: (cart, userId, history) => {
         if (userId) {
             alert('Your order has been submitted (Tracking number: ' + cart.id +')');
-            dispatch(updateSubmitCart(cart));
+            dispatch(updateSubmitCart(cart.id, userId));
         } else {
             // direct user to the login page
             history.push('/login')
