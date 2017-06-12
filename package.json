@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node seed & webpack -w & nodemon './server/server.js'",
+    "start": "node seed & node './server/server.js'",
+    "dev-start": "node seed & webpack -w & nodemon './server/server.js'",
     "test": "mocha --reporter spec",
     "seed": "node seed"
   },
