@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import {hashHistory} from 'react-router';
+import {browserHistory} from 'react-router';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -91,7 +91,7 @@ export const updateSubmitCart = cartId => dispatch => {
     axios.put(`/api/cart/order/${cartId}`)
         .then(res => dispatch(submitCart(res.data)))
         .then(()=>{
-            hashHistory.push('/success')
+            browserHistory.push('/success')
         })
         .catch(err => console.error('Submitting cart unsuccessful', err));
 };
