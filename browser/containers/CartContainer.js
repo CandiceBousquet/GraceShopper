@@ -40,10 +40,11 @@ const mapDispatch = dispatch => {
       },
       submitOrder: (cart, userId, history) => {
         if (userId) {
+            alert('Your order has been submitted (Tracking number: ' + cart.id +')');
             dispatch(updateSubmitCart(cart));
         } else {
             // direct user to the login page
-            history.push(null, '/login')
+            history.push('/login')
         }
       }
     };

@@ -5,7 +5,6 @@ import { removeItem, removeCart } from '../action-creators/cart';
 export default function ({ currentCart, cartHistory, user, removeItem, submitOrder }){
     console.log("========================")
     console.log(currentCart)
-    // console.log(props.history)
     console.log("========================")
     return (
         <div>

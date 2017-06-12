@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-// import { createUserSession } from '../redux/login';
+import { createUserSession } from '../action-creators/login';
 /* -----------------    COMPONENT     ------------------ */
 
 class Login extends React.Component {
@@ -13,7 +13,6 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(this.props.login);
     const { message } = this.props;
     return (
       <div className="signin-container">
@@ -64,7 +63,6 @@ class Login extends React.Component {
 
   handleChange(key) {
     return (evt) => {
-        console.log(evt);
         this.setState({[key] : evt.target.value});
     }
   }
@@ -79,6 +77,6 @@ class Login extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = (state) => ({ message: 'Log in', login: state.login });
-// const mapDispatch = ({createUserSession});
+const mapDispatch = ({createUserSession});
 
-export default connect(mapState, null)(Login);
+export default connect(mapState, mapDispatch)(Login);

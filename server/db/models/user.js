@@ -1,6 +1,7 @@
 const Sequelize = require('Sequelize');
 const db = require('../_db');
 const crypto = require('crypto');
+const _ = require('lodash');
 
 const User = db.define('user', {
     name: {
@@ -40,13 +41,16 @@ const User = db.define('user', {
     defaultScope: {
         attributes: { exclude: ['password', 'salt'] }
     },
+    scopes: {
+        unsanitized: {}
+    },
     instanceMethods: {
         // this function will omit password and salt from user instance
-        // sanitize: function () {
-        //     return _.omit(this.toJSON(), ['password', 'salt']);
-        // },
+        sanitize: function () {
+            return _.omit(this.toJSON(), ['password', 'salt']);
+        },
         correctPassword: function(candidatePassword) {
-            const encryptedPassword = User.encryptPassword(candidatePassword, this.salt);
+            const encryptedPassword = User.encryptPassword(candidatePassword, this.getDataValue('salt'));
             return encryptedPassword === this.password;
         }
     },
@@ -70,7 +74,6 @@ const User = db.define('user', {
 function setSaltAndPassword(user) {
     if (user.changed('password')) {
         user.salt = User.generateSalt();
-        console.log(user.salt);
         user.password = User.encryptPassword(user.password, user.salt);
     }
 }

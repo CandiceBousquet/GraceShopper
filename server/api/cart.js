@@ -37,7 +37,6 @@ router.post('/item/:itemId', (req, res, next) => {
         .spread((order, ifCreated) => {
             req.session.orderId = order.id;
             currentOrder = order;
-            console.log(req.body.userId)
             if(ifCreated){
                 return order.update({
                     userId:req.body.userId || req.session.userId

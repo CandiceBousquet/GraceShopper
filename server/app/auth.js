@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 
 router.post('/login', (req, res, next) => {
-    User.findOne({
+    User.scope('unsanitized').findOne({
             where: {
                 email: req.body.email
             }
@@ -14,9 +14,8 @@ router.post('/login', (req, res, next) => {
                 // this will attach the user to our passport, which will save the user in the session store
                 req.login(user, err => {
                     if (err) next(err);
-                    else res.json(user);
+                    else res.json(user.sanitize()).status(200);
                 })
-                res.status(200).send('You\'re logged in!')
             }
         })
         .catch(next);
