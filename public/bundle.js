@@ -4757,6 +4757,8 @@ var _axios = __webpack_require__(52);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _reactRouter = __webpack_require__(24);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -4876,6 +4878,8 @@ var addReview = exports.addReview = function addReview(review, item) {
     return function (dispatch) {
         _axios2.default.post('/api/items/' + item.id + '/review', review).then(function (res) {
             dispatch(addReviewToItem(res.data));
+        }).then(function () {
+            _reactRouter.browserHistory.push('/item/' + item.id);
         }).catch(console.error);
     };
 };
@@ -16647,6 +16651,7 @@ var LeaveAReview = function (_Component) {
     _createClass(LeaveAReview, [{
         key: 'handleReviewChange',
         value: function handleReviewChange(evt) {
+            console.log(this.state);
             var review = evt.target.value;
             this.setState({
                 review: review
@@ -16663,6 +16668,7 @@ var LeaveAReview = function (_Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(evt) {
+            console.log('!!!', this.state);
             evt.preventDefault();
             if (!this.state.review || !this.state.rating) {
                 alert("You must enter a rating and review to publish -- Thanks!");
@@ -16862,7 +16868,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function Reviews(props) {
     var selectedItem = props.selectedItem;
-    var reviews = selectedItem.review;
+    var reviews = selectedItem.reviews;
 
     return _react2.default.createElement(
         "div",

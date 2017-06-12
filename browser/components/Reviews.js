@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Reviews(props){
     const selectedItem = props.selectedItem;
-    const reviews = selectedItem.review;
+    const reviews = selectedItem.reviews;
 
     return (
         <div className="reviews">

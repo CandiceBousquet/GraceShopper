@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 export default class LeaveAReview extends Component {
+
 	constructor(props){
         super(props);
         this.state = {
@@ -14,6 +15,7 @@ export default class LeaveAReview extends Component {
     }
 
     handleReviewChange(evt){
+        console.log(this.state);
         const review = evt.target.value;
         this.setState({
             review: review
@@ -28,6 +30,7 @@ export default class LeaveAReview extends Component {
     }
 
     handleSubmit(evt){
+        console.log('!!!', this.state)
         evt.preventDefault();
         if (!this.state.review || !this.state.rating){
             alert("You must enter a rating and review to publish -- Thanks!");
