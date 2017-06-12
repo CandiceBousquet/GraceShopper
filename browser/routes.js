@@ -49,7 +49,7 @@ const mapDispatch = dispatch => ({
 			dispatch(fetchOrderHistory(userId));
 		}
 	},
-	fetchCurrentItem: nextState => {
+	fetchCurrentItem: (nextState) => {
 		const itemId = nextState.params.itemId;
 		dispatch(fetchSingleItem(itemId));
 	},
