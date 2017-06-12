@@ -16,7 +16,6 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:itemId', (req, res, next) => {
-    console.log("getting this item")
     Item.findOne({
             where: {
                 id: req.params.itemId
