@@ -450,15 +450,8 @@ module.exports = reactProdInvariant;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
 
 /* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
@@ -479,7 +472,7 @@ function shouldUseNative() {
 		// Detect buggy property enumeration order in older V8 versions.
 
 		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		var test1 = new String('abc');  // eslint-disable-line
 		test1[5] = 'de';
 		if (Object.getOwnPropertyNames(test1)[0] === '5') {
 			return false;
@@ -508,7 +501,7 @@ function shouldUseNative() {
 		}
 
 		return true;
-	} catch (err) {
+	} catch (e) {
 		// We don't expect any of the above to throw, but better to be safe.
 		return false;
 	}
@@ -528,8 +521,8 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 			}
 		}
 
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
+		if (Object.getOwnPropertySymbols) {
+			symbols = Object.getOwnPropertySymbols(from);
 			for (var i = 0; i < symbols.length; i++) {
 				if (propIsEnumerable.call(from, symbols[i])) {
 					to[symbols[i]] = from[symbols[i]];
@@ -16395,149 +16388,9 @@ exports.default = (0, _redux.combineReducers)({ item: _item2.default, cart: _car
 
 /***/ }),
 /* 161 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function (_ref) {
-    var currentCart = _ref.currentCart,
-        cartHistory = _ref.cartHistory,
-        user = _ref.user,
-        removeCart = _ref.removeCart,
-        removeItem = _ref.removeItem,
-        submitOrder = _ref.submitOrder;
-
-
-    return _react2.default.createElement(
-        "div",
-        null,
-        _react2.default.createElement(
-            "div",
-            null,
-            _react2.default.createElement(
-                "h3",
-                null,
-                "Current Order"
-            ),
-            currentCart.items ? _react2.default.createElement(
-                "button",
-                { className: "btn btn-default btn-xs", onClick: function onClick() {
-                        return removeCart(currentCart.id);
-                    } },
-                "Delete Current Order"
-            ) : null,
-            _react2.default.createElement(
-                "ul",
-                null,
-                currentCart.items ? currentCart.items.map(function (item) {
-
-                    return _react2.default.createElement(
-                        "div",
-                        { key: item.id },
-                        _react2.default.createElement(
-                            "h5",
-                            null,
-                            "Name: ",
-                            item.name
-                        ),
-                        _react2.default.createElement("img", { src: item.imageUrl, width: "150px", height: "150px" }),
-                        _react2.default.createElement(
-                            "p",
-                            null,
-                            "Description: ",
-                            item.description
-                        ),
-                        _react2.default.createElement(
-                            "button",
-                            { className: "btn btn-default btn-xs", onClick: function onClick() {
-                                    return removeItem(item.id);
-                                } },
-                            _react2.default.createElement("span", { className: "glyphicon glyphicon-remove" })
-                        )
-                    );
-                }) : _react2.default.createElement(
-                    "h2",
-                    null,
-                    "No Items Added"
-                )
-            ),
-            currentCart.id ? _react2.default.createElement(
-                "button",
-                { onClick: function onClick() {
-                        return submitOrder(currentCart, user.id);
-                    } },
-                "Submit Order"
-            ) : null
-        ),
-        _react2.default.createElement(
-            "div",
-            null,
-            _react2.default.createElement(
-                "h3",
-                null,
-                "Order History"
-            ),
-            Object.keys(cartHistory).length ? [].slice.call(cartHistory).map(function (order) {
-                return _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(
-                        "h1",
-                        null,
-                        "Order Number: ",
-                        order.id
-                    ),
-                    order.items ? order.items.map(function (item) {
-                        return _react2.default.createElement(
-                            "div",
-                            { key: item.id },
-                            _react2.default.createElement(
-                                "h5",
-                                null,
-                                "Name: ",
-                                item.name
-                            ),
-                            _react2.default.createElement("img", { src: item.imgUrl }),
-                            _react2.default.createElement(
-                                "p",
-                                null,
-                                "Description: ",
-                                item.description
-                            ),
-                            _react2.default.createElement(
-                                "div",
-                                null,
-                                "Purchased At: ",
-                                item.createdAt
-                            )
-                        );
-                    }) : _react2.default.createElement(
-                        "p",
-                        null,
-                        "Please ",
-                        _react2.default.createElement(
-                            Link,
-                            { to: '/login' },
-                            "log in"
-                        ),
-                        " to view order history."
-                    )
-                );
-            }) : null
-        )
-    );
-};
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected : (82:4)\n\n\u001b[0m \u001b[90m 80 | \u001b[39m            \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 81 | \u001b[39m        \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 82 | \u001b[39m    )\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 83 | \u001b[39m}\n \u001b[90m 84 | \u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 162 */
@@ -33498,10 +33351,10 @@ function insertStyleElement (options, style) {
 }
 
 function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
 	style.parentNode.removeChild(style);
 
 	var idx = stylesInsertedAtTop.indexOf(style);
-
 	if(idx >= 0) {
 		stylesInsertedAtTop.splice(idx, 1);
 	}

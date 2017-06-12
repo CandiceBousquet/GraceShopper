@@ -36,7 +36,10 @@ export default function ({ currentCart, cartHistory, user, removeCart, removeIte
                 </ul>
                 {
                     currentCart.id ?
-                    <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
+                    <div>
+                        <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
+                        <button>Continue Shopping</button>
+                    <div>
                     :
                     null
                 }
