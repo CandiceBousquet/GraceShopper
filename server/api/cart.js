@@ -138,6 +138,7 @@ router.get('/', (req, res, next) => {
     Get User's order history
 */
 router.get('/user/:userId/history', (req, res, next) => {
+    console.log(req.params.userId)
     Order.findAll({
             where: {
                 userId: req.params.userId,

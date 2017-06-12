@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { removeItem, removeCart } from '../action-creators/cart';
 
+export default function ({ currentCart, cartHistory, user, removeCart, removeItem, submitOrder }){
 
-export default function ({ currentCart, cartHistory, user, removeItem, submitOrder }){
-    console.log("========================")
-    console.log(currentCart)
-    console.log("========================")
     return (
         <div>
             <div>
                 <h3>Current Order</h3>
-                <ul>
-                    {
+                { currentCart.items ?
+                    <button className="btn btn-default btn-xs" onClick={() => removeCart(currentCart.id)}>Delete Current Order</button>
+                : null
+                }
 
-                        currentCart.items ?
+                <ul>
+                {
+                    currentCart.items ?
 
                         currentCart.items.map(item => {
 
@@ -32,8 +32,7 @@ export default function ({ currentCart, cartHistory, user, removeItem, submitOrd
 
                     :
                     <h2>No Items Added</h2>
-
-                    }
+                }
                 </ul>
                 {
                     currentCart.id ?
@@ -47,7 +46,7 @@ export default function ({ currentCart, cartHistory, user, removeItem, submitOrd
             <div>
                 <h3>Order History</h3>
                 {
-                    cartHistory ?
+                    Object.keys(cartHistory).length ?
 
                     [].slice.call(cartHistory).map(order => {
                         return (
@@ -67,7 +66,7 @@ export default function ({ currentCart, cartHistory, user, removeItem, submitOrd
                                         )
                                     })
                                 :
-                                <p>Please <Link to={'/login'}>log in</Link></p>
+                                <p>Please <Link to={'/login'}>log in</Link> to view order history.</p>
                             }
                             </div>
                         )
