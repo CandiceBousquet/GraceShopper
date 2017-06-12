@@ -30,7 +30,7 @@ router.post('/item/:itemId', (req, res, next) => {
     let currentItem;
     Order.findOrCreate({
             where: {
-                id:req.body.orderId || req.session.orderId,
+                id:req.body.orderId ||req.session.orderId,
                 submitted:false
             } 
         })
@@ -82,8 +82,12 @@ router.delete('/item/:itemId', (req, res, next) => {
             return currentOrder.removeItem(req.params.itemId)
         })
         .then(result => {
-            if (result) res.sendStatus(204);
-            else res.send('Nothing to delete')
+            if (!result) res.send('Nothing to delete');
+            else return Order.findById(currentOrder.id);
+        })
+        .then(updatedOrder => {
+            if (!updatedOrder) res.send("No order found");
+            else res.json(updatedOrder).status(204);
         })
         .catch(next);
 
@@ -117,13 +121,11 @@ router.put('/order/:orderId', (req, res, next) => {
 /*
     Getting User's cart
 */
-router.get('/user/:userId', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Order.findOne({
             where: {
-                userId: req.params.userId,
-                submitted: false
-            },
-            include:[Item]
+                id: req.session.orderId
+            }
         })
         .then(cart => {
             res.json(cart);
@@ -139,8 +141,7 @@ router.get('/user/:userId/history', (req, res, next) => {
             where: {
                 userId: req.params.userId,
                 submitted: true
-            },
-            include:[Item]
+            }
         })
         .then(orderHistory => {
             res.json(orderHistory);

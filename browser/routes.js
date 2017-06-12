@@ -11,20 +11,19 @@ import OrderConfirmation from './components/OrderConfirmation';
 import { fetchAllItems, fetchSingleItem } from './action-creators/item';
 import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 
-const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) => {
-
+const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitialData}) => {
 	return (
 		<Router history={hashHistory}>
-			<Route path='/' component={Main} onEnter={fetchInitialData} >
+			<Route path='/' component={Main} onEnter={ function () { fetchInitialData(user.id) }} >
 				<IndexRoute component={ItemsContainer} />
 				<Route path='/login' component={Login} />
 				<Route path='/signup' component={Signup} />
 				<Route path='/items' component={ItemsContainer}>
 					<Route path=':categoryId' component={ItemsContainer} />
 				</Route>
-				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem} />
-				<Route path='/:userId/cart' component={CartContainer} onEnter={fetchCartInformation} />
-				<Route path='/:orderId/success' component={OrderConfirmation} />
+				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
+				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
+				<Route path='/success' component={OrderConfirmation} />
 				<Route path="*" component={ItemsContainer} />
 			</Route>
 		</Router>
@@ -34,23 +33,31 @@ const Routes = ({ fetchInitialData, fetchCurrentItem, fetchCartInformation }) =>
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapToState = state => ({});
-
+const mapToState = state => {
+	return {
+		cart: state.cart,
+		user: state.user
+	}
+};
 
 
 const mapDispatch = dispatch => ({
-	fetchInitialData: () => {
+	fetchInitialData: (userId, nextState) => {
 		dispatch(fetchAllItems());
+		dispatch(fetchRecentOrder()); // this uses the session.orderId
+		if (userId) {
+			dispatch(fetchOrderHistory(userId));
+		}
 	},
 	fetchCurrentItem: (nextState) => {
-		console.log("heeeelllloo");
 		const itemId = nextState.params.itemId;
 		dispatch(fetchSingleItem(itemId));
 	},
-  fetchCartInformation: nextRouterState => {
-		const userId = nextRouterState.params.userId;
-      dispatch(fetchRecentOrder());
-			dispatch(fetchOrderHistory(userId));
+  	fetchCartInformation: (userId, nextState) => {
+    	dispatch(fetchRecentOrder()); // this uses the session.orderId
+    	if (userId) {
+    		dispatch(fetchOrderHistory(userId));
+    	}
     }
 });
 

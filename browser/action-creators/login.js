@@ -30,18 +30,16 @@ export default function reducer (user = initialState, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const createUserSession = (email, password) => dispatch => {
-  axios.post(`/login`, {email, password})
+  axios.post(`/auth/login`, {email, password})
     .then(res => {
-      console.log(res);
       dispatch(setUser(res.data))
     })
     .catch(console.error);
 }
 
-export const createNewUser = (email, password) => dispatch => {
-  axios.post(`/signup`, {email, password})
+export const createNewUser = (name, email, password) => dispatch => {
+  axios.post(`/auth/signup`, {name, email, password})
     .then(res => {
-      console.log(res);
       dispatch(setUser(res.data))
     })
     .catch(console.error);

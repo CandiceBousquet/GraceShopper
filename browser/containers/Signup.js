@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-// import { createNewUser } from '../redux/login';
+import { createNewUser } from '../action-creators/login';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -9,7 +9,7 @@ class Signup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = { name: '', email: '', password: '' };
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -20,6 +20,16 @@ class Signup extends React.Component {
       <div className="signin-container">
         <div className="buffer local">
           <form onSubmit={this.onSignupSubmit}>
+            <div className="form-group">
+              <label>name</label>
+              <input
+                name="name"
+                type="text"
+                className="form-control"
+                required
+                onChange={this.handleChange('name')}
+              />
+            </div>
             <div className="form-group">
               <label>email</label>
               <input
@@ -65,7 +75,6 @@ class Signup extends React.Component {
 
   handleChange(key) {
     return (evt) => {
-        console.log(evt);
         this.setState({[key] : evt.target.value});
     }
   }
@@ -73,14 +82,14 @@ class Signup extends React.Component {
   onSignupSubmit(event) {
     const { message } = this.props;
     event.preventDefault();
-    this.props.createNewUser(this.state.email, this.state.password);
+    this.props.createNewUser(this.state.name, this.state.email, this.state.password);
+    this.props.history.push('/items');
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Sign up' });
-// const mapDispatch = ({createNewUser});
-const mapDispatch = null;
+const mapDispatch = ({createNewUser});
 
 export default connect(mapState, mapDispatch)(Signup);
