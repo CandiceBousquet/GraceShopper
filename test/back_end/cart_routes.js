@@ -1,10 +1,10 @@
-const app = require('../server/app');
+const app = require('../../server/app');
 const supertest = require('supertest');
 const expect = require('chai').expect;
-const db = require('../server/db').db;
-const Cart = require('../server/db').Cart;
-const Order = require('../server/db').Order;
-const Item = require('../server/db').Item;
+const db = require('../../server/db').db;
+const Cart = require('../../server/db').Cart;
+const Order = require('../../server/db').Order;
+const Item = require('../../server/db').Item;
 
 
 

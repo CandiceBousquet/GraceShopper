@@ -1,8 +1,8 @@
-const app = require('../server/app');
+const app = require('../../server/app');
 const supertest = require('supertest');
 const expect = require('chai').expect;
-const db = require('../server/db').db;
-const User = require('../server/db').User;
+const db = require('../../server/db').db;
+const User = require('../../server/db').User;
 
 
 

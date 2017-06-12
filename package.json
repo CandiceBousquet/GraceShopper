@@ -6,7 +6,8 @@
   "scripts": {
     "start": "export NODE_ENV=production; node seed; node './server/server.js'",
     "dev-start": "export NODE_ENV=development; node seed & webpack -w & nodemon './server/server.js'",
-    "test": "mocha --reporter spec",
+    "test-back": "nodemon --exec 'mocha --reporter spec test/back_end'",
+    "test-front": "nodemon --exec 'mocha ./test/front_end --watch --compilers js:babel-register'",
     "seed": "node seed"
   },
   "author": "",
@@ -40,8 +41,10 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.18.0",
     "chai": "^4.0.2",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.8.2",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
