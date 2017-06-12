@@ -1,4 +1,4 @@
-const Sequelize = require('Sequelize');
+const Sequelize = require('sequelize');
 const db = require('../_db');
 
 const Review = db.define('review', {

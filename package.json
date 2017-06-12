@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node seed & webpack -w & nodemon './server/server.js'",
+    "start": "export NODE_ENV=production; node seed; node './server/server.js'",
+    "dev-start": "export NODE_ENV=development; node seed & webpack -w & nodemon './server/server.js'",
     "test": "mocha --reporter spec",
     "seed": "node seed"
   },

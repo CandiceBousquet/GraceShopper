@@ -45,9 +45,7 @@ const mapDispatch = dispatch => ({
 	fetchInitialData: (userId, nextState) => {
 		dispatch(fetchAllItems());
 		dispatch(fetchRecentOrder()); // this uses the session.orderId
-		if (userId) {
-			dispatch(fetchOrderHistory(userId));
-		}
+
 	},
 	fetchCurrentItem: (nextState) => {
 		const itemId = nextState.params.itemId;
