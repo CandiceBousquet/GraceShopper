@@ -55,7 +55,7 @@ class Signup extends React.Component {
         </div>
         <div className="or buffer">
           <div className="back-line">
-            <span>OR</span>
+            <h4><br />OR...</h4>
           </div>
         </div>
         <div className="buffer oauth">

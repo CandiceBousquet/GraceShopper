@@ -1,0 +1,153 @@
+body {
+    font-family: lucida console;
+    font-size: 14px;
+    line-height: 25px;
+    padding-bottom: 50px;
+}
+
+a {
+    color: #4c2da5;
+}
+
+#banner {
+    margin:0;
+    position: fixed;
+    width: 100%;
+    background-color: red;
+    clear: both;
+    overflow: auto;
+    height: 20px;
+}
+.container-fluid {
+    margin-top: 20px;
+    display: block;
+    float: none;
+    height: 80px;
+}
+.navbar-default .navbar-nav>li>a {
+    color: #4c2da5;
+}
+
+.navbar {
+    border: 0;
+    border-bottom: 4px ridge;
+    border-color: #dec13d;
+    width: auto;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+.nav-options {
+    font-size: 18px;
+    color: #4c2da5;
+    font-style: bold;
+    float:right;
+    margin: 20px 0 0 0;
+}
+
+.item {
+    padding: '10px';
+    margin: 10px 0 30px 0;
+}
+
+.item-img {
+    max-width: 400px;
+    float: left;
+    padding: 0 40px;
+    margin-bottom: 50px;
+}
+
+.center {
+    margin: 0 auto;
+    width: 88%
+}
+
+.text-center {
+    text-align: center;
+    display: inherit
+}
+
+.item-descr {
+    padding: 0 30px 30 30;
+    margin: 30px 50px 30px 30px;
+    text-align: right;
+    width: 600px;
+    float: right;
+}
+
+.item-review {
+    margin-top: 150px;
+    clear: both;
+    overflow: hidden;
+}
+
+.selectedItemName {
+    font-family: cursive;
+    color: #4c2da5;
+    margin-bottom: 20px;
+}
+
+.specialCursive {
+    font-family: cursive;
+    color: #4c2da5;  
+}
+
+.reviews>h3 {
+    margin-bottom: 20px;
+}
+
+.reviews>ul {
+    margin: 30px 0;
+}
+
+.reviewForm {
+    margin-bottom: 40px;
+}
+
+.btn-primary {
+    background-color: #4c2da5;
+    border-color: #dec13d;
+    color: #dec13d;
+}
+
+.btn-primary:visited {
+    background-color: #4c2da5;
+    border-color: #dec13d;
+    color: white;
+}
+
+.btn-success {
+    background-color: #dec13d;
+    border-color: #4c2da5;
+    color: #4c2da5;
+}
+
+h2.cart-header {
+    margin-bottom: 40px;
+}
+
+td {
+    padding: 15px;
+}
+
+.table-headers {
+    font-style: bold;
+    font-size: 18px;
+    color:#4c2da5;
+    margin-bottom: 30px;
+}
+
+.cart button {
+    display: inline;
+    margin-right: 10px;
+}
+
+.specialLink {
+    color: #dec13d
+}
+
+.remove-cart {
+    background-color: #F0F0F0;
+    color: black;
+    border-color: #4c2da5;
+}

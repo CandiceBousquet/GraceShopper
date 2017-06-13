@@ -25,11 +25,12 @@ class StripeCheckout extends Component {
                 user={this.props.user}
                 processingOrder={true}
             />
+            <h4 className="table-headers">Total: $ {this.props.currentCart.totalPrice}</h4>
             <Stripe
                 // email={this.props.user ? this.props.user.email : null}
                 token={this.onToken}
                 stripeKey="pk_test_bPEj4xOuaYUyPkOjv6Om7s46"
-                name="DOA Lunch" // the pop-in header title
+                name="Dining with the Stars" // the pop-in header title
                 description="Please enter your billing information below" // the pop-in header subtitle
                 ComponentClass="div"
                 panelLabel="Place Order for" // prepended to the amount in the bottom pay button

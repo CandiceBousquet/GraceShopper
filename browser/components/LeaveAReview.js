@@ -40,8 +40,10 @@ export default class LeaveAReview extends Component {
         return (
             <form className="ReviewForm" onSubmit={this.handleSubmit}>
                 <input type="text" placeholder="Rating?" className="studentNameInput" onChange={this.handleRatingChange} />
-                <input type="text" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
-                <button type="submit" className="btn leaveReviewBtn"> Submit Review </button>
+                <p></p>
+                <textarea rows="4" cols="50" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
+                <p></p>
+                <button type="submit" className="btn leaveReviewBtn btn-success"> Submit Review </button>
             </form>
         )
     }
