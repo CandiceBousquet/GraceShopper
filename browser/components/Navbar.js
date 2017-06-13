@@ -6,35 +6,28 @@ export default function(props){
     return(
         <nav className="navbar navbar-default">
           <div className="container-fluid">
-          
-              {
-                props.user.name ?
-                (
-                  <ul className="nav navbar-nav">
-                      <div className="navbar-header">
-                        <Link to="/" className="navbar-brand">DOA Lunch Shopper</Link>
-                        </div>  
-                      <li><Link to="/items">People</Link></li>
-                      <li ><Link to="/cart">Cart</Link></li>
-                      <li><button className="btn btn-primary" onClick={ () =>{props.logOut()}}>Logout</button></li>
-                  </ul>
-                  
-                  )
-                :
-                (
-                    <ul className="nav navbar-nav">
+                <ul className="nav navbar-nav" style={{width:"100%"}}>
                     <div className="navbar-header">
                         <Link to="/" className="navbar-brand">DOA Lunch Shopper</Link>
-                        </div>  
-                        <li><Link to="/items">People</Link></li>
-                        <li><Link to="/login">Login</Link></li>
-                        <li ><Link to="/signup">Signup</Link></li>
-                        <li ><Link to="/cart">Cart</Link></li>
-                  </ul>
-                 
-                  )
+                    </div>
+                    <li><Link to="/items">People</Link></li>
+                    <li style={{float:"right"}}>
+                    <Link to="/cart">
+                        <span className="glyphicon glyphicon-shopping-cart"></span>Cart
+                    </Link></li>
+              {
+                  props.user.name ?
+                  <li><button className="btn btn-primary" onClick={ () =>{props.logOut()}}>Logout</button></li>
+                  :
+                  (<ul className="nav navbar-nav" style={{float:"right"}}>
+                    <li style={{float:"right"}}><Link to="/login">Login</Link></li>
+                    <li style={{float:"right"}}><Link to="/signup">Signup</Link></li>
+                  </ul>)
               }
-              
+              {
+                props.user.isAdmin ? <li style={{float:"right"}}>My Account</li> : null
+              }
+              </ul>
           </div>
         </nav>
     )
