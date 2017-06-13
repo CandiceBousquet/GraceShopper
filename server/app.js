@@ -6,6 +6,17 @@ const models = require('./db');
 const db = models.db;
 const User = models.User;
 const session = require('express-session');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+const googleCodes = process.env.NODE_ENV === 'development' 
+                      ? 
+                      require('../google_api') 
+                      : 
+                      { 
+                        clientID :process.env.GOOGLE_CLIENT_ID, 
+                        clientSecret:process.env.GOOGLE_CLIENT_SECRET
+                      }
 
 // logging
 app.use(require('volleyball'));
@@ -30,7 +41,40 @@ app.use(session({
     saveUninitialized: false
 }));
 
+passport.use(
+  new GoogleStrategy({
+    clientID: googleCodes.clientID,
+    clientSecret: googleCodes.clientSecret,
+    callbackURL: '/auth/google/callback'
+  },
+  // Google will send back the token and profile
+  function (token, refreshToken, profile, done) {
+      
+      User.findOrCreate({
+        where:{
+          name:profile.displayName,
+          email:profile.emails[0].value
+        }
+      })
+      .then((createdUser) =>{
+        done();
+      })
+     
+ 
+  })
+);
+app.get('/auth/google', passport.authenticate('google', { scope:'email'}));
+
+
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/' 
+  }))
+
 app.use(require('./app/passport'));
+
 
 // routing
 app.use(express.static(path.join(__dirname, '../public')));
@@ -38,7 +82,6 @@ app.use(express.static(path.join(__dirname, '../node_modules')));
 
 app.use('/api', require('./api'));
 app.use('/auth', require('./app/auth'));
-
 app.use('*', (req, res, next) => {
     res.sendFile(path.join(__dirname,'..','/index.html'));
 });
