@@ -64,8 +64,12 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case GET_RECENT_ORDER:
-            newState.current = action.order.cart;
-            newState.discountedPrice = action.order.discount
+            if( action.order.cart){
+                newState.current = action.order.cart;
+                newState.discountedPrice = action.order.discount
+            }else{
+                newState.current = action.order
+            }
             return newState;
 
         case GET_ORDER_HISTORY:

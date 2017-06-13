@@ -128,11 +128,13 @@ router.get('/', (req, res, next) => {
             }
         })
         .then(cart => {
+        
             if(req.session.discount){
                 const updatedCart = {
                     cart:cart,
                     discount:req.session.discount
                 }   
+
                 res.json(updatedCart);
             }else{
                 res.json(cart);

@@ -4097,8 +4097,12 @@ function reducer() {
             return newState;
 
         case GET_RECENT_ORDER:
-            newState.current = action.order.cart;
-            newState.discountedPrice = action.order.discount;
+            if (action.order.cart) {
+                newState.current = action.order.cart;
+                newState.discountedPrice = action.order.discount;
+            } else {
+                newState.current = action.order;
+            }
             return newState;
 
         case GET_ORDER_HISTORY:
@@ -9906,6 +9910,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = function (_ref) {
     var currentCart = _ref.currentCart,
         user = _ref.user,
@@ -9928,7 +9934,7 @@ exports.default = function (_ref) {
             null,
             'Current Order'
         ),
-        currentCart.items ? _react2.default.createElement(
+        currentCart && currentCart.items ? _react2.default.createElement(
             'button',
             { className: 'btn btn-danger btn-xs', onClick: function onClick() {
                     return removeCart(currentCart.id);
@@ -9938,10 +9944,10 @@ exports.default = function (_ref) {
         _react2.default.createElement(
             'ul',
             null,
-            currentCart.items ? _react2.default.createElement(
+            currentCart && currentCart.items ? _react2.default.createElement(
                 'div',
                 null,
-                currentCart.items.map(function (item) {
+                currentCart && currentCart.items.map(function (item) {
 
                     return _react2.default.createElement(
                         'div',
@@ -9988,7 +9994,7 @@ exports.default = function (_ref) {
                     'h4',
                     null,
                     'Total: $ ',
-                    discount ? discount * currentCart.totalPrice : currentCart.totalPrice
+                    (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount * currentCart.totalPrice : currentCart.totalPrice
                 ),
                 _react2.default.createElement(
                     'form',

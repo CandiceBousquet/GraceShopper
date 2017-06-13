@@ -9,18 +9,18 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
     return (
         <div>
             <h3>Current Order</h3>
-            { currentCart.items ?
+            { currentCart && currentCart.items ?
                 <button className="btn btn-danger btn-xs" onClick={() => removeCart(currentCart.id)}>Delete Current Order</button>
             : null
             }
 
             <ul>
             {
-                currentCart.items ?
+                currentCart && currentCart.items ?
 
                     <div>
                     {
-                        currentCart.items.map(item => {
+                        currentCart && currentCart.items.map(item => {
 
                             return (
                                 <div key={item.id}>
@@ -36,7 +36,7 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
 
                         })
                     }
-                    <h4>Total: $ { discount ? discount * currentCart.totalPrice : currentCart.totalPrice}</h4>
+                    <h4>Total: $ { typeof(discount) != "object" ? discount * currentCart.totalPrice : currentCart.totalPrice}</h4>
                     <form className="input-group" onSubmit={appleCouponCodes}>
                         <span className="input-group-btn">
                             <button className="btn btn-secondary" type="submit">Apply!</button>
