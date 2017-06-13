@@ -4110,7 +4110,6 @@ function reducer() {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.discountedPrice = action.discountedPrice;
             newState.current.totalPrice = action.discountedPrice;
             return newState;
 

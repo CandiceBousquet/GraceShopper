@@ -28,6 +28,7 @@ const Promise = require('bluebird');
 router.post('/item/:itemId', (req, res, next) => {
     let currentOrder;
     let currentItem;
+    req.session.discount = null;
     Order.findOrCreate({
             where: {
                 id:req.body.orderId ||req.session.orderId,
@@ -122,6 +123,7 @@ router.put('/order/:orderId/:userId', (req, res, next) => {
     Getting User's cart
 */
 router.get('/', (req, res, next) => {
+    
     Order.findOne({
             where: {
                 id: req.session.orderId
@@ -181,7 +183,7 @@ router.post('/applyCouponCode', (req, res, next) => {
         })
         .then((cart) => {
             req.session.discount = req.body.coupon
-            res.json(cart.applyCoupon(req.body.coupon))
+            res.json(cart.totalPrice + (cart.totalPrice * cart.applyCoupon(req.body.coupon)))
         })
         .catch(next)
 

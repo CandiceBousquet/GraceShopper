@@ -77,7 +77,6 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.discountedPrice = action.discountedPrice
             newState.current.totalPrice = action.discountedPrice; 
             return newState
 
