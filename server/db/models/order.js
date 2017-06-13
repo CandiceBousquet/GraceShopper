@@ -12,6 +12,15 @@ const Order = db.define('order', {
         include: [{
         	model: Item
         }]
+    },
+    getterMethods: {
+    	totalPrice() {
+    		let total = 0;
+            if (this.items) {
+                total = this.items.reduce((sum, item) => sum+=item.price, total);
+            }
+            return total;
+    	}
     }
 });
 
