@@ -9,7 +9,7 @@ class CartContainer extends Component {
     constructor (props) {
         super(props);
         this.submitOrder = this.submitOrder.bind(this);
-        this.appleCouponCodes = this.appleCouponCodes.bind(this)
+        this.applyCouponCodes = this.applyCouponCodes.bind(this)
        
 
     }
@@ -19,11 +19,12 @@ class CartContainer extends Component {
         this.props.submitOrder(cart, userId, history);
     }
 
-    appleCouponCodes(event){
+    applyCouponCodes(event){
         event.preventDefault();
         let couponCode = event.target.user_coupon.value;
-        
         if(this.props.coupons_codes[couponCode]){
+            
+            alert(`You have applied code: ${couponCode} to your order`)
             this.props.applyDiscount(this.props.coupons_codes[couponCode])
             
         }
@@ -45,7 +46,7 @@ class CartContainer extends Component {
                     submitOrder={this.submitOrder}
                     processingOrder={false}
                     coupons_codes = {this.props.coupons_codes}
-                    appleCouponCodes = {this.appleCouponCodes}
+                    applyCouponCodes = {this.applyCouponCodes}
                     discount = {this.props.discount}
                 />
                 { this.props.user.id ? <OrderHistory cartHistory={this.props.cartHistory} /> : null }

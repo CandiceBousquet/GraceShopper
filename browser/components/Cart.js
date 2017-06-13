@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 
-export default function ({ currentCart, user, removeCart, removeItem, submitOrder, processingOrder, coupons_codes, appleCouponCodes, discount }){
+export default function ({ currentCart, user, removeCart, removeItem, submitOrder, processingOrder, coupons_codes, applyCouponCodes, discount }){
     const width =  {
         width : '170px'
     }
@@ -38,7 +38,7 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
                         })
                     }
                     <h4>Total: $ { discount && typeof(discount) != "object" ? (currentCart.totalPrice - (currentCart.totalPrice * discount)).toFixed(2) : currentCart.totalPrice}</h4>
-                    <form className="input-group" onSubmit={appleCouponCodes}>
+                    <form className="input-group" onSubmit={applyCouponCodes}>
                         <span className="input-group-btn">
                             <button className="btn btn-secondary" type="submit">Apply!</button>
                         </span>
@@ -49,12 +49,14 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
                             placeholder="Apply Coupon Code!" 
                             style={width } 
                             />
+                           
                     </form>
                     </div>
 
                 :
                 <h2>No Items Added</h2>
             }
+            <div> {discount && typeof(discount) != "object" ? <h3> Your discount code was applied! </h3> : null}</div>
             </ul>
             {
                 currentCart.id && !processingOrder ?

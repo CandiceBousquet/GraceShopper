@@ -4197,7 +4197,6 @@ var applyCode = exports.applyCode = function applyCode(coupon) {
         _axios2.default.post('api/cart/applyCouponCode', { coupon: coupon }).then(function (res) {
             return res.data;
         }).then(function (newPrice) {
-            console.log(newPrice);
             dispatch(applyDiscount(newPrice));
         }).catch(function (err) {
             return console.error('Fetching order history unsuccessful', err);
@@ -9920,7 +9919,7 @@ exports.default = function (_ref) {
         submitOrder = _ref.submitOrder,
         processingOrder = _ref.processingOrder,
         coupons_codes = _ref.coupons_codes,
-        appleCouponCodes = _ref.appleCouponCodes,
+        applyCouponCodes = _ref.applyCouponCodes,
         discount = _ref.discount;
 
     var width = {
@@ -9999,7 +9998,7 @@ exports.default = function (_ref) {
                 ),
                 _react2.default.createElement(
                     'form',
-                    { className: 'input-group', onSubmit: appleCouponCodes },
+                    { className: 'input-group', onSubmit: applyCouponCodes },
                     _react2.default.createElement(
                         'span',
                         { className: 'input-group-btn' },
@@ -10021,6 +10020,16 @@ exports.default = function (_ref) {
                 'h2',
                 null,
                 'No Items Added'
+            ),
+            _react2.default.createElement(
+                'div',
+                null,
+                ' ',
+                discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? _react2.default.createElement(
+                    'h3',
+                    null,
+                    ' Your discount code was applied! '
+                ) : null
             )
         ),
         currentCart.id && !processingOrder ? _react2.default.createElement(
@@ -17539,7 +17548,7 @@ var mapState = function mapState(state) {
     return {
         currentCart: state.cart.current,
         user: state.user,
-        discount: state.cart.discountedPrice
+        discount: state.cart.discount
     };
 };
 
@@ -17603,7 +17612,7 @@ var CartContainer = function (_Component) {
         var _this = _possibleConstructorReturn(this, (CartContainer.__proto__ || Object.getPrototypeOf(CartContainer)).call(this, props));
 
         _this.submitOrder = _this.submitOrder.bind(_this);
-        _this.appleCouponCodes = _this.appleCouponCodes.bind(_this);
+        _this.applyCouponCodes = _this.applyCouponCodes.bind(_this);
 
         return _this;
     }
@@ -17615,12 +17624,13 @@ var CartContainer = function (_Component) {
             this.props.submitOrder(cart, userId, history);
         }
     }, {
-        key: 'appleCouponCodes',
-        value: function appleCouponCodes(event) {
+        key: 'applyCouponCodes',
+        value: function applyCouponCodes(event) {
             event.preventDefault();
             var couponCode = event.target.user_coupon.value;
-
             if (this.props.coupons_codes[couponCode]) {
+
+                alert('You have applied code: ' + couponCode + ' to your order');
                 this.props.applyDiscount(this.props.coupons_codes[couponCode]);
             }
         }
@@ -17644,7 +17654,7 @@ var CartContainer = function (_Component) {
                     submitOrder: this.submitOrder,
                     processingOrder: false,
                     coupons_codes: this.props.coupons_codes,
-                    appleCouponCodes: this.appleCouponCodes,
+                    applyCouponCodes: this.applyCouponCodes,
                     discount: this.props.discount
                 }),
                 this.props.user.id ? _react2.default.createElement(_OrderHistory2.default, { cartHistory: this.props.cartHistory }) : null

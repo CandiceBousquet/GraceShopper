@@ -144,7 +144,6 @@ export const applyCode = coupon => dispatch => {
     axios.post(`api/cart/applyCouponCode`, {coupon})
         .then(res =>res.data)
         .then(newPrice =>{
-            console.log(newPrice)
              dispatch(applyDiscount(newPrice))
         })
         .catch(err => console.error('Fetching order history unsuccessful', err));

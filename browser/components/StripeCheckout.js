@@ -50,7 +50,7 @@ const mapState = state => {
     return {
         currentCart: state.cart.current,
         user: state.user,
-        discount:state.cart.discountedPrice
+        discount:state.cart.discount
     };
 };
 
