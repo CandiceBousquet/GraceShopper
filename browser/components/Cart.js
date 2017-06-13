@@ -21,7 +21,7 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
 
                     <div>
                     {
-                        currentCart && currentCart.items.map(item => {
+                        currentCart.items.map(item => {
 
                             return (
                                 <div key={item.id}>
