@@ -28,7 +28,6 @@ const Promise = require('bluebird');
 router.post('/item/:itemId', (req, res, next) => {
     let currentOrder;
     let currentItem;
-    req.session.discount = null;
     Order.findOrCreate({
             where: {
                 id:req.body.orderId ||req.session.orderId,
@@ -88,7 +87,10 @@ router.delete('/item/:itemId', (req, res, next) => {
         })
         .then(updatedOrder => {
             if (!updatedOrder) res.send("No order found");
-            else res.json(updatedOrder).status(204);
+            else {
+                req.session.discount = 
+                res.json(updatedOrder).status(204);
+            }
         })
         .catch(next);
 
@@ -182,8 +184,8 @@ router.post('/applyCouponCode', (req, res, next) => {
             }
         })
         .then((cart) => {
-            req.session.discount = cart.totalPrice - (cart.totalPrice * cart.applyCoupon(req.body.coupon))
-            res.json(cart.totalPrice - (cart.totalPrice * cart.applyCoupon(req.body.coupon)))
+            req.session.discount = cart.applyCoupon(req.body.coupon)
+            res.json( req.session.discount )
         })
         .catch(next)
 

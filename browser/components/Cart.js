@@ -6,7 +6,7 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
     const width =  {
         width : '170px'
     }
-    
+
     return (
         <div>
             <h3>Current Order</h3>
@@ -37,7 +37,7 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
 
                         })
                     }
-                    <h4>Total: $ { discount && typeof(discount) != "object" ? discount : currentCart.totalPrice}</h4>
+                    <h4>Total: $ { discount && typeof(discount) != "object" ? (currentCart.totalPrice - (currentCart.totalPrice * discount)).toFixed(2) : currentCart.totalPrice}</h4>
                     <form className="input-group" onSubmit={appleCouponCodes}>
                         <span className="input-group-btn">
                             <button className="btn btn-secondary" type="submit">Apply!</button>

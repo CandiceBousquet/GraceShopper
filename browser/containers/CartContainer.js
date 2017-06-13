@@ -61,7 +61,7 @@ const mapState = state => {
         cartHistory: state.cart.history,
         user: state.user,
         coupons_codes:state.cart.coupon_codes,
-        discount:state.cart.discountedPrice
+        discount:state.cart.discount
     };
 };
 

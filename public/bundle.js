@@ -4054,8 +4054,8 @@ var getOrderHistory = function getOrderHistory(carts) {
     return { type: GET_ORDER_HISTORY, carts: carts };
 };
 
-var applyDiscount = function applyDiscount(discountedPrice) {
-    return { type: APPLY_DISCOUNT, discountedPrice: discountedPrice };
+var applyDiscount = function applyDiscount(discount) {
+    return { type: APPLY_DISCOUNT, discount: discount };
 };
 
 /* ------------       REDUCERS     ------------------ */
@@ -4068,7 +4068,7 @@ var initialState = {
         discount: .10,
         secret: .50
     },
-    discountedPrice: {}
+    discount: {}
 };
 
 function reducer() {
@@ -4099,7 +4099,7 @@ function reducer() {
         case GET_RECENT_ORDER:
             if (action.order.cart) {
                 newState.current = action.order.cart;
-                newState.discountedPrice = action.order.discount;
+                newState.discount = action.order.discount;
             } else {
                 newState.current = action.order;
             }
@@ -4110,7 +4110,7 @@ function reducer() {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.discountedPrice = action.discountedPrice;
+            newState.current.totalPrice = newState.current.totalPrice - newState.current.totalPrice * action.discount;
             return newState;
 
         default:
@@ -9995,7 +9995,7 @@ exports.default = function (_ref) {
                     'h4',
                     null,
                     'Total: $ ',
-                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount : currentCart.totalPrice
+                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? (currentCart.totalPrice - currentCart.totalPrice * discount).toFixed(2) : currentCart.totalPrice
                 ),
                 _react2.default.createElement(
                     'form',
@@ -17661,7 +17661,7 @@ var mapState = function mapState(state) {
         cartHistory: state.cart.history,
         user: state.user,
         coupons_codes: state.cart.coupon_codes,
-        discount: state.cart.discountedPrice
+        discount: state.cart.discount
     };
 };
 

@@ -26,7 +26,7 @@ const getOrder = order => ({ type: GET_RECENT_ORDER, order });
 
 const getOrderHistory = carts => ({ type: GET_ORDER_HISTORY, carts });
 
-const applyDiscount = discountedPrice => ({ type: APPLY_DISCOUNT, discountedPrice });
+const applyDiscount = discount => ({ type: APPLY_DISCOUNT, discount });
 
 /* ------------       REDUCERS     ------------------ */
 
@@ -38,7 +38,7 @@ const initialState = {
        discount:.10,
        secret:.50
   },
-  discountedPrice:{}
+  discount:{}
 };
 
 export default function reducer (state = initialState, action) {
@@ -66,7 +66,7 @@ export default function reducer (state = initialState, action) {
         case GET_RECENT_ORDER:
             if( action.order.cart){
                 newState.current = action.order.cart;
-                newState.discountedPrice = action.order.discount
+                newState.discount = action.order.discount
             }else{
                 newState.current = action.order
             }
@@ -77,7 +77,7 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.discountedPrice = action.discountedPrice; 
+            newState.current.totalPrice = newState.current.totalPrice - (newState.current.totalPrice * action.discount); 
             return newState
 
         default:
