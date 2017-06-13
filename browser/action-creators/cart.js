@@ -10,6 +10,7 @@ const DELETE_CART = 'DELETE_CART';
 const SUBMIT_CART = 'SUBMIT_CART';
 const GET_RECENT_ORDER = 'GET_RECENT_ORDER';
 const GET_ORDER_HISTORY = 'GET_ORDER_HISTORY';
+const APPLY_DISCOUNT = 'APPLY_DISCOUNT';
 
 /* -----------------    ACTION CREATORS     ------------------ */
 
@@ -25,15 +26,23 @@ const getOrder = order => ({ type: GET_RECENT_ORDER, order });
 
 const getOrderHistory = carts => ({ type: GET_ORDER_HISTORY, carts });
 
+const applyDiscount = discount => ({ type: APPLY_DISCOUNT, discount });
+
 /* ------------       REDUCERS     ------------------ */
 
 const initialState = {
   current: {},
-  history: {}
+  history: {},
+  coupon_codes:{
+       hotGeoff:.20,
+       discount:.10,
+       secret:.50
+  },
+  discount:{}
 };
 
 export default function reducer (state = initialState, action) {
-
+ 
     const newState = Object.assign({}, state);
 
     switch (action.type) {
@@ -55,12 +64,21 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case GET_RECENT_ORDER:
-            newState.current = action.order;
+            if( action.order.cart){
+                newState.current = action.order.cart;
+                newState.discount = action.order.discount
+            }else{
+                newState.current = action.order
+            }
             return newState;
 
         case GET_ORDER_HISTORY:
             newState.history = action.carts;
             return newState;
+
+        case APPLY_DISCOUNT:
+            newState.current.totalPrice = newState.current.totalPrice - (newState.current.totalPrice * action.discount); 
+            return newState
 
         default:
             return newState;
@@ -118,6 +136,15 @@ export const fetchOrderHistory = userId => dispatch => {
         .then(res =>res.data)
         .then(carts =>{
              dispatch(getOrderHistory(carts))
+        })
+        .catch(err => console.error('Fetching order history unsuccessful', err));
+};
+
+export const applyCode = coupon => dispatch => {
+    axios.post(`api/cart/applyCouponCode`, {coupon})
+        .then(res =>res.data)
+        .then(newPrice =>{
+             dispatch(applyDiscount(newPrice))
         })
         .catch(err => console.error('Fetching order history unsuccessful', err));
 };

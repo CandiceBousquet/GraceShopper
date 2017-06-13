@@ -1,4 +1,5 @@
 .DS_Store
 public/bundle.js.map
 node_modules
+coupon_codes.js
 google_api.js
