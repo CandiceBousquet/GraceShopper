@@ -9995,7 +9995,7 @@ exports.default = function (_ref) {
                     'h4',
                     null,
                     'Total: $ ',
-                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount * currentCart.totalPrice : currentCart.totalPrice
+                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? currentCart.totalPrice - discount * currentCart.totalPrice : currentCart.totalPrice
                 ),
                 _react2.default.createElement(
                     'form',
