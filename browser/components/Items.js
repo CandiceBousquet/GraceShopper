@@ -5,23 +5,22 @@ export default function({item}){
 
 	const divStyle = {
 	  backgroundImage: 'url(' + item.imageUrl + ')',
-	  width: '150px',
-	  height: '150px',
+	  width: '170px',
+	  height: '170px',
 	  backgroundSize: 'cover'
 	};
 
-	const itemStyle = {
-		padding: '10px'
-	}
-
 	const id = `item-${item.id}`;
 	return (
-		<div className='col-md-3' style={itemStyle}>
-			<div style={divStyle} id={id} />
-			<Link to={`/item/${item.id}`}>
-				{item.name}
-			</Link>
-			<p>$ {item.price}</p>
+		<div className='col-md-3 item'>
+			<div className='center'>
+				<div className='center' style={divStyle} id={id} />
+				<p />
+				<Link className ='text-center' to={`/item/${item.id}`}>
+					{item.name}
+				</Link>
+				<p className='text-center' >$ {item.price}</p>
+			</div>
 		</div>
 	)
 }
