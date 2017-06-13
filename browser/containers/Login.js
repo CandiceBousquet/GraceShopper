@@ -14,6 +14,9 @@ class Login extends React.Component {
 
   render() {
     const { message } = this.props;
+    const style = {
+      margin:'10px'
+    }
     return (
       <div className="signin-container">
         <div className="buffer local">
@@ -48,12 +51,17 @@ class Login extends React.Component {
         </div>
         <div className="buffer oauth">
           <p>
-            <a
+            <a 
               target="_self"
               href="/auth/google"
               className="btn btn-social btn-google">
               <i className="fa fa-google" />
-              <span>{message} with Google</span>
+              <span className="btn btn-warning">
+                 <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1000px-Google_%22G%22_Logo.svg.png"
+                  width="30" height="30"   style={style}/>   
+                {message} with Google      
+              </span>
             </a>
           </p>
         </div>
