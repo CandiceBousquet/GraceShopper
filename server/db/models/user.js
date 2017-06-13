@@ -21,7 +21,6 @@ const User = db.define('user', {
                 // unique: true
         }
     },
-    googleId:Sequelize.STRING,
     address: {
         type: Sequelize.STRING
     },
