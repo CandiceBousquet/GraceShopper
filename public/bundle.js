@@ -9883,6 +9883,9 @@ var Login = function (_React$Component) {
     value: function render() {
       var message = this.props.message;
 
+      var style = {
+        margin: '10px'
+      };
       return _react2.default.createElement(
         'div',
         { className: 'signin-container' },
@@ -9959,7 +9962,10 @@ var Login = function (_React$Component) {
               _react2.default.createElement('i', { className: 'fa fa-google' }),
               _react2.default.createElement(
                 'span',
-                null,
+                { className: 'btn btn-warning' },
+                _react2.default.createElement('img', {
+                  src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1000px-Google_%22G%22_Logo.svg.png',
+                  width: '30', height: '30', style: style }),
                 message,
                 ' with Google'
               )
