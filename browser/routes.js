@@ -28,7 +28,7 @@ const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitia
 				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
 				<Route path='/success' component={OrderConfirmation} />
 				<Route path='/checkout' component={CheckoutContainer} />
-				<Route path='/stripe' component={StripeCheckout} />
+				<Route path='/payment' component={StripeCheckout} />
 				<Route path="/*" component={ItemsContainer} />
 			</Route>
 		</Router>

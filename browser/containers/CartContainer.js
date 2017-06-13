@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Cart from '../components/Cart';
+import OrderHistory from '../components/OrderHistory';
 import { fetchRecentOrder, fetchOrderHistory, removeCart, removeItem, updateSubmitCart } from '../action-creators/cart';
 
 class CartContainer extends Component {
@@ -22,13 +23,18 @@ class CartContainer extends Component {
     }
 
     render () {
-        return (<Cart currentCart={this.props.currentCart}
-            cartHistory={this.props.cartHistory}
-            user={this.props.user}
-            removeCart={this.props.removeCart}
-            removeItem={this.props.removeItem}
-            submitOrder={this.submitOrder}
-          />);
+        return (
+            <div>
+                <Cart currentCart={this.props.currentCart}
+                    user={this.props.user}
+                    removeCart={this.props.removeCart}
+                    removeItem={this.props.removeItem}
+                    submitOrder={this.submitOrder}
+                    processingOrder={false}
+                />
+                { this.props.user.id ? <OrderHistory cartHistory={this.props.cartHistory} /> : null }
+            </div>
+            );
     }
 
 }
@@ -54,7 +60,7 @@ const mapDispatch = dispatch => {
         },
         submitOrder: (cart, userId, history) => {
             if (userId) {
-                history.push('/stripe')
+                history.push('/payment')
             } else {
                 history.push('/checkout')
             }

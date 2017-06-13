@@ -83,7 +83,7 @@ class Signup extends React.Component {
     const { message } = this.props;
     event.preventDefault();
     this.props.createNewUser(this.state.name, this.state.email, this.state.password);
-    this.props.history.push('/items');
+    browserHistory.push('/items');
   }
 }
 

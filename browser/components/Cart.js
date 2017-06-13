@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-export default function ({ currentCart, cartHistory, user, removeCart, removeItem, submitOrder }){
+export default function ({ currentCart, user, removeCart, removeItem, submitOrder, processingOrder }){
 
     return (
         <div>
-            <div>
-                <h3>Current Order</h3>
-                { currentCart.items ?
-                    <button className="btn btn-default btn-xs" onClick={() => removeCart(currentCart.id)}>Delete Current Order</button>
-                : null
-                }
+            <h3>Current Order</h3>
+            { currentCart.items ?
+                <button className="btn btn-danger btn-xs" onClick={() => removeCart(currentCart.id)}>Delete Current Order</button>
+            : null
+            }
 
-                <ul>
-                {
-                    currentCart.items ?
+            <ul>
+            {
+                currentCart.items ?
 
+                    <div>
+                    {
                         currentCart.items.map(item => {
 
                             return (
                                 <div key={item.id}>
                                     <h5>Name: {item.name}</h5>
                                     <img  src={item.imageUrl} width="150px" height="150px" />
-                                    <p>Description: {item.description}</p>
+                                    <p><b>Description:</b> {item.description}</p>
+                                    <p><b>Price:</b> ${item.price}</p>
                                     <button className="btn btn-default btn-xs" onClick={() => removeItem(item.id)}>
                                         <span className="glyphicon glyphicon-remove" />
                                     </button>
@@ -30,56 +32,24 @@ export default function ({ currentCart, cartHistory, user, removeCart, removeIte
                             )
 
                         })
-
-                    :
-                    <h2>No Items Added</h2>
-                }
-                </ul>
-                {
-                    currentCart.id ?
-                    (<div>
-                        <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
-                        <button><Link to={'/items'}>Continue Shopping</Link></button>
+                    }
+                    <h4>Total: $ {currentCart.totalPrice}</h4>
                     </div>
-                    )
-                    :
-                    null
-                }
 
-
-            </div>
-            <div>
-                <h3>Order History</h3>
-                {
-                    Object.keys(cartHistory).length ?
-
-                    [].slice.call(cartHistory).map(order => {
-                        return (
-                            <div>
-                                 <h1>Order Number: {order.id}</h1>
-                            {
-
-                                order.items ?
-                                    order.items.map(item => {
-                                        return (
-                                            <div key={item.id}>
-                                                <h5>Name: {item.name}</h5>
-                                                <img  src={item.imgUrl}   />
-                                                <p>Description: {item.description}</p>
-                                                <div>Purchased At: {item.createdAt}</div>
-                                            </div>
-                                        )
-                                    })
-                                :
-                                <p>Please <Link to={'/login'}>log in</Link> to view order history.</p>
-                            }
-                            </div>
-                        )
-                    })
-                    :
-                    null
-                }
-            </div>
+                :
+                <h2>No Items Added</h2>
+            }
+            </ul>
+            {
+                currentCart.id && !processingOrder ?
+                (<div>
+                    <button className='btn btn-success' onClick={() => submitOrder(currentCart, user.id)}>Continue to Checkout</button>
+                    <button className='btn btn-default'><Link to={'/items'}>Continue Shopping</Link></button>
+                </div>
+                )
+                :
+                null
+            }
         </div>
     );
 }
