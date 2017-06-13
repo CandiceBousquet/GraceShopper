@@ -8,7 +8,15 @@ const User = models.User;
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const googleCodes = require('../google_api');
+
+const googleCodes = process.env.NODE_ENV === 'development' 
+                      ? 
+                      require('../google_api') 
+                      : 
+                      { 
+                        clientID :process.env.GOOGLE_CLIENT_ID, 
+                        clientSecret:process.env.GOOGLE_CLIENT_SECRET
+                      }
 
 // logging
 app.use(require('volleyball'));
