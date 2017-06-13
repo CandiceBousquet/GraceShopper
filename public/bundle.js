@@ -16754,6 +16754,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (0, _redux.combineReducers)({ item: _item2.default, cart: _cart2.default, user: _login2.default });
 
 /***/ }),
+<<<<<<< HEAD
 /* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16913,6 +16914,12 @@ var _react2 = _interopRequireDefault(_react);
 var _reactRouter = __webpack_require__(19);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+=======
+/* 161 */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected : (82:4)\n\n\u001b[0m \u001b[90m 80 | \u001b[39m            \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 81 | \u001b[39m        \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 82 | \u001b[39m    )\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 83 | \u001b[39m}\n \u001b[90m 84 | \u001b[39m\u001b[0m\n");
+>>>>>>> origin/minor_ui_fixes
 
 /***/ }),
 /* 164 */
