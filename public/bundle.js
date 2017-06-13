@@ -450,8 +450,15 @@ module.exports = reactProdInvariant;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
 
 /* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
@@ -472,7 +479,7 @@ function shouldUseNative() {
 		// Detect buggy property enumeration order in older V8 versions.
 
 		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
 		test1[5] = 'de';
 		if (Object.getOwnPropertyNames(test1)[0] === '5') {
 			return false;
@@ -501,7 +508,7 @@ function shouldUseNative() {
 		}
 
 		return true;
-	} catch (e) {
+	} catch (err) {
 		// We don't expect any of the above to throw, but better to be safe.
 		return false;
 	}
@@ -521,8 +528,8 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 			}
 		}
 
-		if (Object.getOwnPropertySymbols) {
-			symbols = Object.getOwnPropertySymbols(from);
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
 			for (var i = 0; i < symbols.length; i++) {
 				if (propIsEnumerable.call(from, symbols[i])) {
 					to[symbols[i]] = from[symbols[i]];
@@ -4137,7 +4144,8 @@ var updateSubmitCart = exports.updateSubmitCart = function updateSubmitCart(cart
         _axios2.default.put('/api/cart/order/' + cartId + '/' + userId).then(function (res) {
             return dispatch(submitCart(res.data));
         }).then(function () {
-            _reactRouter.browserHistory.push('/success');
+            _reactRouter.browserHistory.push('/success/:cartId' // eager load?
+            );
         }).catch(function (err) {
             return console.error('Submitting cart unsuccessful', err);
         });
@@ -10207,7 +10215,7 @@ var Signup = function (_React$Component) {
 
       event.preventDefault();
       this.props.createNewUser(this.state.name, this.state.email, this.state.password);
-      this.props.history.push('/items');
+      _reactRouter.browserHistory.push('/items');
     }
   }]);
 
@@ -15775,7 +15783,7 @@ var Routes = function Routes(_ref) {
 				} }),
 			_react2.default.createElement(_reactRouter.Route, { path: '/success', component: _OrderConfirmation2.default }),
 			_react2.default.createElement(_reactRouter.Route, { path: '/checkout', component: _Checkout2.default }),
-			_react2.default.createElement(_reactRouter.Route, { path: '/stripe', component: _StripeCheckout2.default }),
+			_react2.default.createElement(_reactRouter.Route, { path: '/payment', component: _StripeCheckout2.default }),
 			_react2.default.createElement(_reactRouter.Route, { path: '/*', component: _ItemsContainer2.default })
 		)
 	);
@@ -16766,35 +16774,35 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function (_ref) {
     var currentCart = _ref.currentCart,
-        cartHistory = _ref.cartHistory,
         user = _ref.user,
         removeCart = _ref.removeCart,
         removeItem = _ref.removeItem,
-        submitOrder = _ref.submitOrder;
+        submitOrder = _ref.submitOrder,
+        processingOrder = _ref.processingOrder;
 
 
     return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
-            'div',
+            'h3',
             null,
-            _react2.default.createElement(
-                'h3',
-                null,
-                'Current Order'
-            ),
+            'Current Order'
+        ),
+        currentCart.items ? _react2.default.createElement(
+            'button',
+            { className: 'btn btn-danger btn-xs', onClick: function onClick() {
+                    return removeCart(currentCart.id);
+                } },
+            'Delete Current Order'
+        ) : null,
+        _react2.default.createElement(
+            'ul',
+            null,
             currentCart.items ? _react2.default.createElement(
-                'button',
-                { className: 'btn btn-default btn-xs', onClick: function onClick() {
-                        return removeCart(currentCart.id);
-                    } },
-                'Delete Current Order'
-            ) : null,
-            _react2.default.createElement(
-                'ul',
+                'div',
                 null,
-                currentCart.items ? currentCart.items.map(function (item) {
+                currentCart.items.map(function (item) {
 
                     return _react2.default.createElement(
                         'div',
@@ -16809,8 +16817,24 @@ exports.default = function (_ref) {
                         _react2.default.createElement(
                             'p',
                             null,
-                            'Description: ',
+                            _react2.default.createElement(
+                                'b',
+                                null,
+                                'Description:'
+                            ),
+                            ' ',
                             item.description
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            _react2.default.createElement(
+                                'b',
+                                null,
+                                'Price:'
+                            ),
+                            ' $',
+                            item.price
                         ),
                         _react2.default.createElement(
                             'button',
@@ -16820,89 +16844,39 @@ exports.default = function (_ref) {
                             _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
                         )
                     );
-                }) : _react2.default.createElement(
-                    'h2',
+                }),
+                _react2.default.createElement(
+                    'h4',
                     null,
-                    'No Items Added'
+                    'Total: $ ',
+                    currentCart.totalPrice
                 )
-            ),
-            currentCart.id ? _react2.default.createElement(
-                'div',
+            ) : _react2.default.createElement(
+                'h2',
                 null,
-                _react2.default.createElement(
-                    'button',
-                    { onClick: function onClick() {
-                            return submitOrder(currentCart, user.id);
-                        } },
-                    'Submit Order'
-                ),
-                _react2.default.createElement(
-                    'button',
-                    null,
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/items' },
-                        'Continue Shopping'
-                    )
-                )
-            ) : null
+                'No Items Added'
+            )
         ),
-        _react2.default.createElement(
+        currentCart.id && !processingOrder ? _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
-                'h3',
-                null,
-                'Order History'
+                'button',
+                { className: 'btn btn-success', onClick: function onClick() {
+                        return submitOrder(currentCart, user.id);
+                    } },
+                'Continue to Checkout'
             ),
-            Object.keys(cartHistory).length ? [].slice.call(cartHistory).map(function (order) {
-                return _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'h1',
-                        null,
-                        'Order Number: ',
-                        order.id
-                    ),
-                    order.items ? order.items.map(function (item) {
-                        return _react2.default.createElement(
-                            'div',
-                            { key: item.id },
-                            _react2.default.createElement(
-                                'h5',
-                                null,
-                                'Name: ',
-                                item.name
-                            ),
-                            _react2.default.createElement('img', { src: item.imgUrl }),
-                            _react2.default.createElement(
-                                'p',
-                                null,
-                                'Description: ',
-                                item.description
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                null,
-                                'Purchased At: ',
-                                item.createdAt
-                            )
-                        );
-                    }) : _react2.default.createElement(
-                        'p',
-                        null,
-                        'Please ',
-                        _react2.default.createElement(
-                            _reactRouter.Link,
-                            { to: '/login' },
-                            'log in'
-                        ),
-                        ' to view order history.'
-                    )
-                );
-            }) : null
-        )
+            _react2.default.createElement(
+                'button',
+                { className: 'btn btn-default' },
+                _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/items' },
+                    'Continue Shopping'
+                )
+            )
+        ) : null
     );
 };
 
@@ -17191,7 +17165,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function (props) {
+exports.default = function (_ref) {
+    var mostRecentOrder = _ref.mostRecentOrder;
+
     return _react2.default.createElement(
         'div',
         null,
@@ -17199,13 +17175,18 @@ exports.default = function (props) {
             'h1',
             null,
             'Congrats you submitted an Order!'
-        )
+        ),
+        _react2.default.createElement(_OrderHistory2.default, { cartHistory: mostRecentOrder })
     );
 };
 
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _OrderHistory = __webpack_require__(341);
+
+var _OrderHistory2 = _interopRequireDefault(_OrderHistory);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17358,6 +17339,14 @@ var _reactStripeCheckout = __webpack_require__(312);
 
 var _reactStripeCheckout2 = _interopRequireDefault(_reactStripeCheckout);
 
+var _reactRouter = __webpack_require__(19);
+
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+var _Cart = __webpack_require__(163);
+
+var _Cart2 = _interopRequireDefault(_Cart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17368,76 +17357,56 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* -----------------    COMPONENT     ------------------ */
 
-var Stripe = function (_React$Component) {
-    _inherits(Stripe, _React$Component);
+var StripeCheckout = function (_Component) {
+    _inherits(StripeCheckout, _Component);
 
-    function Stripe(props) {
-        _classCallCheck(this, Stripe);
+    function StripeCheckout(props) {
+        _classCallCheck(this, StripeCheckout);
 
-        return _possibleConstructorReturn(this, (Stripe.__proto__ || Object.getPrototypeOf(Stripe)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (StripeCheckout.__proto__ || Object.getPrototypeOf(StripeCheckout)).call(this, props));
+
+        _this.onToken = _this.onToken.bind(_this);
+        return _this;
     }
 
-    _createClass(Stripe, [{
+    _createClass(StripeCheckout, [{
         key: 'onToken',
         value: function onToken(token) {
-            fetch('/save-stripe-token', {
-                method: 'POST',
-                body: JSON.stringify(token)
-            }).then(function (response) {
-                // console.log("RESPONSE FROM WEIRD FETCH REQ", response)
-                response.json().then(function (data) {
-                    alert('We are in business, ' + data.email);
-                });
-            });
+            var completedOrder = this.props.currentCart;
+            alert('We are in business, ' + token.email);
+            this.props.submitOrder(completedOrder, this.props.user.id);
         }
     }, {
         key: 'render',
         value: function render() {
-            console.log(this.props);
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
-                    _reactStripeCheckout2.default,
-                    {
-                        token: this.onToken,
-                        stripeKey: 'pk_test_bPEj4xOuaYUyPkOjv6Om7s46',
-                        name: 'DOA',
-                        ComponentClass: 'div',
-                        panelLabel: 'Something',
-                        amount: 1000000,
-                        currency: 'USD',
-                        locale: 'zh',
-                        email: 'info@vidhub.co'
-                        // Note: Enabling either address option will give the user the ability to
-                        // fill out both. Addresses are sent as a second parameter in the token callback.
-                        , shippingAddress: true,
-                        billingAddress: false
-                        // Note: enabling both zipCode checks and billing or shipping address will
-                        // cause zipCheck to be pulled from billing address (set to shipping if none provided).
-                        , zipCode: false,
-                        alipay: true,
-                        bitcoin: true,
-                        allowRememberMe: true
-                        // Note: `reconfigureOnUpdate` should be set to true IFF, for some reason
-                        // you are using multiple stripe keys
-                        , reconfigureOnUpdate: false
-                        // Note: you can change the event to `onTouchTap`, `onClick`, `onTouchStart`
-                        // useful if you're using React-Tap-Event-Plugin
-                        , triggerEvent: 'onClick'
-                    },
-                    _react2.default.createElement(
-                        'button',
-                        { className: 'btn btn-primary' },
-                        'Use your own child component, which gets wrapped in whatever component you pass into as "ComponentClass" (defaults to span)'
-                    )
-                )
+                _react2.default.createElement(_Cart2.default, { currentCart: this.props.currentCart,
+                    user: this.props.user,
+                    processingOrder: true
+                }),
+                _react2.default.createElement(_reactStripeCheckout2.default
+                // email={this.props.user ? this.props.user.email : null}
+                , { email: 'candice.bousquet@gmail.com',
+                    token: this.onToken,
+                    stripeKey: 'pk_test_bPEj4xOuaYUyPkOjv6Om7s46',
+                    name: 'DOA Lunch' // the pop-in header title
+                    , description: 'Please enter your billing information below' // the pop-in header subtitle
+                    , ComponentClass: 'div',
+                    panelLabel: 'Place Order for' // prepended to the amount in the bottom pay button
+                    , amount: this.props.currentCart.totalPrice * 100 // cents
+                    , currency: 'USD'
+                    // shippingAddress
+                    // billingAddress={false}
+                    // zipCode={false}
+                })
             );
         }
     }]);
 
-    return Stripe;
-}(_react2.default.Component);
+    return StripeCheckout;
+}(_react.Component);
 
 var mapState = function mapState(state) {
     return {
@@ -17448,25 +17417,13 @@ var mapState = function mapState(state) {
 
 var mapDispatch = function mapDispatch(dispatch) {
     return {
-        removeCart: function removeCart(cartId) {
-            dispatch((0, _cart.removeCart)(cartId));
-        },
-        removeItem: function removeItem(itemId) {
-
-            dispatch((0, _cart.removeItem)(itemId));
-        },
         submitOrder: function submitOrder(cart, userId) {
-            // if (userId) {
-            console.log("IN SUBMUT");
             dispatch((0, _cart.updateSubmitCart)(cart.id, userId));
-            // } else {
-            //     dispatch(updateSubmitCart(cart.id, userId));
-            // }
         }
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(_reactStripeCheckout2.default);
+exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(StripeCheckout);
 
 /***/ }),
 /* 171 */
@@ -17490,6 +17447,10 @@ var _reactRedux = __webpack_require__(17);
 var _Cart = __webpack_require__(163);
 
 var _Cart2 = _interopRequireDefault(_Cart);
+
+var _OrderHistory = __webpack_require__(341);
+
+var _OrderHistory2 = _interopRequireDefault(_OrderHistory);
 
 var _cart = __webpack_require__(32);
 
@@ -17530,13 +17491,18 @@ var CartContainer = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_Cart2.default, { currentCart: this.props.currentCart,
-                cartHistory: this.props.cartHistory,
-                user: this.props.user,
-                removeCart: this.props.removeCart,
-                removeItem: this.props.removeItem,
-                submitOrder: this.submitOrder
-            });
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_Cart2.default, { currentCart: this.props.currentCart,
+                    user: this.props.user,
+                    removeCart: this.props.removeCart,
+                    removeItem: this.props.removeItem,
+                    submitOrder: this.submitOrder,
+                    processingOrder: false
+                }),
+                this.props.user.id ? _react2.default.createElement(_OrderHistory2.default, { cartHistory: this.props.cartHistory }) : null
+            );
         }
     }]);
 
@@ -17564,7 +17530,7 @@ var mapDispatch = function mapDispatch(dispatch) {
         },
         submitOrder: function submitOrder(cart, userId, history) {
             if (userId) {
-                history.push('/stripe');
+                history.push('/payment');
             } else {
                 history.push('/checkout');
             }
@@ -17627,17 +17593,25 @@ var Checkout = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'h3',
-                    null,
-                    ' Existing User? Log in! '
+                    'div',
+                    { className: 'col-md-6' },
+                    _react2.default.createElement(
+                        'h3',
+                        null,
+                        ' Existing User? Log in! '
+                    ),
+                    _react2.default.createElement(_Login2.default, null)
                 ),
-                _react2.default.createElement(_Login2.default, null),
                 _react2.default.createElement(
-                    'h3',
-                    null,
-                    ' New User? Sign up! '
+                    'div',
+                    { className: 'col-md-6' },
+                    _react2.default.createElement(
+                        'h3',
+                        null,
+                        ' New User? Sign up! '
+                    ),
+                    _react2.default.createElement(_Signup2.default, null)
                 ),
-                _react2.default.createElement(_Signup2.default, null),
                 _react2.default.createElement(
                     'h3',
                     null,
@@ -17648,7 +17622,7 @@ var Checkout = function (_React$Component) {
                     { className: 'btn-warning btn' },
                     _react2.default.createElement(
                         _reactRouter.Link,
-                        { to: '/stripe' },
+                        { to: '/payment' },
                         'Continue as guest'
                     )
                 ),
@@ -34277,10 +34251,10 @@ function insertStyleElement (options, style) {
 }
 
 function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
 	style.parentNode.removeChild(style);
 
 	var idx = stylesInsertedAtTop.indexOf(style);
+
 	if(idx >= 0) {
 		stylesInsertedAtTop.splice(idx, 1);
 	}
@@ -34726,6 +34700,89 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 340 */,
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (_ref) {
+    var cartHistory = _ref.cartHistory;
+
+    return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+            'h3',
+            null,
+            'Order History'
+        ),
+        Object.keys(cartHistory).length ? [].slice.call(cartHistory).map(function (order) {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Order Number: ',
+                    order.id
+                ),
+                order.items ? order.items.map(function (item) {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: item.id },
+                        _react2.default.createElement(
+                            'h5',
+                            null,
+                            'Name: ',
+                            item.name
+                        ),
+                        _react2.default.createElement('img', { src: item.imgUrl }),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            'Description: ',
+                            item.description
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            'Purchased At: ',
+                            item.createdAt
+                        )
+                    );
+                }) : _react2.default.createElement(
+                    'p',
+                    null,
+                    'Please ',
+                    _react2.default.createElement(
+                        _reactRouter2.default,
+                        { to: '/login' },
+                        'log in'
+                    ),
+                    ' to view order history.'
+                )
+            );
+        }) : null
+    );
+};
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(19);
+
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ })
 /******/ ]);
