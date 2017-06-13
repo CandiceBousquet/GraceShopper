@@ -9888,98 +9888,131 @@ exports.default = function (_ref) {
 
     return _react2.default.createElement(
         'div',
-        null,
+        { className: 'cart' },
         _react2.default.createElement(
-            'h3',
-            null,
-            'Current Order'
+            'h2',
+            { className: 'cart-header' },
+            'MY CART'
         ),
-        currentCart.items ? _react2.default.createElement(
-            'button',
-            { className: 'btn btn-danger btn-xs', onClick: function onClick() {
-                    return removeCart(currentCart.id);
-                } },
-            'Delete Current Order'
-        ) : null,
         _react2.default.createElement(
-            'ul',
+            'div',
             null,
             currentCart.items ? _react2.default.createElement(
-                'div',
+                'table',
                 null,
+                _react2.default.createElement(
+                    'tr',
+                    { className: 'table-headers' },
+                    _react2.default.createElement(
+                        'td',
+                        null,
+                        'Dining Companion'
+                    ),
+                    _react2.default.createElement('td', null),
+                    _react2.default.createElement(
+                        'td',
+                        null,
+                        'Description'
+                    ),
+                    _react2.default.createElement(
+                        'td',
+                        null,
+                        'Price'
+                    ),
+                    _react2.default.createElement(
+                        'td',
+                        null,
+                        'Remove?'
+                    )
+                ),
                 currentCart.items.map(function (item) {
 
                     return _react2.default.createElement(
-                        'div',
+                        'tr',
                         { key: item.id },
                         _react2.default.createElement(
-                            'h5',
+                            'td',
                             null,
-                            'Name: ',
-                            item.name
+                            _react2.default.createElement('img', { src: item.imageUrl, width: '100px' })
                         ),
-                        _react2.default.createElement('img', { src: item.imageUrl, width: '150px', height: '150px' }),
                         _react2.default.createElement(
-                            'p',
+                            'td',
                             null,
                             _react2.default.createElement(
-                                'b',
+                                'h5',
                                 null,
-                                'Description:'
-                            ),
-                            ' ',
-                            item.description
+                                item.name
+                            )
                         ),
                         _react2.default.createElement(
-                            'p',
+                            'td',
                             null,
                             _react2.default.createElement(
-                                'b',
+                                'p',
                                 null,
-                                'Price:'
-                            ),
-                            ' $',
-                            item.price
+                                item.description
+                            )
                         ),
                         _react2.default.createElement(
-                            'button',
-                            { className: 'btn btn-default btn-xs', onClick: function onClick() {
-                                    return removeItem(item.id);
-                                } },
-                            _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
+                            'td',
+                            null,
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                '$',
+                                item.price
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'td',
+                            null,
+                            _react2.default.createElement(
+                                'button',
+                                { className: 'btn btn-default btn-xs', onClick: function onClick() {
+                                        return removeItem(item.id);
+                                    } },
+                                _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
+                            )
                         )
                     );
-                }),
-                _react2.default.createElement(
-                    'h4',
-                    null,
-                    'Total: $ ',
-                    currentCart.totalPrice
-                )
+                })
             ) : _react2.default.createElement(
-                'h2',
-                null,
-                'No Items Added'
+                'h4',
+                { className: 'specialCursive' },
+                'Nothing in your cart yet. Get shopping!'
             )
         ),
         currentCart.id && !processingOrder ? _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
+                'h4',
+                { className: 'table-headers' },
+                'Total: $ ',
+                currentCart.totalPrice
+            ),
+            _react2.default.createElement(
+                'button',
+                { className: 'btn remove-cart', onClick: function onClick() {
+                        return removeCart(currentCart.id);
+                    } },
+                'Delete Current Order'
+            ),
+            _react2.default.createElement(
+                'button',
+                { className: 'btn btn-primary' },
+                _react2.default.createElement(
+                    _reactRouter.Link,
+                    { className: 'specialLink', to: '/items' },
+                    'Continue Shopping'
+                )
+            ),
+            _react2.default.createElement(
                 'button',
                 { className: 'btn btn-success', onClick: function onClick() {
                         return submitOrder(currentCart, user.id);
                     } },
                 'Continue to Checkout'
-            ),
-            _react2.default.createElement(
-                'button',
-                { className: 'btn btn-default' },
-                _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/items' },
-                    'Continue Shopping'
-                )
             )
         ) : null
     );
@@ -10102,9 +10135,10 @@ var Login = function (_React$Component) {
             'div',
             { className: 'back-line' },
             _react2.default.createElement(
-              'span',
+              'h4',
               null,
-              'OR'
+              _react2.default.createElement('br', null),
+              'OR...'
             )
           )
         ),
@@ -10288,9 +10322,10 @@ var Signup = function (_React$Component) {
             'div',
             { className: 'back-line' },
             _react2.default.createElement(
-              'span',
+              'h4',
               null,
-              'OR'
+              _react2.default.createElement('br', null),
+              'OR...'
             )
           )
         ),
@@ -17011,10 +17046,12 @@ var LeaveAReview = function (_Component) {
                 'form',
                 { className: 'ReviewForm', onSubmit: this.handleSubmit },
                 _react2.default.createElement('input', { type: 'text', placeholder: 'Rating?', className: 'studentNameInput', onChange: this.handleRatingChange }),
-                _react2.default.createElement('input', { type: 'text', placeholder: 'Review?', className: 'studentEmailInput', onChange: this.handleReviewChange }),
+                _react2.default.createElement('p', null),
+                _react2.default.createElement('textarea', { rows: '4', cols: '50', placeholder: 'Review?', className: 'studentEmailInput', onChange: this.handleReviewChange }),
+                _react2.default.createElement('p', null),
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit', className: 'btn leaveReviewBtn' },
+                    { type: 'submit', className: 'btn leaveReviewBtn btn-success' },
                     ' Submit Review '
                 )
             );
@@ -17250,37 +17287,42 @@ function Reviews(props) {
     var reviews = selectedItem.review;
 
     return _react2.default.createElement(
-        "div",
-        { className: "reviews" },
+        'div',
+        { className: 'reviews' },
         _react2.default.createElement(
-            "h3",
+            'h3',
             null,
-            "Reviews of lunch with ",
+            'REVIEWS OF LUNCH WITH ',
             selectedItem.name,
-            " "
+            ' '
         ),
         _react2.default.createElement(
-            "ul",
+            'ul',
             null,
             reviews && reviews.length ? reviews.map(function (review) {
                 return _react2.default.createElement(
-                    "li",
+                    'li',
                     { key: review.id },
                     _react2.default.createElement(
-                        "h4",
+                        'h4',
                         null,
                         review.rating
                     ),
                     _react2.default.createElement(
-                        "p",
+                        'p',
                         null,
                         review.content
                     )
                 );
             }) : _react2.default.createElement(
-                "h4",
-                null,
-                "[...no reviews for this lunch companion yet]"
+                'h5',
+                { className: 'specialCursive' },
+                '...no reviews for this lunch companion yet. ',
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('br', null),
+                'If you have dined with ',
+                selectedItem.name,
+                ', please tell us about it below.'
             )
         )
     );
@@ -17327,8 +17369,12 @@ function SingleItem(_ref) {
             { className: 'item-descr' },
             _react2.default.createElement(
                 'h2',
+                { className: 'selected-item-header' },
+                'DINE WITH'
+            ),
+            _react2.default.createElement(
+                'h2',
                 { className: 'selectedItemName' },
-                'HAVE LUNCH WITH: ',
                 selectedItem.name
             ),
             _react2.default.createElement(
@@ -17336,6 +17382,7 @@ function SingleItem(_ref) {
                 { className: 'selectedItemDescr' },
                 selectedItem.description
             ),
+            _react2.default.createElement('div', null),
             _react2.default.createElement(
                 'h3',
                 { className: 'price' },
@@ -17344,7 +17391,7 @@ function SingleItem(_ref) {
             ),
             _react2.default.createElement(
                 'button',
-                { className: 'addToCart btn', onClick: function onClick() {
+                { className: 'addToCart btn btn-primary', onClick: function onClick() {
                         addToCart(selectedItem.id, userId);
                     } },
                 'Add to Cart'
@@ -17430,11 +17477,17 @@ var StripeCheckout = function (_Component) {
                     user: this.props.user,
                     processingOrder: true
                 }),
+                _react2.default.createElement(
+                    'h4',
+                    { className: 'table-headers' },
+                    'Total: $ ',
+                    this.props.currentCart.totalPrice
+                ),
                 _react2.default.createElement(_reactStripeCheckout2.default
                 // email={this.props.user ? this.props.user.email : null}
                 , { token: this.onToken,
                     stripeKey: 'pk_test_bPEj4xOuaYUyPkOjv6Om7s46',
-                    name: 'DOA Lunch' // the pop-in header title
+                    name: 'Dining with the Stars' // the pop-in header title
                     , description: 'Please enter your billing information below' // the pop-in header subtitle
                     , ComponentClass: 'div',
                     panelLabel: 'Place Order for' // prepended to the amount in the bottom pay button
