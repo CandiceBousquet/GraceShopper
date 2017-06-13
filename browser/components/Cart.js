@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 export default function ({ currentCart, cartHistory, user, removeCart, removeItem, submitOrder }){
 
@@ -36,10 +37,18 @@ export default function ({ currentCart, cartHistory, user, removeCart, removeIte
                 </ul>
                 {
                     currentCart.id ?
+<<<<<<< HEAD
                     <div>
                         <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
                         <button>Continue Shopping</button>
                     <div>
+=======
+                    (<div>
+                        <button onClick={() => submitOrder(currentCart, user.id)}>Submit Order</button>
+                        <button><Link to={'/items'}>Continue Shopping</Link></button>
+                    </div>
+                    )
+>>>>>>> eb062b11989eaa74ccc9077a0c27647283eb09de
                     :
                     null
                 }

@@ -98,8 +98,7 @@ router.delete('/item/:itemId', (req, res, next) => {
 */
 router.put('/order/:orderId/:userId', (req, res, next) => {
     Order.update({
-            submitted: true,
-            userId: req.params.userId || null
+            submitted: true
         }, {
             where: {
                 id: req.params.orderId

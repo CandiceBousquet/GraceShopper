@@ -10,6 +10,9 @@ import CartContainer from './containers/CartContainer';
 import OrderConfirmation from './components/OrderConfirmation';
 import { fetchAllItems, fetchSingleItem } from './action-creators/item';
 import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
+import CheckoutContainer from './containers/Checkout';
+import StripeComponent from './components/StripeCheckout';
+
 
 const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitialData}) => {
 	return (
@@ -24,6 +27,8 @@ const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitia
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
 				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
 				<Route path='/success' component={OrderConfirmation} />
+				<Route path='/checkout' component={CheckoutContainer} />
+				<Route path='/stripe' component={StripeComponent} />
 				<Route path="/*" component={ItemsContainer} />
 			</Route>
 		</Router>
