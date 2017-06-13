@@ -10,14 +10,14 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
     return (
         <div>
             <h3>Current Order</h3>
-            { currentCart && currentCart.items ?
+            { currentCart.items ?
                 <button className="btn btn-danger btn-xs" onClick={() => removeCart(currentCart.id)}>Delete Current Order</button>
             : null
             }
 
             <ul>
             {
-                currentCart && currentCart.items ?
+                currentCart.items ?
 
                     <div>
                     {
