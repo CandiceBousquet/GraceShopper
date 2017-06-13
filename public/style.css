@@ -1,0 +1,76 @@
+body {
+    font-family: lucida console;
+    font-size: 14px;
+}
+
+a {
+    color: #4c2da5;
+}
+
+#banner {
+    margin:0;
+    position: fixed;
+    width: 100%;
+    background-color: red;
+    clear: both;
+    overflow: auto;
+    height: 20px;
+}
+.container-fluid {
+    margin-top: 20px;
+    display: block;
+    float: none;
+    height: 80px;
+}
+.navbar-default .navbar-nav>li>a {
+    color: #4c2da5;
+}
+
+.navbar {
+    border: 0;
+    border-bottom: 4px ridge;
+    border-color: #dec13d;
+    width: auto;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+.nav-options {
+    font-size: 18px;
+    color: #4c2da5;
+    font-style: bold;
+    float:right;
+    margin: 20px 0 0 0;
+}
+
+.item {
+    padding: '10px';
+    margin: 10px 0 30px 0;
+}
+
+.item-img {
+    max-width: 400px;
+    float: left;
+    padding: 0 80px;
+}
+
+.center {
+    margin: 0 auto;
+    width: 88%
+}
+
+.text-center {
+    text-align: center;
+    display: inherit
+}
+
+.item-descr {
+    padding-left: 30px;
+    
+}
+
+.item-review {
+    margin-top: 150px;
+    clear: both;
+    overflow: hidden;
+}
