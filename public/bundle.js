@@ -16660,6 +16660,7 @@ var LeaveAReview = function (_Component) {
     }, {
         key: 'handleRatingChange',
         value: function handleRatingChange(evt) {
+            console.log('rating event', evt);
             var rating = evt.target.value;
             this.setState({
                 rating: rating
@@ -16687,7 +16688,17 @@ var LeaveAReview = function (_Component) {
                     { className: 'control-label' },
                     'Rate This VIP:'
                 ),
-                _react2.default.createElement('input', { className: 'studentNameInput rating rating-loading', 'data-min': '0', 'data-max': '5', 'data-step': '1', onChange: this.handleRatingChange }),
+                _react2.default.createElement(
+                    'select',
+                    { onChange: this.handleRatingChange },
+                    [5, 4, 3, 2, 1].map(function (rating) {
+                        return _react2.default.createElement(
+                            'option',
+                            { key: rating.id, value: rating },
+                            rating
+                        );
+                    })
+                ),
                 _react2.default.createElement('input', { type: 'text', placeholder: 'Review?', className: 'studentEmailInput', onChange: this.handleReviewChange }),
                 _react2.default.createElement(
                     'button',
@@ -16855,10 +16866,72 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /***/ }),
 /* 166 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (9:4)\n\n\u001b[0m \u001b[90m  7 | \u001b[39m    \u001b[36mreturn\u001b[39m (\n \u001b[90m  8 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 | \u001b[39m    )\n \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 | \u001b[39m\n \u001b[90m 11 | \u001b[39m    \u001b[90m// return (\u001b[39m\n \u001b[90m 12 | \u001b[39m    \u001b[90m//     <div className=\"reviews\">\u001b[39m\u001b[0m\n");
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = Reviews;
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Reviews(props) {
+    var selectedItem = props.selectedItem;
+    var reviews = selectedItem.reviews;
+
+    // return (
+    //     <div className="reviews">
+    //         <h3>Reviews of lunch with {selectedItem.name} </h3>
+    //         {
+    //             reviews && reviews.length ? reviews.map(review => (
+    //                 <div key={review.id}>
+    //                     <input value={review.rating} className="rating-loading" displayOnly="true" />
+    //                     <p>{review.content}</p>
+    //                 </div>
+    //             ))
+    //             : <h4>[...no reviews for this lunch companion yet]</h4>
+    //         }
+    //     </div>
+    // );
+
+    return _react2.default.createElement(
+        "div",
+        { className: "reviews" },
+        _react2.default.createElement(
+            "h3",
+            null,
+            "Reviews of lunch with ",
+            selectedItem.name,
+            " "
+        ),
+        _react2.default.createElement(
+            "ul",
+            null,
+            reviews && reviews.length ? reviews.map(function (review) {
+                return _react2.default.createElement(
+                    "li",
+                    { key: review.id },
+                    _react2.default.createElement(
+                        "p",
+                        null,
+                        review.rating + ": " + review.content
+                    )
+                );
+            }) : _react2.default.createElement(
+                "h4",
+                null,
+                "[...no reviews for this lunch companion yet]"
+            )
+        )
+    );
+}
 
 /***/ }),
 /* 167 */

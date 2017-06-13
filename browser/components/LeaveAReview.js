@@ -23,6 +23,7 @@ export default class LeaveAReview extends Component {
     }
 
     handleRatingChange(evt){
+        console.log('rating event', evt);
         const rating = evt.target.value;
         this.setState({
             rating: rating
@@ -43,7 +44,14 @@ export default class LeaveAReview extends Component {
         return (
             <form className="ReviewForm" onSubmit={this.handleSubmit}>
                 <label className="control-label">Rate This VIP:</label>
-                <input className="studentNameInput rating rating-loading" data-min="0" data-max="5" data-step="1" onChange={this.handleRatingChange} />
+                {/*<input className="studentNameInput rating rating-loading" data-min="0" data-max="5" data-step="1" onChange={this.handleRatingChange} />*/}
+                <select onChange={this.handleRatingChange}>
+                    {
+                        [5, 4, 3, 2, 1].map(rating => (
+                            <option key={rating.id} value={rating}>{rating}</option>
+                        ))
+                    }
+                </select>
                 <input type="text" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
                 <button type="submit" className="btn leaveReviewBtn"> Submit Review </button>
             </form>
