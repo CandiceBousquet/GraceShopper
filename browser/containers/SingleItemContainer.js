@@ -25,5 +25,3 @@ const mapDispatchToProps = (dispatch) => {
 const SingleItemContainer = connect(mapStateToProps, mapDispatchToProps)(SingleItem);
 
 export default SingleItemContainer;
-
-
