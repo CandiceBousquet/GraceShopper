@@ -17538,12 +17538,8 @@ var mapDispatch = function mapDispatch(dispatch) {
         },
         submitOrder: function submitOrder(cart, userId, history) {
             if (userId) {
-                // alert('Your order has been submitted (Tracking number: ' + cart.id +')');
-                history.push('/stripe'
-                // dispatch(updateSubmitCart(cart.id, userId));
-                );
+                history.push('/stripe');
             } else {
-                // direct user to the login page
                 history.push('/checkout');
             }
         }
