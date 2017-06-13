@@ -4110,7 +4110,7 @@ function reducer() {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.current.totalPrice = action.discountedPrice;
+            newState.discountedPrice = action.discountedPrice;
             return newState;
 
         default:
@@ -4197,6 +4197,7 @@ var applyCode = exports.applyCode = function applyCode(coupon) {
         _axios2.default.post('api/cart/applyCouponCode', { coupon: coupon }).then(function (res) {
             return res.data;
         }).then(function (newPrice) {
+            console.log(newPrice);
             dispatch(applyDiscount(newPrice));
         }).catch(function (err) {
             return console.error('Fetching order history unsuccessful', err);
@@ -9994,7 +9995,7 @@ exports.default = function (_ref) {
                     'h4',
                     null,
                     'Total: $ ',
-                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? currentCart.totalPrice - discount * currentCart.totalPrice : currentCart.totalPrice
+                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount : currentCart.totalPrice
                 ),
                 _react2.default.createElement(
                     'form',

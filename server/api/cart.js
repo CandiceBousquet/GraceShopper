@@ -182,8 +182,8 @@ router.post('/applyCouponCode', (req, res, next) => {
             }
         })
         .then((cart) => {
-            req.session.discount = req.body.coupon
-            res.json(cart.totalPrice + (cart.totalPrice * cart.applyCoupon(req.body.coupon)))
+            req.session.discount = cart.totalPrice - (cart.totalPrice * cart.applyCoupon(req.body.coupon))
+            res.json(cart.totalPrice - (cart.totalPrice * cart.applyCoupon(req.body.coupon)))
         })
         .catch(next)
 

@@ -77,7 +77,7 @@ export default function reducer (state = initialState, action) {
             return newState;
 
         case APPLY_DISCOUNT:
-            newState.current.totalPrice = action.discountedPrice; 
+            newState.discountedPrice = action.discountedPrice; 
             return newState
 
         default:
@@ -144,6 +144,7 @@ export const applyCode = coupon => dispatch => {
     axios.post(`api/cart/applyCouponCode`, {coupon})
         .then(res =>res.data)
         .then(newPrice =>{
+            console.log(newPrice)
              dispatch(applyDiscount(newPrice))
         })
         .catch(err => console.error('Fetching order history unsuccessful', err));
