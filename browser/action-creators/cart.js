@@ -94,7 +94,7 @@ export const updateSubmitCart = (cartId, userId) => dispatch => {
     axios.put(`/api/cart/order/${cartId}/${userId}`)
         .then(res => dispatch(submitCart(res.data)))
         .then(()=>{
-            browserHistory.push('/success/:cartId') // eager load?
+            browserHistory.push('/success')
         })
         .catch(err => console.error('Submitting cart unsuccessful', err));
 };
