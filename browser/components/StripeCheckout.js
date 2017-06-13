@@ -15,7 +15,6 @@ class StripeCheckout extends Component {
 
     onToken (token) {
         const completedOrder = this.props.currentCart;
-        alert(`We are in business, ${token.email}`);
         this.props.submitOrder(completedOrder, this.props.user.id);
     }
    
@@ -28,7 +27,6 @@ class StripeCheckout extends Component {
             />
             <Stripe
                 // email={this.props.user ? this.props.user.email : null}
-                email="candice.bousquet@gmail.com"
                 token={this.onToken}
                 stripeKey="pk_test_bPEj4xOuaYUyPkOjv6Om7s46"
                 name="DOA Lunch" // the pop-in header title
@@ -37,9 +35,9 @@ class StripeCheckout extends Component {
                 panelLabel="Place Order for" // prepended to the amount in the bottom pay button
                 amount={ this.props.currentCart.totalPrice * 100 } // cents
                 currency="USD"
-                // shippingAddress
-                // billingAddress={false}
-                // zipCode={false}
+                shippingAddress
+                billingAddress={false}
+                zipCode={false}
             />
             </div> 
         )
