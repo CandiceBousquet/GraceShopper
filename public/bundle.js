@@ -9926,6 +9926,7 @@ exports.default = function (_ref) {
     var width = {
         width: '170px'
     };
+
     return _react2.default.createElement(
         'div',
         null,
@@ -9994,7 +9995,7 @@ exports.default = function (_ref) {
                     'h4',
                     null,
                     'Total: $ ',
-                    (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount * currentCart.totalPrice : currentCart.totalPrice
+                    discount && (typeof discount === 'undefined' ? 'undefined' : _typeof(discount)) != "object" ? discount * currentCart.totalPrice : currentCart.totalPrice
                 ),
                 _react2.default.createElement(
                     'form',
@@ -17510,7 +17511,8 @@ var StripeCheckout = function (_Component) {
                 null,
                 _react2.default.createElement(_Cart2.default, { currentCart: this.props.currentCart,
                     user: this.props.user,
-                    processingOrder: true
+                    processingOrder: true,
+                    discount: this.props.discount
                 }),
                 _react2.default.createElement(_reactStripeCheckout2.default
                 // email={this.props.user ? this.props.user.email : null}
@@ -17536,7 +17538,8 @@ var StripeCheckout = function (_Component) {
 var mapState = function mapState(state) {
     return {
         currentCart: state.cart.current,
-        user: state.user
+        user: state.user,
+        discount: state.cart.discountedPrice
     };
 };
 

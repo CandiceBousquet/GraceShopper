@@ -10,6 +10,7 @@ class CartContainer extends Component {
         super(props);
         this.submitOrder = this.submitOrder.bind(this);
         this.appleCouponCodes = this.appleCouponCodes.bind(this)
+       
 
     }
 

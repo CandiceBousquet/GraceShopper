@@ -24,6 +24,7 @@ class StripeCheckout extends Component {
             <Cart currentCart={this.props.currentCart}
                 user={this.props.user}
                 processingOrder={true}
+                discount={this.props.discount}
             />
             <Stripe
                 // email={this.props.user ? this.props.user.email : null}
@@ -48,7 +49,8 @@ class StripeCheckout extends Component {
 const mapState = state => {
     return {
         currentCart: state.cart.current,
-        user: state.user
+        user: state.user,
+        discount:state.cart.discountedPrice
     };
 };
 
