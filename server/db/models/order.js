@@ -13,6 +13,15 @@ const Order = db.define('order', {
         	model: Item
         }]
     },
+    instanceMethods:{
+        applyCoupon(percentOfTotal) {
+    		let total = 0;
+            if (this.items) {
+                total = this.items.reduce((sum, item) => sum+=item.price, total);
+            }
+            return total * percentOfTotal;
+    	}
+    },
     getterMethods: {
     	totalPrice() {
     		let total = 0;

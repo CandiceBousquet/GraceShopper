@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-export default function ({ currentCart, user, removeCart, removeItem, submitOrder, processingOrder }){
 
+export default function ({ currentCart, user, removeCart, removeItem, submitOrder, processingOrder, coupons_codes, appleCouponCodes, discount }){
+    const width =  {
+        width : '170px'
+    }
     return (
         <div>
             <h3>Current Order</h3>
@@ -33,7 +36,19 @@ export default function ({ currentCart, user, removeCart, removeItem, submitOrde
 
                         })
                     }
-                    <h4>Total: $ {currentCart.totalPrice}</h4>
+                    <h4>Total: $ { discount ? discount * currentCart.totalPrice : currentCart.totalPrice}</h4>
+                    <form className="input-group" onSubmit={appleCouponCodes}>
+                        <span className="input-group-btn">
+                            <button className="btn btn-secondary" type="submit">Apply!</button>
+                        </span>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            name="user_coupon"
+                            placeholder="Apply Coupon Code!" 
+                            style={width } 
+                            />
+                    </form>
                     </div>
 
                 :
