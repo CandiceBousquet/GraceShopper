@@ -39,7 +39,6 @@ export default class LeaveAReview extends Component {
     render(){
         return (
             <form className="ReviewForm" onSubmit={this.handleSubmit}>
-                {/*<input type="text" placeholder="Rating?" className="studentNameInput" onChange={this.handleRatingChange} />*/}
                 <label className="rate-guest control-label">Rate this lunch companion:</label>
                 <Rater total={5} rating={5} onRate={this.handleRatingChange} interactive={true} />
                 <p></p>
@@ -47,6 +46,6 @@ export default class LeaveAReview extends Component {
                 <p></p>
                 <button type="submit" className="btn leaveReviewBtn btn-success"> Submit Review </button>
             </form>
-        )
+        );
     }
 }

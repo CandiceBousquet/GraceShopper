@@ -102,8 +102,5 @@ export const addReview = (review, item) => dispatch => {
         .then(res => {
             dispatch(addReviewToItem(res.data));
         })
-        // .then(() => {
-        //     browserHistory.push(`/item/${item.id}`);
-        // })
         .catch(console.error);
 }
