@@ -73,15 +73,25 @@ router.post('/', (req, res, next) => {
     .catch(next);
 })
 
-router.post('/:itemId/review', (res, req, next) => {
+router.post('/:itemId/review', (req, res, next) => {
     Review.create({
-        content: req.body.content,
+        content: req.body.review,
         rating: req.body.rating,
         userId: req.body.userId,
         itemId: req.params.itemId
     })
-    .then(() => Item.findById(req.params.itemId))
-    .then((item) => res.json(item))
+    .then(() => (
+        Item.findOne({
+            where: {
+                id: req.params.itemId
+            },
+            include: [
+                { model: Category },
+                { model: Review }
+            ]
+        })
+    ))
+    .then(item => res.json(item))
     .catch(next);
 })
 

@@ -28,6 +28,7 @@
     "pg-hstore": "^2.3.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-rater": "^0.4.3",
     "react-redux": "^5.0.5",
     "react-router": "^2.8.1",
     "react-stripe-checkout": "^2.4.0",
