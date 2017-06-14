@@ -16740,25 +16740,14 @@ var LeaveAReview = function (_Component) {
     _createClass(LeaveAReview, [{
         key: 'handleReviewChange',
         value: function handleReviewChange(evt) {
-            console.log(this.state);
             var review = evt.target.value;
             this.setState({
                 review: review
             });
         }
-
-        // handleRatingChange(evt){
-        //     console.log('rating event', evt);
-        //     const rating = evt.target.value;
-        //     this.setState({
-        //         rating: rating
-        //     })
-        // }
-
     }, {
         key: 'handleRatingChange',
         value: function handleRatingChange(evt) {
-            console.log('rating event', evt.rating);
             this.setState({
                 rating: evt.rating
             });
@@ -16766,7 +16755,6 @@ var LeaveAReview = function (_Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(evt) {
-            console.log('!!!', this.state);
             evt.preventDefault();
             if (!this.state.review || !this.state.rating) {
                 alert("You must enter a rating and review to publish -- Thanks!");
@@ -16798,26 +16786,6 @@ var LeaveAReview = function (_Component) {
 
     return LeaveAReview;
 }(_react.Component);
-
-//     render() {
-//         return (
-//             <form className="ReviewForm" onSubmit={this.handleSubmit}>
-//                 <label className="control-label">Rate This VIP:</label>
-//                 <input className="studentNameInput rating rating-loading" data-min="0" data-max="5" data-step="1" onChange={this.handleRatingChange} />
-//                 {/*<select onChange={this.handleRatingChange}>
-//                     {
-//                         [5, 4, 3, 2, 1].map(rating => (
-//                             <option key={rating.id} value={rating}>{rating}</option>
-//                         ))
-//                     }
-//                 </select>*/}
-//                 <input type="text" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
-//                 <button type="submit" className="btn leaveReviewBtn"> Submit Review </button>
-//             </form>
-//         );
-//     }
-// }
-
 
 exports.default = LeaveAReview;
 
@@ -17024,36 +16992,6 @@ function Reviews(props) {
             '[...no reviews for this lunch companion yet]'
         )
     );
-
-    // return (
-    //     <div className="reviews">
-    //         <h3>Reviews of lunch with {selectedItem.name} </h3>
-    //         {
-    //             reviews && reviews.length ? reviews.map(review => (
-    //                 <div key={review.id}>
-    //                     <input value={review.rating} className="rating-loading" displayOnly="true" />
-    //                     <p>{review.content}</p>
-    //                 </div>
-    //             ))
-    //             : <h4>[...no reviews for this lunch companion yet]</h4>
-    //         }
-    //     </div>
-    // );
-
-    // return (
-    //     <div className="reviews">
-    //         <h3>Reviews of lunch with {selectedItem.name} </h3>
-    //         <ul>
-    //             {reviews && reviews.length ? reviews.map(review => (
-    //                 <li key={review.id} >
-    //                     <p>{`${review.rating}: ${review.content}`}</p>
-    //                 </li>
-    //                 ))
-    //             : <h4>[...no reviews for this lunch companion yet]</h4>
-    //             }
-    //         </ul>
-    //     </div>
-    // );
 }
 
 /***/ }),
