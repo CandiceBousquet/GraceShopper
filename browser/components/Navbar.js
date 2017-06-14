@@ -26,7 +26,7 @@ export default function(props){
                         <li><Link to="/login">Login</Link></li>
                         <li><Link to="/signup">Signup</Link></li>
                         <li><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
-                  </ul>
+                    </ul>
                  
                   )
               }

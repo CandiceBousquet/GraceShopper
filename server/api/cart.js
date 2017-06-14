@@ -87,7 +87,10 @@ router.delete('/item/:itemId', (req, res, next) => {
         })
         .then(updatedOrder => {
             if (!updatedOrder) res.send("No order found");
-            else res.json(updatedOrder).status(204);
+            else {
+                req.session.discount = 
+                res.json(updatedOrder).status(204);
+            }
         })
         .catch(next);
 
@@ -122,13 +125,26 @@ router.put('/order/:orderId/:userId', (req, res, next) => {
     Getting User's cart
 */
 router.get('/', (req, res, next) => {
+    
     Order.findOne({
             where: {
                 id: req.session.orderId
             }
         })
         .then(cart => {
-            res.json(cart);
+        
+            if(req.session.discount){
+                const updatedCart = {
+                    cart:cart,
+                    discount:req.session.discount
+                }   
+
+                res.json(updatedCart);
+            }else{
+                res.json(cart);
+            }
+             
+                    
         })
         .catch(next);
 })
@@ -137,7 +153,6 @@ router.get('/', (req, res, next) => {
     Get User's order history
 */
 router.get('/user/:userId/history', (req, res, next) => {
-    console.log(req.params.userId)
     Order.findAll({
             where: {
                 userId: req.params.userId,
@@ -160,6 +175,20 @@ router.delete('/order/:orderId', (req, res, next) => {
             else res.send('Nothing to delete')
         })
         .catch(next);
+})
+
+router.post('/applyCouponCode', (req, res, next) => { 
+       Order.findOne({
+            where: {
+                id: req.session.orderId
+            }
+        })
+        .then((cart) => {
+            req.session.discount = cart.applyCoupon(req.body.coupon)
+            res.json( req.session.discount )
+        })
+        .catch(next)
+
 })
 
 

@@ -24,12 +24,14 @@ class StripeCheckout extends Component {
             <Cart currentCart={this.props.currentCart}
                 user={this.props.user}
                 processingOrder={true}
+                discount={this.props.discount}
             />
+            <h4 className="table-headers">Total: $ {this.props.currentCart.totalPrice}</h4>
             <Stripe
                 // email={this.props.user ? this.props.user.email : null}
                 token={this.onToken}
                 stripeKey="pk_test_bPEj4xOuaYUyPkOjv6Om7s46"
-                name="DOA Lunch" // the pop-in header title
+                name="Dining with the Stars" // the pop-in header title
                 description="Please enter your billing information below" // the pop-in header subtitle
                 ComponentClass="div"
                 panelLabel="Place Order for" // prepended to the amount in the bottom pay button
@@ -48,7 +50,8 @@ class StripeCheckout extends Component {
 const mapState = state => {
     return {
         currentCart: state.cart.current,
-        user: state.user
+        user: state.user,
+        discount:state.cart.discount
     };
 };
 
