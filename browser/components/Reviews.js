@@ -1,8 +1,27 @@
 import React from 'react';
+import Rater from 'react-rater';
 
 export default function Reviews(props){
     const selectedItem = props.selectedItem;
     const reviews = selectedItem.reviews;
+
+    return (
+        <div className="reviews">
+            <h3>Reviews of lunch with {selectedItem.name} </h3>
+            {
+                reviews && reviews.length ? reviews.map(review => (
+                    <div key={review.id}>
+                        {/*<input value={review.rating} className="rating-loading" displayOnly="true" />*/}
+                        <Rater total={5} rating={review.rating} interactive={false} />
+                        {/*<StarRating defaultValue={review.rating} stars={5} min={1} max={5} step={1} readonly={true} />*/}
+                        <p>{review.content}</p>
+                    </div>
+                ))
+                : <h4>[...no reviews for this lunch companion yet]</h4>
+            }
+        </div>
+    );
+
 
     // return (
     //     <div className="reviews">
@@ -19,18 +38,18 @@ export default function Reviews(props){
     //     </div>
     // );
 
-    return (
-        <div className="reviews">
-            <h3>Reviews of lunch with {selectedItem.name} </h3>
-            <ul>
-                {reviews && reviews.length ? reviews.map(review => (
-                    <li key={review.id} >
-                        <p>{`${review.rating}: ${review.content}`}</p>
-                    </li>
-                    ))
-                : <h4>[...no reviews for this lunch companion yet]</h4>
-                }
-            </ul>
-        </div>
-    );
+    // return (
+    //     <div className="reviews">
+    //         <h3>Reviews of lunch with {selectedItem.name} </h3>
+    //         <ul>
+    //             {reviews && reviews.length ? reviews.map(review => (
+    //                 <li key={review.id} >
+    //                     <p>{`${review.rating}: ${review.content}`}</p>
+    //                 </li>
+    //                 ))
+    //             : <h4>[...no reviews for this lunch companion yet]</h4>
+    //             }
+    //         </ul>
+    //     </div>
+    // );
 }

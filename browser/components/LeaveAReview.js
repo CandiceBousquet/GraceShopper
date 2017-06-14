@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Rater from 'react-rater';
 
 export default class LeaveAReview extends Component {
 
@@ -6,7 +7,7 @@ export default class LeaveAReview extends Component {
         super(props);
         this.state = {
             review: '',
-            rating: null,
+            rating: 5,
             userId: this.props.userId
         }
         this.handleReviewChange = this.handleReviewChange.bind(this);
@@ -22,12 +23,19 @@ export default class LeaveAReview extends Component {
         })
     }
 
+    // handleRatingChange(evt){
+    //     console.log('rating event', evt);
+    //     const rating = evt.target.value;
+    //     this.setState({
+    //         rating: rating
+    //     })
+    // }
+
     handleRatingChange(evt){
-        console.log('rating event', evt);
-        const rating = evt.target.value;
+        console.log('rating event', evt.rating);
         this.setState({
-            rating: rating
-        })
+            rating: evt.rating
+        });
     }
 
     handleSubmit(evt){
@@ -40,21 +48,42 @@ export default class LeaveAReview extends Component {
         this.props.addReview(this.state, this.props.selectedItem);
     }
 
-    render(){
+    render() {
         return (
             <form className="ReviewForm" onSubmit={this.handleSubmit}>
-                <label className="control-label">Rate This VIP:</label>
-                {/*<input className="studentNameInput rating rating-loading" data-min="0" data-max="5" data-step="1" onChange={this.handleRatingChange} />*/}
-                <select onChange={this.handleRatingChange}>
+                <label className="rate-guest control-label">Rate This VIP:</label>
+                <Rater total={5} rating={5} onRate={this.handleRatingChange} interactive={true} />
+                {/*<StarRating defaultValue={5} stars={5} min={1} max={5} step={1} className="star-rating" onRatingChange={this.handleRatingChange} />*/}
+                {/*<select onChange={this.handleRatingChange}>
                     {
                         [5, 4, 3, 2, 1].map(rating => (
                             <option key={rating.id} value={rating}>{rating}</option>
                         ))
                     }
-                </select>
-                <input type="text" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
+                </select>*/}
+                <input type="text" placeholder="Review?" className="review-text" onChange={this.handleReviewChange} />
                 <button type="submit" className="btn leaveReviewBtn"> Submit Review </button>
             </form>
         );
     }
 }
+
+
+//     render() {
+//         return (
+//             <form className="ReviewForm" onSubmit={this.handleSubmit}>
+//                 <label className="control-label">Rate This VIP:</label>
+//                 <input className="studentNameInput rating rating-loading" data-min="0" data-max="5" data-step="1" onChange={this.handleRatingChange} />
+//                 {/*<select onChange={this.handleRatingChange}>
+//                     {
+//                         [5, 4, 3, 2, 1].map(rating => (
+//                             <option key={rating.id} value={rating}>{rating}</option>
+//                         ))
+//                     }
+//                 </select>*/}
+//                 <input type="text" placeholder="Review?" className="studentEmailInput" onChange={this.handleReviewChange} />
+//                 <button type="submit" className="btn leaveReviewBtn"> Submit Review </button>
+//             </form>
+//         );
+//     }
+// }
