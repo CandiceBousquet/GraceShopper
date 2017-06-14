@@ -17154,58 +17154,57 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (props) {
 
     return _react2.default.createElement(
-        'nav',
-        { className: 'navbar navbar-default' },
+        'div',
+        null,
         _react2.default.createElement(
-            'div',
-            { className: 'container-fluid' },
+            'nav',
+            { className: 'navbar navbar-default' },
             _react2.default.createElement(
-                'ul',
-                { className: 'nav navbar-nav', style: { width: "100%" } },
+                'div',
+                { className: 'container-fluid' },
                 _react2.default.createElement(
                     'div',
                     { className: 'navbar-header' },
                     _react2.default.createElement(
                         _reactRouter.Link,
                         { to: '/', className: 'navbar-brand' },
-                        'DOA Lunch Shopper'
-                    )
-                ),
-                _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/items' },
-                        'People'
-                    )
-                ),
-                _react2.default.createElement(
-                    'li',
-                    { style: { float: "right" } },
-                    _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/cart' },
-                        _react2.default.createElement('span', { className: 'glyphicon glyphicon-shopping-cart' }),
-                        'Cart'
+                        _react2.default.createElement('img', { src: 'https://fontmeme.com/permalink/170613/ca34aa4d57ed263198db442e8a112956.png', alt: 'dining with the stars', border: '0', height: '50' })
                     )
                 ),
                 props.user.name ? _react2.default.createElement(
-                    'li',
-                    null,
+                    'ul',
+                    { style: { float: "right" }, className: 'nav navbar-nav nav-options' },
                     _react2.default.createElement(
-                        'button',
-                        { className: 'btn btn-primary', onClick: function onClick() {
-                                props.logOut();
-                            } },
-                        'Logout'
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'a',
+                            { href: '#', style: { "text-decoration": "none" }, onClick: function onClick() {
+                                    props.logOut();
+                                } },
+                            'Logout'
+                        )
+                    ),
+                    props.user.isAdmin ? _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/admin' },
+                            'Admin Panel'
+                        )
+                    ) : null,
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(_reactRouter.Link, { className: 'glyphicon glyphicon-shopping-cart', to: '/cart' })
                     )
                 ) : _react2.default.createElement(
                     'ul',
-                    { className: 'nav navbar-nav', style: { float: "right" } },
+                    { style: { float: "right" }, className: 'nav navbar-nav nav-options' },
                     _react2.default.createElement(
                         'li',
-                        { style: { float: "right" } },
+                        null,
                         _react2.default.createElement(
                             _reactRouter.Link,
                             { to: '/login' },
@@ -17214,19 +17213,19 @@ exports.default = function (props) {
                     ),
                     _react2.default.createElement(
                         'li',
-                        { style: { float: "right" } },
+                        null,
                         _react2.default.createElement(
                             _reactRouter.Link,
                             { to: '/signup' },
                             'Signup'
                         )
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(_reactRouter.Link, { className: 'glyphicon glyphicon-shopping-cart', to: '/cart' })
                     )
-                ),
-                props.user.isAdmin ? _react2.default.createElement(
-                    'li',
-                    { style: { float: "right" } },
-                    'My Account'
-                ) : null
+                )
             )
         )
     );
