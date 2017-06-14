@@ -4,31 +4,35 @@ import {Link} from 'react-router';
 export default function(props){
 
     return(
+        <div>
         <nav className="navbar navbar-default">
           <div className="container-fluid">
-                <ul className="nav navbar-nav" style={{width:"100%"}}>
-                    <div className="navbar-header">
-                        <Link to="/" className="navbar-brand">DOA Lunch Shopper</Link>
-                    </div>
-                    <li><Link to="/items">People</Link></li>
-                    <li style={{float:"right"}}>
-                    <Link to="/cart">
-                        <span className="glyphicon glyphicon-shopping-cart"></span>Cart
-                    </Link></li>
+                <div className="navbar-header">                   
+                    <Link to="/" className="navbar-brand"><img src="https://fontmeme.com/permalink/170613/ca34aa4d57ed263198db442e8a112956.png" alt="dining with the stars" border="0" height="50" /></Link>
+                </div> 
               {
-                  props.user.name ?
-                  <li><button className="btn btn-primary" onClick={ () =>{props.logOut()}}>Logout</button></li>
-                  :
-                  (<ul className="nav navbar-nav" style={{float:"right"}}>
-                    <li style={{float:"right"}}><Link to="/login">Login</Link></li>
-                    <li style={{float:"right"}}><Link to="/signup">Signup</Link></li>
-                  </ul>)
+                props.user.name ?
+                (
+                  <ul className="nav navbar-nav nav-options">
+                      <li><button className="btn btn-primary" onClick={ () =>{props.logOut()}}>Logout</button></li>
+                      {props.user.isAdmin ? <li><Link to="/admin">Admin Panel</Link></li> : null}
+                      <li><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
+                  </ul>
+                  
+                  )
+                :
+                (
+                    <ul className="nav navbar-nav nav-options">
+                        <li><Link to="/login">Login</Link></li>
+                        <li ><Link to="/signup">Signup</Link></li>
+                        <li ><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
+                  </ul>
+                 
+                  )
               }
-              {
-                props.user.isAdmin ? <li style={{float:"right"}}>My Account</li> : null
-              }
-              </ul>
+              
           </div>
         </nav>
+        </div>
     )
 }
