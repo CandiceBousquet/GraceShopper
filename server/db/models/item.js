@@ -14,11 +14,10 @@ const Item = db.define('item', {
         get() {
             return this.getDataValue('price') / 100;
         },
-        set() {
-            return this.setDataValue('price') * 100;
+        set(price) {
+            return this.setDataValue('price', price * 100);
         },
-        defaultValue: 100
-            // allowNull: false
+        allowNull: false
     },
     quantity: {
         type: Sequelize.INTEGER,

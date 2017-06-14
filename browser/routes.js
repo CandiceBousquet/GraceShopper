@@ -12,6 +12,7 @@ import { fetchAllItems, fetchSingleItem } from './action-creators/item';
 import { fetchRecentOrder, fetchOrderHistory } from './action-creators/cart';
 import CheckoutContainer from './containers/Checkout';
 import StripeCheckout from './components/StripeCheckout';
+import AdminContainer from './containers/AdminContainer';
 
 
 const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitialData}) => {
@@ -26,6 +27,7 @@ const Routes = ({user, cart, fetchCartInformation, fetchCurrentItem, fetchInitia
 				</Route>
 				<Route path='/item/:itemId' component={SingleItemContainer} onEnter={fetchCurrentItem}/>
 				<Route path='/cart' component={CartContainer} onEnter={ function () { fetchCartInformation(user.id) }} />
+				<Route path='/admin' component={AdminContainer}></Route>
 				<Route path='/success' component={OrderConfirmation} />
 				<Route path='/checkout' component={CheckoutContainer} />
 				<Route path='/payment' component={StripeCheckout} />
