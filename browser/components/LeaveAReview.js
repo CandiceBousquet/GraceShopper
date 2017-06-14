@@ -34,6 +34,7 @@ export default class LeaveAReview extends Component {
             return;
         }
         this.props.addReview(this.state, this.props.selectedItem);
+        this.setState({ review: ''});
     }
 
     render(){
@@ -42,7 +43,7 @@ export default class LeaveAReview extends Component {
                 <label className="rate-guest control-label">Rate this lunch companion:</label>
                 <Rater total={5} rating={5} onRate={this.handleRatingChange} interactive={true} />
                 <p></p>
-                <textarea rows="4" cols="50" placeholder="Review?" className="review-text" onChange={this.handleReviewChange} />
+                <textarea value={this.state.review} rows="4" cols="50" placeholder="Review?" className="review-text" onChange={this.handleReviewChange} />
                 <p></p>
                 <button type="submit" className="btn leaveReviewBtn btn-success"> Submit Review </button>
             </form>

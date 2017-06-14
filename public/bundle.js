@@ -4825,7 +4825,7 @@ module.exports = __webpack_require__(147);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addReview = exports.removeItem = exports.updateItemInDatabase = exports.createNewItem = exports.fetchSingleItem = exports.fetchAllItems = undefined;
+exports.addReview = exports.removeItem = exports.updateItemInDatabase = exports.createNewItem = exports.fetchSingleItem = exports.fetchAllItems = exports.setItems = exports.SET_ITEMS = undefined;
 exports.default = reducer;
 
 var _axios = __webpack_require__(39);
@@ -4840,7 +4840,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /* -----------------    ACTIONS     ------------------ */
 
-var SET_ITEMS = 'SET_ITEMS';
+var SET_ITEMS = exports.SET_ITEMS = 'SET_ITEMS';
 var SET_CURRENT_ITEM = 'SET_CURRENT_ITEM';
 var CREATE_ITEM = 'CREATE_ITEM';
 var DELETE_ITEM = 'DELETE_ITEM';
@@ -4849,7 +4849,7 @@ var ADD_REVIEW = 'ADD_REVIEW';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-var setItems = function setItems(items) {
+var setItems = exports.setItems = function setItems(items) {
     return { type: SET_ITEMS, items: items };
 };
 var setCurrentItem = function setCurrentItem(item) {
@@ -17299,6 +17299,7 @@ var LeaveAReview = function (_Component) {
                 return;
             }
             this.props.addReview(this.state, this.props.selectedItem);
+            this.setState({ review: '' });
         }
     }, {
         key: 'render',
@@ -17313,7 +17314,7 @@ var LeaveAReview = function (_Component) {
                 ),
                 _react2.default.createElement(_reactRater2.default, { total: 5, rating: 5, onRate: this.handleRatingChange, interactive: true }),
                 _react2.default.createElement('p', null),
-                _react2.default.createElement('textarea', { rows: '4', cols: '50', placeholder: 'Review?', className: 'review-text', onChange: this.handleReviewChange }),
+                _react2.default.createElement('textarea', { value: this.state.review, rows: '4', cols: '50', placeholder: 'Review?', className: 'review-text', onChange: this.handleReviewChange }),
                 _react2.default.createElement('p', null),
                 _react2.default.createElement(
                     'button',

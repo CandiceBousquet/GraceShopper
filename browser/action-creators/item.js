@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 
 /* -----------------    ACTIONS     ------------------ */
 
-const SET_ITEMS = 'SET_ITEMS';
+export const SET_ITEMS = 'SET_ITEMS';
 const SET_CURRENT_ITEM = 'SET_CURRENT_ITEM';
 const CREATE_ITEM = 'CREATE_ITEM';
 const DELETE_ITEM = 'DELETE_ITEM';
@@ -14,7 +14,7 @@ const ADD_REVIEW = 'ADD_REVIEW';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const setItems = items => ({ type: SET_ITEMS, items });
+export const setItems = items => ({ type: SET_ITEMS, items });
 const setCurrentItem = item => ({ type: SET_CURRENT_ITEM, item });
 const createItem = item => ({ type: CREATE_ITEM, item });
 const deleteItem = item => ({ type: DELETE_ITEM, item });
