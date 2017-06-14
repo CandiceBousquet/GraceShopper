@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addItem, removeItem } from '../action-creators/cart';
+import { createNewItem, removeItem } from '../action-creators/item';
 import AddNewItemForm from './AddNewItemForm';
+import Inventory from '../components/Inventory';
 
 class AdminContainer extends Component {
+	constructor() {
+		super();
+		this.state = { addingPeople: true };
+		this.handleToggle = this.handleToggle.bind(this);
+	}
+
+	handleToggle(activeTab) {
+		if (activeTab === 'addNewPerson') {
+			this.setState({ addingPeople: true });
+		} else if (activeTab === 'managePeople') {
+			this.setState({ addingPeople: false });
+		}
+	}
+
 	render () {
+		const addPersonClass = this.state.addingPeople ? "active" : null;
+		const managePeopleClass = this.state.addingPeople ? null : "active";
 		return (
 			<div>
-			<AddNewItemForm addItem={addItem} />
-			<h3>Available VIPs</h3>
-				{
-					this.props.items ?
-					this.props.items.map(item => (
-						<div key={item.id}>
-							<h5>{item.name}</h5>
-							<p>Number of available appointments: {item.quantity}</p>
-						</div>)
-					) : null
-				}
+			<ul className="nav nav-tabs">
+			  <li className={addPersonClass} onClick={() => this.handleToggle('addNewPerson')}><a href="#">Add Person</a></li>
+			  <li className={managePeopleClass} onClick={() => this.handleToggle('managePeople')}><a href="#">Manage People</a></li>
+			</ul>
+			{ this.state.addingPeople ? 
+				<AddNewItemForm addItem={this.props.addItem} /> :
+				<Inventory items={this.props.items} />
+			}
 			</div>
 		)
 	}
@@ -34,7 +48,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return ({
 		addItem: (item) => {
-			dispatch(addItem(item));
+			dispatch(createNewItem(item));
 		},
 		removeItem: (item) => {
 			dispatch(removeItem(item));

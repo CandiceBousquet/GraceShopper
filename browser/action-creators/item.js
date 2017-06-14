@@ -73,7 +73,7 @@ export const fetchSingleItem = (itemId) => dispatch => {
 }
 
 export const createNewItem = (item) => dispatch => {
-	axios.post('/api/items', {item})
+	axios.post('/api/items', item)
 	.then(res => {
 		dispatch(createItem(res.data));
 	})
@@ -81,7 +81,7 @@ export const createNewItem = (item) => dispatch => {
 }
 
 export const updateItemInDatabase = (item) => dispatch => {
-	axios.put(`/api/items/${item.id}`, {item})
+	axios.put(`/api/items/${item.id}`, item)
 	.then(res => {
 		dispatch(updateItem(res.data));
 	})

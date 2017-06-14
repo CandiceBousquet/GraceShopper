@@ -3,26 +3,25 @@ import React, { Component } from 'react';
 export default class AddNewItemForm extends Component {
 	constructor (props) {
 		super(props);
-		this.state = { name: null, price: null };
+		this.state = { name: null, description: null, price: null, quantity: null };
 		this.handleChange = this.handleChange.bind(this);
 		this.handleAddItem = this.handleAddItem.bind(this);
 	}
 
 	handleAddItem (evt) {
-		evt.preventDefault();
-		this.props.addItem();
+		this.props.addItem(this.state);
 	}
 
 	handleChange (key) {
-		return (val) => {
-			this.setState[key] = val;
+		return (evt) => {
+			this.setState({[key]: evt.target.value});
 		}
 	}
 
 	render () {
 		return (
 			<div className='form-group'>
-			<h3>Add New Person</h3>
+			<h2 className='selected-item-header'>Add New Person</h2>
 			<form onSubmit={this.handleAddItem}>
 				<label>Name</label>
 				<input type='text' className="form-control" onChange={this.handleChange('name')}></input>
@@ -35,6 +34,7 @@ export default class AddNewItemForm extends Component {
 				</div>
 				<label>Number of Lunches</label>
 				<input type='text' className="form-control" onChange={this.handleChange('quantity')}></input>
+				<button type='submit' className='btn btn-success'>Add Person</button>
 			</form>
 			</div>
 		)
