@@ -1,5 +1,5 @@
 body {
-    font-family: 'Courier, Lucida Console';
+    font-family: 'Courier';
     font-size: 14px;
     line-height: 25px;
     padding-bottom: 50px;
@@ -10,13 +10,14 @@ a {
 }
 
 #banner {
-    margin:0;
-    position: fixed;
-    width: 100%;
-    background-color: red;
-    clear: both;
+    margin:0 0 0 -200px;
+    padding: 0;
+    position: relative;
+    width: 1441px;
+    background-color:#4c2da5;
     overflow: auto;
-    height: 20px;
+    height: 45px;
+    text-align: center;
 }
 .container-fluid {
     margin-top: 20px;
@@ -35,6 +36,8 @@ a {
     width: auto;
     background-color: white;
     margin-bottom: 30px;
+    clear: both;
+    overflow: auto;
 }
 
 .nav-options {
@@ -150,4 +153,13 @@ td {
     background-color: #F0F0F0;
     color: black;
     border-color: #4c2da5;
+}
+
+.discount {
+    padding: 10px 0 0 0;
+    text-align: center;
+    color: #dec13d;
+    font-size: 18px;
+    font-style: bold;
+    
 }

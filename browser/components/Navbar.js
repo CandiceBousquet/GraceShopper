@@ -5,6 +5,9 @@ export default function(props){
 
     return(
         <div>
+        <div id="banner">
+            <p className="discount text-center">USE DISCOUNT CODE hotGeoff for 20% off until June 30th!</p>
+        </div>
         <nav className="navbar navbar-default">
           <div className="container-fluid">
                 <div className="navbar-header">                   
