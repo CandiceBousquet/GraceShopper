@@ -17,7 +17,7 @@ const ADD_REVIEW = 'ADD_REVIEW';
 export const setItems = items => ({ type: SET_ITEMS, items });
 const setCurrentItem = item => ({ type: SET_CURRENT_ITEM, item });
 const createItem = item => ({ type: CREATE_ITEM, item });
-const deleteItem = item => ({ type: DELETE_ITEM, item });
+const deleteItem = itemId => ({ type: DELETE_ITEM, itemId });
 const updateItem = item => ({ type: UPDATE_ITEM, item });
 const addReviewToItem = item => ({ type: ADD_REVIEW, item});
 
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-    const newState = Object.assign({}, state); // deep clone?
+    const newState = Object.assign({}, state);
     switch (action.type) {
         case SET_ITEMS:
             newState.items = action.items;
@@ -42,7 +42,10 @@ export default function reducer(state = initialState, action) {
             newState.items = [action.item, ...newState.items];
             break;
         case DELETE_ITEM:
-            newState.items = newState.filter((item) => item.id !== action.item.id);
+            newState.items = newState.items.filter((item) => {
+                console.log(item.id, action.itemId);
+                return item.id !== action.itemId
+            });
             break;
         case UPDATE_ITEM:
             newState.items.map((item) => {
@@ -74,7 +77,7 @@ export const fetchSingleItem = (itemId) => dispatch => {
 }
 
 export const createNewItem = (item) => dispatch => {
-	axios.post('/api/items', {item})
+	axios.post('/api/items', item)
 	.then(res => {
 		dispatch(createItem(res.data));
 	})
@@ -82,7 +85,7 @@ export const createNewItem = (item) => dispatch => {
 }
 
 export const updateItemInDatabase = (item) => dispatch => {
-	axios.put(`/api/items/${item.id}`, {item})
+	axios.put(`/api/items/${item.id}`, item)
 	.then(res => {
 		dispatch(updateItem(res.data));
 	})
@@ -92,7 +95,7 @@ export const updateItemInDatabase = (item) => dispatch => {
 export const removeItem = (itemId) => dispatch => {
 	axios.delete(`/api/items/${itemId}`)
 	.then(res => {
-		dispatch(deleteItem(res.data));
+		dispatch(deleteItem(+res.data));
 	})
 	.catch(console.error);
 }

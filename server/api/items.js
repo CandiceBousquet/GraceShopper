@@ -62,7 +62,7 @@ router.delete('/:itemId', (req, res, next) => {
         if (!result) {
             next(itemNotFound);
         } else {
-            res.json(result);
+            res.json(req.params.itemId); // returns the id of the deleted item
         }
     }).catch(next);
 })

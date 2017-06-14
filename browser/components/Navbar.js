@@ -13,19 +13,20 @@ export default function(props){
               {
                 props.user.name ?
                 (
-                  <ul className="nav navbar-nav nav-options">
-                      <li><button className="btn btn-primary" onClick={ () =>{props.logOut()}}>Logout</button></li>
+                  <ul style={{float:"right"}} className="nav navbar-nav nav-options">
+                      <li><a href="#" style={{"text-decoration": "none"}} onClick={ () =>{props.logOut()}}>Logout</a></li>
+                      {props.user.isAdmin ? <li><Link to="/admin">Admin Panel</Link></li> : null}
                       <li><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
                   </ul>
                   
                   )
                 :
                 (
-                    <ul className="nav navbar-nav nav-options">
+                    <ul style={{float:"right"}} className="nav navbar-nav nav-options">
                         <li><Link to="/login">Login</Link></li>
-                        <li ><Link to="/signup">Signup</Link></li>
-                        <li ><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
-                  </ul>
+                        <li><Link to="/signup">Signup</Link></li>
+                        <li><Link className="glyphicon glyphicon-shopping-cart" to="/cart"></Link></li>
+                    </ul>
                  
                   )
               }
