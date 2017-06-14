@@ -1,6 +1,7 @@
 'use-strict';
 
 import axios from 'axios';
+import {browserHistory} from 'react-router';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -18,7 +19,7 @@ const setCurrentItem = item => ({ type: SET_CURRENT_ITEM, item });
 const createItem = item => ({ type: CREATE_ITEM, item });
 const deleteItem = item => ({ type: DELETE_ITEM, item });
 const updateItem = item => ({ type: UPDATE_ITEM, item });
-const addReviewToItem = (item) => ({ type: ADD_REVIEW, item})
+const addReviewToItem = item => ({ type: ADD_REVIEW, item});
 
 /* ------------       REDUCER     ------------------ */
 
@@ -99,7 +100,10 @@ export const removeItem = (itemId) => dispatch => {
 export const addReview = (review, item) => dispatch => {
     axios.post(`/api/items/${item.id}/review`, review)
         .then(res => {
-            dispatch(addReviewToItem(res.data))
+            dispatch(addReviewToItem(res.data));
         })
-        .catch(console.error)
+        // .then(() => {
+        //     browserHistory.push(`/item/${item.id}`);
+        // })
+        .catch(console.error);
 }
