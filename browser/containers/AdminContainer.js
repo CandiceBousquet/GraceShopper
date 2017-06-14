@@ -5,8 +5,8 @@ import AddNewItemForm from './AddNewItemForm';
 import Inventory from '../components/Inventory';
 
 class AdminContainer extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = { addingPeople: true };
 		this.handleToggle = this.handleToggle.bind(this);
 	}
@@ -30,7 +30,7 @@ class AdminContainer extends Component {
 			</ul>
 			{ this.state.addingPeople ? 
 				<AddNewItemForm addItem={this.props.addItem} /> :
-				<Inventory items={this.props.items} />
+				<Inventory items={this.props.items} removeItem={this.props.removeItem} />
 			}
 			</div>
 		)
@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch) => {
 		addItem: (item) => {
 			dispatch(createNewItem(item));
 		},
-		removeItem: (item) => {
-			dispatch(removeItem(item));
+		removeItem: (itemId) => {
+			dispatch(removeItem(itemId));
 		}
 	})
 }
